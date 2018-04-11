@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Settings
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="form" (ngSubmit)="save()">
+
+    <ion-item>
+      <ion-label color="primary" stacked>Server Url</ion-label>
+      <ion-input placeholder="Url" formControlName="serverUrl"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary" stacked>Personal Access Token</ion-label>
+      <ion-input placeholder="PAT" formControlName="pat"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button type="submit" color="primary">Save</button>
+    </ion-item>
+
+  </form>
+</ion-content>

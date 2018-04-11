@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Accounts</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="outer-content">
+  
+  <ion-list *ngFor="let accounts of orderedAccounts">
+    <ion-list-header>
+      <ion-row>
+        <ion-col col-9>{{accounts.role}}</ion-col>
+        <ion-col col-3  class="right-align-number">${{accounts.total}}</ion-col>
+      </ion-row>
+    </ion-list-header>
+    <ion-item *ngFor="let account of accounts.accounts">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-9>{{account.attributes.name}}</ion-col>
+          <ion-col col-3 class="right-align-number">${{account.attributes.current_balance}}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item-divider></ion-item-divider>
+  </ion-list>
+
+</ion-content>

@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>Bills</h2>
+  <ion-list>
+    <ion-item *ngFor="let bill of billList">
+      <p>{{bill.attributes.name}}</p>
+      <p>{{bill.attributes.amount_max}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>

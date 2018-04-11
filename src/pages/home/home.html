@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Overview</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+      <ion-card-header>
+        Accounts
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-9>Cash:</ion-col>
+                <ion-col col-3 class="right-align-number">${{cashTotal}}</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col col-9>Credit:</ion-col>
+                <ion-col col-3 class="right-align-number">${{creditTotal}}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+</ion-content>

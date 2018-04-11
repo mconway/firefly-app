@@ -1,0 +1,14 @@
+{
+  "name": "firefly-app",
+  "app_id": "",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  },
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://taranis:8082/api"
+    }
+  ]
+}
