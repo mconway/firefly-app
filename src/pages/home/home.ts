@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
+import { AccountsPage } from '../accounts/accounts';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage {
   accountMeta: any;
   accountList: any;
@@ -18,7 +20,6 @@ export class HomePage {
     }catch{
       console.log("An Exception Occurred");
     }
-
   }
 
   getAccounts() {
@@ -43,6 +44,10 @@ export class HomePage {
     }
 
     return total;
+  }
+
+  navToAccounts(){
+    this.navCtrl.push(AccountsPage);
   }
 
 }
