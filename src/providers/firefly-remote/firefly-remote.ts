@@ -14,62 +14,74 @@ import { Config } from 'ionic-angular';
 @Injectable()
 export class FireflyRemoteProvider {
 
-  //private serverUrl: any;
-  //private pat: string;
-  //private getApiUrl: string;
+  private settings: any = {};
 
   constructor(public http: HttpClient, private storage: Storage, private config: Config) {
     console.log('Hello FireflyRemoteProvider Provider');
-
-    //this.serverUrl = config.get('serverUrl');
-    //this.pat = config.get('pat');
-    //this.getApiUrl = this.serverUrl + '/api/v1';
-
-    //console.log(this.serverUrl, this.pat);
-
   }
 
-  getApiUrl(){
-    return this.config.get('serverUrl') + '/api/v1';
+  getSettings(){
+    return new Promise( resolve => {
+        this.storage.ready().then(() => {
+          this.storage.get('settings').then( s => {
+            if(s)
+              this.settings = JSON.parse(s);
+
+            this.settings.apiUrl = this.settings.serverUrl + '/api/v1';
+
+            return resolve(this.settings);
+          });
+      });
+    });
   }
 
   getHttpHeaders()
   {
-    return new HttpHeaders({
-      'Authorization': 'Bearer ' + this.config.get('pat'),
-      'Content-Type': 'application/vnd.api+json',
-      'Accept': 'application/json'
+    return this.getSettings().then( (s) => {
+      return new HttpHeaders({
+        'Authorization': 'Bearer ' + s.pat,
+        'Content-Type': 'application/vnd.api+json',
+        'Accept': 'application/json'
+      });
     });
   }
 
-  getAccounts() {
+  async getAccounts() {
     return new Promise(resolve => {
-      this.http.get(this.getApiUrl() + '/accounts?type=asset', {headers: this.getHttpHeaders()})
-        .subscribe(data => {
-          resolve(data);
-        }, err => {
-          console.log(err)
-        });
-    });
-    
+      this.getHttpHeaders()
+        .then(h => { 
+            this.http.get(this.settings.apiUrl + '/accounts?type=asset', {headers: h})
+              .subscribe(data => {
+                resolve(data);
+              }, err => {
+                console.log(err)
+              });
+          });
+       });
   }
 
   getBills() {
     return new Promise(resolve => {
-      this.http.get(this.getApiUrl() + '/bills', {headers: this.getHttpHeaders()})
-        .subscribe(bills => {
-          resolve(bills);
-        }, err => {
-          console.log(err)
+      this.getHttpHeaders()
+        .then(h => {
+          this.http.get(this.settings.apiUrl + '/bills', {headers: h})
+            .subscribe(bills => {
+              resolve(bills);
+            }, err => {
+              console.log(err)
+            });
         });
-    });
+      });
   }
 
   postTransaction(data: any){
     return new Promise(resolve => {
-      this.http.post(this.getApiUrl() + '/transactions', JSON.stringify(data), { headers: this.getHttpHeaders()})
-      .subscribe(success => { return resolve(success); }, err => { console.log(err); })
-    });
+      this.getHttpHeaders()
+        .then(h => {
+          this.http.post(this.settings.apiUrl + '/transactions', JSON.stringify(data), { headers: h})
+          .subscribe(success => { return resolve(success); }, err => { console.log(err); })
+        });
+      });
   }
 
 }

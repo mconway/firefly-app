@@ -15,19 +15,21 @@ export class SettingsPage {
 
   constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private storage: Storage, public viewCtrl: ViewController, private formBuilder: FormBuilder, private config: Config) {
     this.buildForm();
-    this.form.get('serverUrl').setValue(config.get('serverUrl'));
-    this.form.get('pat').setValue(config.get('pat')); 
+
+    this.storage.get('settings').then( s => {
+      var settings = {};
+
+      if(s)
+        settings = JSON.parse(s);
+
+      this.form.get('serverUrl').setValue(settings.serverUrl);
+      this.form.get('pat').setValue(settings.pat); 
+    });
+
   }
 
-  save() {
-    console.log(this.form.value);
-    this.config.set('serverUrl',this.form.value.serverUrl);
-    this.config.set('pat',this.form.value.pat);
-
-    this.storage.set('serverUrl',this.form.value.serverUrl);
-    this.storage.set('pat', this.form.value.pat)
-
-    console.log(this.config.get('serverUrl'));
+  save() { 
+    this.storage.set('settings', JSON.stringify(this.form.value));
   }
 
   dismiss() {

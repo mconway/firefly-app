@@ -9,6 +9,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 @Component({
   templateUrl: 'app.html'
 })
+
 export class MyApp {
   rootPage:any = TabsPage;
 
@@ -16,14 +17,8 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.getSetting('serverUrl').then((v) => { this.config.set('serverUrl', v) } );
-      this.getSetting('pat').then((v) => { this.config.set('pat', v) } );
       statusBar.styleDefault();
       splashScreen.hide();
     });
-  }
-
-  public async getSetting(key){
-    return await this.storage.get(key);
   }
 }

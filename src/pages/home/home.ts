@@ -15,11 +15,7 @@ export class HomePage {
   creditTotal = 0;
 
   constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider) {
-    try{
       this.getAccounts();
-    }catch{
-      console.log("An Exception Occurred");
-    }
   }
 
   getAccounts() {
