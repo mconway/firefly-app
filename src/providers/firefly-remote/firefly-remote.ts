@@ -74,6 +74,20 @@ export class FireflyRemoteProvider {
       });
   }
 
+  getTransactions() {
+    return new Promise(resolve => {
+      this.getHttpHeaders()
+        .then(h => {
+          this.http.get(this.settings.apiUrl + '/transactions', {headers: h})
+            .subscribe(transactions => {
+              resolve(transactions);
+            }, err => {
+              console.log(err)
+            });
+        });
+      });
+  }
+
   postTransaction(data: any){
     return new Promise(resolve => {
       this.getHttpHeaders()

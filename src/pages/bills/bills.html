@@ -1,15 +1,21 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Bills</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Bills</h2>
+<ion-content class="outer-content">
+  
   <ion-list>
     <ion-item *ngFor="let bill of billList">
-      <p>{{bill.attributes.name}}</p>
-      <p>{{bill.attributes.amount_max}}</p>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-9>{{bill.attributes.name}}</ion-col>
+          <ion-col col-3 class="right-align-number">${{bill.attributes.amount_max}}</ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-item>
+    <ion-item-divider></ion-item-divider>
   </ion-list>
+
 </ion-content>

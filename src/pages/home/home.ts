@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountsPage } from '../accounts/accounts';
+import { TransactionsPage } from '../transactions/transactions';
 
 @Component({
   selector: 'page-home',
@@ -11,11 +12,13 @@ import { AccountsPage } from '../accounts/accounts';
 export class HomePage {
   accountMeta: any;
   accountList: any;
+  recentTransactions: any;
   cashTotal = 0;
   creditTotal = 0;
 
   constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider) {
       this.getAccounts();
+      this.getRecentTransactions();
   }
 
   getAccounts() {
@@ -42,8 +45,18 @@ export class HomePage {
     return total;
   }
 
+  getRecentTransactions(){
+    this.fireflyService.getTransactions().then((t) => {
+      this.recentTransactions = t["data"].slice(0,5);
+    });
+  }
+
   navToAccounts(){
     this.navCtrl.push(AccountsPage);
+  }
+
+  navToTransactions(){
+    this.navCtrl.push(TransactionsPage);
   }
 
 }

@@ -10,21 +10,15 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 
 export class TransactionsPage {
-  billMeta: any;
-  billList: any;
+  transactionList: any;
 
   constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider) {
-    this.getBills();
+    this.getTransactions();
   }
 
-  getBills() {
-    this.fireflyService.getBills().then((data) => {
-      this.billList = data["data"];
-      this.billMeta = data["meta"];
-
-      console.log(this.billList.data)
-
-      //this.getAccountSummaries();
+  getTransactions(){
+    this.fireflyService.getTransactions().then((t) => {
+      this.transactionList = t["data"];
     });
   }
 }
