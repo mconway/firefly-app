@@ -39,7 +39,7 @@ export class FireflyRemoteProvider {
   {
     return this.getSettings().then( (s) => {
       return new HttpHeaders({
-        'Authorization': 'Bearer ' + s.pat,
+        'Authorization': 'Bearer ' + s["pat"],
         'Content-Type': 'application/vnd.api+json',
         'Accept': 'application/json'
       });

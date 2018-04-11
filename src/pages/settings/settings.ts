@@ -22,8 +22,8 @@ export class SettingsPage {
       if(s)
         settings = JSON.parse(s);
 
-      this.form.get('serverUrl').setValue(settings.serverUrl);
-      this.form.get('pat').setValue(settings.pat); 
+      this.form.get('serverUrl').setValue(settings["serverUrl"]);
+      this.form.get('pat').setValue(settings["pat"]); 
     });
 
   }
