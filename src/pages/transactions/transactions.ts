@@ -82,7 +82,7 @@ export class AddTransactionPage {
       description: [''],
       source: [''],
       amount: [''],
-      date: ['']
+      date: [ new Date().toISOString().slice(0,10) ]
     });
   }
 }

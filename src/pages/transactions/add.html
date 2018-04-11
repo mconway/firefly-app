@@ -20,14 +20,9 @@
       <ion-input placeholder="Description" formControlName="description"></ion-input>
     </ion-item>
 
-    <!--<ion-item>
-      <ion-label color="primary" stacked>Source</ion-label>
-      <ion-input placeholder="Account Source" formControlName="source"></ion-input>
-    </ion-item>-->
-
     <ion-item>
       <ion-label stacked color="primary">Source Account</ion-label>
-      <ion-select formControlName="source">
+      <ion-select formControlName="source" interface="action-sheet">
           <ion-option *ngFor="let account of accountList" [value]="account.id">{{ account.attributes.name }}</ion-option>
       </ion-select>
     </ion-item>
