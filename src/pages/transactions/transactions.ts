@@ -17,8 +17,14 @@ export class TransactionsPage {
   }
 
   getTransactions(){
-    this.fireflyService.getTransactions().then((t) => {
+    return this.fireflyService.getTransactions().then((t) => {
       this.transactionList = t["data"];
+    });
+  }
+
+  doRefresh(refresher){
+    this.getTransactions().then( () => {
+      refresher.complete();
     });
   }
 }
@@ -61,7 +67,9 @@ export class AddTransactionPage {
 
     console.log(JSON.stringify(data));
 
-    this.fireflyService.postTransaction(data);
+    this.fireflyService.postTransaction(data).then( () => {
+      this.dismiss();
+    });
   }
 
   buildAccountDropDown()

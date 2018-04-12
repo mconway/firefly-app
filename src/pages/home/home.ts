@@ -22,7 +22,7 @@ export class HomePage {
   }
 
   getAccounts() {
-    this.fireflyService.getAccounts().then((data) => {
+    return this.fireflyService.getAccounts().then((data) => {
       this.accountList = data["data"];
       this.accountMeta = data["meta"];
 
@@ -46,7 +46,7 @@ export class HomePage {
   }
 
   getRecentTransactions(){
-    this.fireflyService.getTransactions().then((t) => {
+    return this.fireflyService.getTransactions().then((t) => {
       this.recentTransactions = t["data"].slice(0,5);
     });
   }
@@ -57,6 +57,13 @@ export class HomePage {
 
   navToTransactions(){
     this.navCtrl.push(TransactionsPage);
+  }
+
+  doRefresh(refresher){
+    Promise.all([this.getAccounts(), this.getRecentTransactions()]).then( () => {
+      refresher.complete();
+    });
+    
   }
 
 }
