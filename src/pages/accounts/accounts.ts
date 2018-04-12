@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 
 @Component({
@@ -7,16 +7,23 @@ import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-re
   templateUrl: 'accounts.html'
 })
 export class AccountsPage {
-  accountMeta: any;
-  accountList: any;
-  orderedAccounts: any;
+  private accountMeta: any;
+  private accountList: any;
+  private orderedAccounts: any;
+  private loader: any;
 
-  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider) {
-    this.getAccounts();
+  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private loadingCtrl: LoadingController) {
+    this.loader = this.loadingCtrl.create({
+      content: "Loading..."
+    });
+    
+    this.getAccounts().then( () => {
+      this.loader.dismiss();
+    });
   }
 
   getAccounts() {
-    this.fireflyService.getAccounts().then((data) => {
+    return this.fireflyService.getAccounts().then((data) => {
       this.accountList = data["data"];
       this.accountMeta = data["meta"];
 
@@ -28,8 +35,6 @@ export class AccountsPage {
         this.getAccountSubgroup("savingAsset"),
         this.getAccountSubgroup("sharedAsset")
       ];
-
-      console.log(this.orderedAccounts);
     });
   }
 
@@ -49,4 +54,9 @@ export class AccountsPage {
     };
   }
 
+  doRefresh(refresher){
+    this.getAccounts().then( () => {
+      refresher.complete();
+    });
+  }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 
 @Component({
@@ -7,17 +7,32 @@ import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-re
   templateUrl: 'bills.html'
 })
 export class BillsPage {
-  billMeta: any;
-  billList: any;
+  private billMeta: any;
+  private billList: any;
+  private loader: any;
 
-  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider) {
-    this.getBills();
+  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private loadingCtrl: LoadingController) {
+    
+    this.loader = this.loadingCtrl.create({
+      content: "Loading..."
+    });
+
+    this.getBills().then( () => {
+      this.loader.dismiss();
+    });
+
   }
 
   getBills() {
-    this.fireflyService.getBills().then((data) => {
+    return this.fireflyService.getBills().then((data) => {
       this.billList = data["data"];
       this.billMeta = data["meta"];
+    });
+  }
+
+  doRefresh(refresher){
+    this.getBills().then( () => {
+      refresher.complete();
     });
   }
 }

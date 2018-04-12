@@ -5,7 +5,9 @@
 </ion-header>
 
 <ion-content class="outer-content">
-  
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list>
     <ion-item *ngFor="let bill of billList">
       <ion-grid>

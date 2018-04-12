@@ -5,7 +5,9 @@
 </ion-header>
 
 <ion-content class="outer-content">
-  
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list *ngFor="let accounts of orderedAccounts">
     <ion-list-header>
       <ion-row>

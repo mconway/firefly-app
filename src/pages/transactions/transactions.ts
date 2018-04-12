@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { ModalController, Platform, NavParams, ViewController } from 'ionic-angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -10,10 +10,22 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 
 export class TransactionsPage {
-  transactionList: any;
+  private transactionList: any;
+  private loader: any;
 
-  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider) {
-    this.getTransactions();
+  constructor(
+    public navCtrl: NavController, 
+    private fireflyService : FireflyRemoteProvider,
+    private loadingCtrl: LoadingController)
+  {
+
+    this.loader = this.loadingCtrl.create({
+      content: "Loading..."
+    });
+
+    this.getTransactions().then( () => {
+      this.loader.dismiss();
+    });
   }
 
   getTransactions(){
@@ -35,7 +47,7 @@ export class TransactionsPage {
 
 export class AddTransactionPage {
   private form : FormGroup;
-  accountList: any;
+  private accountList: any;
 
   constructor(
       public platform: Platform, 
@@ -81,7 +93,7 @@ export class AddTransactionPage {
 
   buildAccountDropDown()
   {
-    this.fireflyService.getAccounts().then( (data) => {
+    return this.fireflyService.getAccounts().then( (data) => {
       this.accountList = data["data"];
     });
   }

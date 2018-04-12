@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage } from '../transactions/transactions';
@@ -15,10 +15,16 @@ export class HomePage {
   recentTransactions: any;
   cashTotal = 0;
   creditTotal = 0;
+  loader: any;
 
-  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider) {
-      this.getAccounts();
-      this.getRecentTransactions();
+  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private loadingCtrl: LoadingController) {
+      this.loader = this.loadingCtrl.create({
+        content: "Loading..."
+      });
+
+      Promise.all([this.getAccounts(), this.getRecentTransactions()]).then( () => {
+        this.loader.dismiss();
+      });
   }
 
   getAccounts() {
@@ -63,7 +69,5 @@ export class HomePage {
     Promise.all([this.getAccounts(), this.getRecentTransactions()]).then( () => {
       refresher.complete();
     });
-    
   }
-
 }
