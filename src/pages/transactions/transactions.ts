@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { ModalController, Platform, NavParams, ViewController } from 'ionic-angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -37,7 +37,15 @@ export class AddTransactionPage {
   private form : FormGroup;
   accountList: any;
 
-  constructor(public platform: Platform, public params: NavParams, public viewCtrl: ViewController, private formBuilder: FormBuilder, private fireflyService: FireflyRemoteProvider ){
+  constructor(
+      public platform: Platform, 
+      public params: NavParams, 
+      public viewCtrl: ViewController, 
+      private formBuilder: FormBuilder, 
+      private fireflyService: FireflyRemoteProvider,
+      private toastCtrl: ToastController
+    )
+  {
     this.buildForm();
     this.buildAccountDropDown();
   }
@@ -47,8 +55,6 @@ export class AddTransactionPage {
   }
 
   save() {
-    console.log(this.form.value);
-
     var formData = this.form.value;
 
     var data = {
@@ -65,10 +71,11 @@ export class AddTransactionPage {
       ]
     }
 
-    console.log(JSON.stringify(data));
-
     this.fireflyService.postTransaction(data).then( () => {
+      this.presentToast("Transaction Created Successfully");
       this.dismiss();
+    }).catch( err => {
+      this.presentToast(err);
     });
   }
 
@@ -86,5 +93,14 @@ export class AddTransactionPage {
       amount: [''],
       date: [ new Date().toISOString().slice(0,10) ]
     });
+  }
+
+  presentToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: "top"
+    });
+    toast.present();
   }
 }
