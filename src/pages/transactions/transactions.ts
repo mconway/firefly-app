@@ -70,14 +70,14 @@ export class AddTransactionPage {
     var formData = this.form.value;
 
     var data = {
-      type: 'withdrawal',
+      type: formData.type,
       description: formData.description,
       date: formData.date,
       transactions: [
         {
           amount: formData.amount,
           source_id: formData.source,
-          destination_id: '',
+          destination_id: formData.destination,
           currency_code: 'USD'
         }
       ]
@@ -100,8 +100,10 @@ export class AddTransactionPage {
 
   buildForm(){
     this.form = this.formBuilder.group({
+      type: ['withdrawal'],
       description: [''],
       source: [''],
+      destination: [''],
       amount: [''],
       date: [ new Date().toISOString().slice(0,10) ]
     });
@@ -114,5 +116,15 @@ export class AddTransactionPage {
       position: "top"
     });
     toast.present();
+  }
+
+  changeTransactionType(){
+    if(this.form.value.type == "deposit"){
+      this.form.controls['destination'].setValue(this.form.value.source);
+      this.form.controls['source'].setValue('');
+    }else if(this.form.value.type == "withdrawal"){
+      this.form.controls['source'].setValue(this.form.value.destination);
+      this.form.controls['destination'].setValue('');
+    }
   }
 }

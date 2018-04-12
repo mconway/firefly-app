@@ -15,14 +15,29 @@
 <ion-content padding>
   <form [formGroup]="form" (ngSubmit)="save()">
 
+    <div>
+      <ion-segment formControlName="type" (ionChange)="changeTransactionType()">
+          <ion-segment-button value="withdrawal">Withdrawal</ion-segment-button>
+          <ion-segment-button value="transfer">Transfer</ion-segment-button>
+          <ion-segment-button value="deposit">Deposit</ion-segment-button>
+      </ion-segment>
+    </div>
+
     <ion-item>
       <ion-label color="primary" stacked>Description</ion-label>
       <ion-input placeholder="Description" formControlName="description"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="form.value.type == 'withdrawal' || form.value.type == 'transfer'">
       <ion-label stacked color="primary">Source Account</ion-label>
       <ion-select formControlName="source" interface="action-sheet">
+          <ion-option *ngFor="let account of accountList" [value]="account.id">{{ account.attributes.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="form.value.type == 'deposit' || form.value.type == 'transfer'">
+      <ion-label stacked color="primary">Destination Account</ion-label>
+      <ion-select formControlName="destination" interface="action-sheet">
           <ion-option *ngFor="let account of accountList" [value]="account.id">{{ account.attributes.name }}</ion-option>
       </ion-select>
     </ion-item>
