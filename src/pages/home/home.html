@@ -13,20 +13,16 @@
         <ion-icon name="card"></ion-icon> Accounts
       </ion-card-header>
       <ion-card-content>
-        <ion-list>
-          <ion-item>
+          <ion-grid>
               <ion-row>
                 <ion-col col-9>Cash:</ion-col>
-                <ion-col col-3 class="right-align-number">${{cashTotal}}</ion-col>
+                <ion-col col-3 class="right-align-number">{{cashTotal | currency}}</ion-col>
               </ion-row>
-            </ion-item>
-            <ion-item>
               <ion-row>
                 <ion-col col-9>Credit:</ion-col>
-                <ion-col col-3 class="right-align-number">${{creditTotal}}</ion-col>
+                <ion-col col-3 class="right-align-number">{{creditTotal | currency}}</ion-col>
               </ion-row>
-          </ion-item>
-        </ion-list>
+          </ion-grid>
       </ion-card-content>
     </ion-card>
 
@@ -36,15 +32,15 @@
       </ion-card-header>
       <ion-card-content>
         <ion-list>
-          <ion-item *ngFor="let transaction of recentTransactions">
+          <ion-row *ngFor="let transaction of recentTransactions">
             <ion-grid>
               <ion-row>
                 <ion-col col-3>{{ transaction.attributes.date | date:'MMM dd' }}</ion-col>
                 <ion-col col-6>{{ transaction.attributes.description }}</ion-col>
-                <ion-col col-3 class="right-align-number">${{ transaction.attributes.amount }}</ion-col>
+                <ion-col col-3 class="right-align-number">{{ transaction.attributes.amount | currency }}</ion-col>
               </ion-row>
             </ion-grid>
-          </ion-item>
+          </ion-row>
         </ion-list>
       </ion-card-content>
     </ion-card>

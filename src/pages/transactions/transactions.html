@@ -14,11 +14,10 @@
           <ion-row>
             <ion-col col-3>{{ transaction.attributes.date | date:'MMM dd' }}</ion-col>
             <ion-col col-6>{{ transaction.attributes.description }}</ion-col>
-            <ion-col col-3 class="right-align-number">${{ transaction.attributes.amount }}</ion-col>
+            <ion-col col-3 class="right-align-number">{{ transaction.attributes.amount | currency }}</ion-col>
           </ion-row>
         </ion-grid>
       </ion-item>
       <ion-item-divider></ion-item-divider>
     </ion-list>
-  
   </ion-content>

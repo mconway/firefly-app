@@ -13,7 +13,7 @@
       <ion-grid>
         <ion-row>
           <ion-col col-9>{{bill.attributes.name}}</ion-col>
-          <ion-col col-3 class="right-align-number">${{bill.attributes.amount_max}}</ion-col>
+          <ion-col col-3 class="right-align-number">{{bill.attributes.amount_max | currency}}</ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
