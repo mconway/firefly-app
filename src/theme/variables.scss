@@ -39,12 +39,14 @@ $colors: (
   dark:       #222,
 
   primary:               #3c8dbc,
-  background:            #f5f8fa,
+  background:            #ECF0F5,
   secondary:             #d2d6de,
   text:                  #636b6f
 );
 
 $text-color: color($colors, text);
+$background-color: color($colors, background);
+$card-md-background-color: color($colors, light);
 
 // App iOS Variables
 // --------------------------------------------------
