@@ -30,4 +30,24 @@
     </ion-item>
 
   </form>
+
+  <ion-card>
+    <ion-card-header>
+      Server Information
+    </ion-card-header>
+    <ion-card-content>
+      
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4>Firefly Version:</ion-col>
+          <ion-col col-8>{{ serverInfo.version }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>API Version:</ion-col>
+          <ion-col col-8>{{ serverInfo.api_version }}</ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-card-content>
+  </ion-card>
 </ion-content>

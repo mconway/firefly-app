@@ -98,4 +98,16 @@ export class FireflyRemoteProvider {
       });
   }
 
+  getServerInfo(){
+    return new Promise(resolve => {
+      this.getHttpHeaders()
+        .then( h => {
+          this.http.get(this.settings.apiUrl + '/about', { headers: h })
+          .subscribe(success => {
+            return resolve(success);
+          }, err => { console.log(err); })
+        });
+    })
+  }
+
 }
