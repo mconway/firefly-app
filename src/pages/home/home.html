@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-navbar color="ff_primary">
-    <ion-title>Overview</ion-title>
+  <ion-navbar color="primary">
+    <ion-title><ion-icon name="globe"></ion-icon> Overview</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -9,8 +9,8 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
   <ion-card (tap)="navToAccounts()">
-      <ion-card-header>
-        Accounts
+      <ion-card-header text-color="ff_text">
+        <ion-icon name="card"></ion-icon> Accounts
       </ion-card-header>
       <ion-card-content>
         <ion-list>
@@ -32,7 +32,7 @@
 
     <ion-card (tap)="navToTransactions()">
       <ion-card-header>
-        Recent Transactions
+        <ion-icon name="cash"></ion-icon> Recent Transactions
       </ion-card-header>
       <ion-card-content>
         <ion-list>
