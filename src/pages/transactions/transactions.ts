@@ -78,7 +78,7 @@ export class AddTransactionPage {
           amount: formData.amount,
           source_id: formData.source,
           destination_id: formData.destination,
-          currency_code: 'USD'
+          currency_code: formData.currency_code
         }
       ]
     }
@@ -105,6 +105,7 @@ export class AddTransactionPage {
       source: [''],
       destination: [''],
       amount: [''],
+      currency_code: [''],
       date: [ new Date().toISOString().slice(0,10) ]
     });
   }
@@ -125,6 +126,14 @@ export class AddTransactionPage {
     }else if(this.form.value.type == "withdrawal"){
       this.form.controls['source'].setValue(this.form.value.destination);
       this.form.controls['destination'].setValue('');
+    }
+  }
+
+  changeCurrencyCode(control){
+    var accountId = this.form.value[control];
+    var selectedAccount = this.accountList.filter(function(a){ return parseInt(a.id) === parseInt(accountId) });
+    if(selectedAccount[0]){
+      this.form.controls['currency_code'].setValue(selectedAccount[0].attributes.currency_code);
     }
   }
 }
