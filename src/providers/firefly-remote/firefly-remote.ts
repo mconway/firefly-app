@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
-
 import { Injectable } from '@angular/core';
-import { Config } from 'ionic-angular';
 
 /*
   Generated class for the FireflyRemoteProvider provider.
@@ -16,7 +14,10 @@ export class FireflyRemoteProvider {
 
   private settings: any = {};
 
-  constructor(public http: HttpClient, private storage: Storage, private config: Config) {
+  constructor(
+    public http: HttpClient, 
+    private storage: Storage) 
+  {
     console.log('Hello FireflyRemoteProvider Provider');
   }
 

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, Config, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
-import { ModalController, Platform, NavParams, ViewController } from 'ionic-angular';
+import { ViewController } from 'ionic-angular';
 
-import { Storage } from '@ionic/storage';import {Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Storage } from '@ionic/storage';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'page-home',
@@ -20,7 +21,6 @@ export class SettingsPage {
     private storage: Storage, 
     public viewCtrl: ViewController, 
     private formBuilder: FormBuilder, 
-    private config: Config,
     private loadingCtrl: LoadingController) 
   {
     this.buildForm();

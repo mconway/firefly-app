@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
-import { ModalController, Platform, NavParams, ViewController } from 'ionic-angular';
+import { Platform, NavParams, ViewController } from 'ionic-angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
