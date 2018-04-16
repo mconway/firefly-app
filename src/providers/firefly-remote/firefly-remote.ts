@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
+import { query } from '@angular/core/src/animation/dsl';
 
 /*
   Generated class for the FireflyRemoteProvider provider.
@@ -61,12 +62,18 @@ export class FireflyRemoteProvider {
        });
   }
 
-  getBills() {
+  getBills(start, end) {
     return new Promise(resolve => {
       this.getHttpHeaders()
         .then(h => {
-          this.http.get(this.settings.apiUrl + '/bills', {headers: h})
-            .subscribe(bills => {
+          this.http.get(this.settings.apiUrl + '/bills', {
+            headers: h, 
+            params: {
+              'start': start,
+              'end': end
+            }
+          }
+        ).subscribe(bills => {
               resolve(bills);
             }, err => {
               console.log(err)
