@@ -22,7 +22,8 @@ export class HomePage {
         content: "Loading..."
       });
 
-      this.loader.present();
+      // Disable loader on home screen or you can't get to settings
+      //this.loader.present();
 
       Promise.all([this.getAccounts(), this.getRecentTransactions()]).then( () => {
         this.loader.dismiss();
