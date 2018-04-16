@@ -9,6 +9,10 @@
     {
       "path": "/api",
       "proxyUrl": "http://taranis:8082/api"
+    },
+    {
+      "path": "/oauth",
+      "proxyUrl": "http://taranis:8082/oauth"
     }
   ]
 }

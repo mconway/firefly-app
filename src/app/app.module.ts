@@ -19,6 +19,7 @@ import { FireflyRemoteProvider } from '../providers/firefly-remote/firefly-remot
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { IonicStorageModule } from '@ionic/storage';
     IonicModule.forRoot(MyApp,{ 'serverUrl': 'initial' }),
     IonicStorageModule.forRoot(),
     HttpModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -58,6 +59,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
+    InAppBrowser
   ]
 })
 export class AppModule {}
