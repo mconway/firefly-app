@@ -23,6 +23,8 @@ export class TransactionsPage {
       content: "Loading..."
     });
 
+    this.loader.present();
+
     this.getTransactions().then( () => {
       this.loader.dismiss();
     });

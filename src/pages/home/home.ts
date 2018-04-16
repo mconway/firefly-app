@@ -22,6 +22,8 @@ export class HomePage {
         content: "Loading..."
       });
 
+      this.loader.present();
+
       Promise.all([this.getAccounts(), this.getRecentTransactions()]).then( () => {
         this.loader.dismiss();
       });

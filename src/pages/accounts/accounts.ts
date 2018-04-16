@@ -18,6 +18,8 @@ export class AccountsPage {
       content: "Loading..."
     });
     
+    this.loader.present();
+
     this.getAccounts().then( () => {
       this.loader.dismiss();
     });

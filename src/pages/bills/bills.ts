@@ -19,6 +19,8 @@ export class BillsPage {
       content: "Loading..."
     });
 
+    this.loader.present();
+
     this.getBills().then( () => {
       this.loader.dismiss();
     });
