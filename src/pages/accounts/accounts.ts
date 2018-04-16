@@ -10,6 +10,7 @@ export class AccountsPage {
   private accountMeta: any;
   private accountList: any;
   private orderedAccounts: any;
+  private accountTypes: any;
   private loader: any;
 
   constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private loadingCtrl: LoadingController) {
@@ -29,16 +30,19 @@ export class AccountsPage {
 
       this.accountList.sort((a, b) => parseFloat(b.attributes.current_balance) - parseFloat(a.attributes.current_balance))
 
-      this.orderedAccounts = [
-        this.getAccountSubgroup("defaultAsset"),
-        this.getAccountSubgroup("ccAsset"),
-        this.getAccountSubgroup("savingAsset"),
-        this.getAccountSubgroup("sharedAsset")
-      ];
+      this.orderedAccounts = data["data"].reduce(function (r, a) {
+        r[a.attributes.role] = r[a.attributes.role] || [];
+        //console.log(moment(a.attributes.next_expected_match).toNow());
+        r[a.attributes.role].push(a);
+        return r;
+      }, Object.create(null));
+
+      this.accountTypes = Object.keys(this.orderedAccounts).sort();
+
     });
   }
 
-  getAccountSubgroup(role) {
+  getSubgroupTotal(role) {
     // ccAsset, sharedAsset, savingAsset, defaultAsset
     var subAccounts = this.accountList.filter(function(a){return a.attributes.role === role});
     var total = 0;
@@ -47,11 +51,7 @@ export class AccountsPage {
       total += parseFloat(subAccounts[i].attributes.current_balance);
     }
 
-    return {
-      role: role,
-      total: total,
-      accounts: subAccounts
-    };
+    return total;
   }
 
   doRefresh(refresher){
