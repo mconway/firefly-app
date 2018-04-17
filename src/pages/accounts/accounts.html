@@ -20,7 +20,7 @@
       <ion-item *ngFor="let account of orderedAccounts[type]" color="light">
         <ion-row>
           <ion-col col-9>{{account.attributes.name}}</ion-col>
-          <ion-col col-3 class="right-align-number">{{account.attributes.current_balance | currency}}</ion-col>
+          <ion-col col-3 class="right-align-number">{{account.attributes.current_balance | currency: account.attributes.currency_code}}</ion-col>
         </ion-row>
       </ion-item>
 
