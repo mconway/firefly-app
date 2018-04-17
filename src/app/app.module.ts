@@ -19,6 +19,7 @@ import { FireflyRemoteProvider } from '../providers/firefly-remote/firefly-remot
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { AccountListModel } from '../models/accountlist.model';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
+    AccountListModel
   ]
 })
 export class AppModule {}

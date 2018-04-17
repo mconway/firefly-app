@@ -3,6 +3,7 @@ import { NavController, LoadingController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage } from '../transactions/transactions';
+import { AccountListModel } from '../../models/accountlist.model';
 
 @Component({
   selector: 'page-home',
@@ -11,13 +12,12 @@ import { TransactionsPage } from '../transactions/transactions';
 
 export class HomePage {
   accountMeta: any;
-  accountList: any;
   recentTransactions: any;
   cashTotal = 0;
   creditTotal = 0;
   loader: any;
 
-  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private loadingCtrl: LoadingController, private accountList: AccountListModel) {
       this.loader = this.loadingCtrl.create({
         content: "Loading..."
       });
@@ -31,27 +31,10 @@ export class HomePage {
   }
 
   getAccounts() {
-    return this.fireflyService.getAccounts().then((data) => {
-      this.accountList = data["data"];
-      this.accountMeta = data["meta"];
-
-      this.accountList.sort((a, b) => parseFloat(b.attributes.current_balance) - parseFloat(a.attributes.current_balance))
-
-      this.creditTotal = this.getAccountSummaries("ccAsset");
-      this.cashTotal = this.getAccountSummaries("savingAsset") + this.getAccountSummaries("defaultAsset");
+    return this.accountList.getAccounts().then((data) => {
+      this.creditTotal = this.accountList.getSubgroupTotal("ccAsset");
+      this.cashTotal = this.accountList.getSubgroupTotal("savingAsset") + this.accountList.getSubgroupTotal("defaultAsset");
     });
-  }
-
-  getAccountSummaries(role) {
-    // ccAsset, sharedAsset, savingAsset, defaultAsset
-    var summaryAccounts = this.accountList.filter(function(a){return a.attributes.role === role});
-    var total = 0;
-
-    for(var i = 0; i < summaryAccounts.length; i++){
-      total += parseFloat(summaryAccounts[i].attributes.current_balance);
-    }
-
-    return total;
   }
 
   getRecentTransactions(){

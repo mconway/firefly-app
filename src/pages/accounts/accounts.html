@@ -9,15 +9,15 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <ion-item-group *ngFor="let type of accountTypes">
+    <ion-item-group *ngFor="let type of this.accountList.accountTypes">
       <ion-item-divider color="secondary">
         <ion-row>
           <ion-col col-9 text-capitalize>{{ type }}</ion-col>
-          <ion-col col-3 class="right-align-number">{{ getSubgroupTotal(type) | currency}}</ion-col>
+          <ion-col col-3 class="right-align-number">{{ this.accountList.getSubgroupTotal(type) | currency}}</ion-col>
         </ion-row>
       </ion-item-divider>
     
-      <ion-item *ngFor="let account of orderedAccounts[type]" color="light">
+      <ion-item *ngFor="let account of this.accountList.groupedAccounts[type]" color="light">
         <ion-row>
           <ion-col col-9>{{account.attributes.name}}</ion-col>
           <ion-col col-3 class="right-align-number">{{account.attributes.current_balance | currency: account.attributes.currency_code}}</ion-col>
