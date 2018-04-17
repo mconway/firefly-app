@@ -3,8 +3,8 @@ import { Inject, Injectable } from "@angular/core";
 
 @Injectable()
 export class AccountListModel {
-    public accountList: any;
-    public accountMeta: any;
+    public accounts: any;
+    public meta: any;
     public groupedAccounts: any;
     public accountTypes: any;
 
@@ -14,9 +14,9 @@ export class AccountListModel {
 
     getAccounts() {
         return this.fireflyService.getAccounts().then((data) => {
-            this.accountMeta = data['meta'];
-            this.accountList = data['data'];
-            this.accountList.sort((a, b) => parseFloat(b.attributes.current_balance) - parseFloat(a.attributes.current_balance))
+            this.meta = data['meta'];
+            this.accounts = data['data'];
+            this.accounts.sort((a, b) => parseFloat(b.attributes.current_balance) - parseFloat(a.attributes.current_balance))
             this.groupedAccounts = this.groupAccounts('role', data['data']);
             this.accountTypes = Object.keys(this.groupedAccounts).sort();
 
