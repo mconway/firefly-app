@@ -20,6 +20,7 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { AccountListModel } from '../models/accountlist.model';
+import { TransactionListModel } from '../models/transactionlist.model';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { AccountListModel } from '../models/accountlist.model';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
-    AccountListModel
+    AccountListModel,
+    TransactionListModel
   ]
 })
 export class AppModule {}

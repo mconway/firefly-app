@@ -3,6 +3,7 @@ import { NavController, ToastController, LoadingController } from 'ionic-angular
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { Platform, NavParams, ViewController } from 'ionic-angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { TransactionListModel } from '../../models/transactionlist.model';
 
 @Component({
   selector: 'page-home',
@@ -10,12 +11,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 
 export class TransactionsPage {
-  private transactionList: any;
   private loader: any;
 
   constructor(
     public navCtrl: NavController, 
-    private fireflyService : FireflyRemoteProvider,
+    private transactionList : TransactionListModel,
     private loadingCtrl: LoadingController)
   {
 
@@ -25,19 +25,13 @@ export class TransactionsPage {
 
     this.loader.present();
 
-    this.getTransactions().then( () => {
+    this.transactionList.getTransactions().then( () => {
       this.loader.dismiss();
     });
   }
 
-  getTransactions(){
-    return this.fireflyService.getTransactions().then((t) => {
-      this.transactionList = t["data"];
-    });
-  }
-
   doRefresh(refresher){
-    this.getTransactions().then( () => {
+    this.transactionList.getTransactions().then( () => {
       refresher.complete();
     });
   }

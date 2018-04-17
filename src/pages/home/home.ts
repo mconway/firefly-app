@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
-import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage } from '../transactions/transactions';
 import { AccountListModel } from '../../models/accountlist.model';
+import { TransactionListModel } from '../../models/transactionlist.model';
 
 @Component({
   selector: 'page-home',
@@ -17,7 +17,12 @@ export class HomePage {
   creditTotal = 0;
   loader: any;
 
-  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private loadingCtrl: LoadingController, private accountList: AccountListModel) {
+  constructor(
+    public navCtrl: NavController, 
+    private transactionList: TransactionListModel,
+    private loadingCtrl: LoadingController, 
+    private accountList: AccountListModel) 
+  {
       this.loader = this.loadingCtrl.create({
         content: "Loading..."
       });
@@ -38,8 +43,8 @@ export class HomePage {
   }
 
   getRecentTransactions(){
-    return this.fireflyService.getTransactions().then((t) => {
-      this.recentTransactions = t["data"].slice(0,5);
+    return this.transactionList.getTransactions().then((t) => {
+      this.recentTransactions = this.transactionList.transactions.slice(0,5);
     });
   }
 

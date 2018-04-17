@@ -9,7 +9,7 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-list>
-      <ion-item *ngFor="let transaction of transactionList">
+      <ion-item *ngFor="let transaction of transactionList.transactions">
         <ion-grid>
           <ion-row>
             <ion-col col-3>{{ transaction.attributes.date | date:'MMM dd' }}</ion-col>
