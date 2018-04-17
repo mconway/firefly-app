@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.zerobyte.firefly" version="2018.04.15.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.zerobyte.firefly" version="2018.04.17" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>firefly-app</name>
-    <description>An unofficial app for Firefly-ii Personal Finance</description>
+    <description>An unofficial app for Firefly-iii Personal Finance</description>
     <author email="support@zerobytesolutions.com" href="http://zerobytesolutions.com/">Zerobyte Solutions</author>
     <content src="index.html" />
     <access origin="*" />
