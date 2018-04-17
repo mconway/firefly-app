@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { AccountListModel } from '../models/accountlist.model';
 import { TransactionListModel } from '../models/transactionlist.model';
+import { BillListModel } from '../models/billlist.model';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { TransactionListModel } from '../models/transactionlist.model';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
     AccountListModel,
-    TransactionListModel
+    TransactionListModel,
+    BillListModel
   ]
 })
 export class AppModule {}
