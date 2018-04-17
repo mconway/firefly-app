@@ -4,6 +4,7 @@ import { Inject, Injectable } from "@angular/core";
 @Injectable()
 export class BillListModel {
     public bills: any;
+    public groupedBills: any;
     public meta: any;
     public dueDates: any;
 
@@ -11,15 +12,16 @@ export class BillListModel {
 
     }
 
-    getBills() {
+    getBills(pastMonths: number) {
         var date = new Date();
-        var start = new Date(date.setMonth(date.getMonth() - 2)).toISOString().slice(0,10);
+        var start = new Date(date.setMonth(date.getMonth() - pastMonths)).toISOString().slice(0,10);
         var end = new Date(date.setMonth(date.getMonth() + 4)).toISOString().slice(0,10);
 
         return this.fireflyService.getBills(start, end).then((data) => {
-            this.bills = this.groupBills('next_expected_match', data['data'])
+            this.bills = data['data'];
+            this.groupedBills = this.groupBills('next_expected_match', data['data']);
             this.meta = data['meta'];
-            this.dueDates = Object.keys(this.bills).sort();
+            this.dueDates = Object.keys(this.groupedBills).sort();
 
             return this;
         });

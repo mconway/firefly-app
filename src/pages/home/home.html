@@ -44,4 +44,23 @@
         </ion-list>
       </ion-card-content>
     </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-icon name="flash"></ion-icon> Upcoming Bills
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-row *ngFor="let bill of upcomingBills">
+            <ion-grid>
+              <ion-row>
+                <ion-col col-3>{{ bill.attributes.next_expected_match | date:'MMM dd' }}</ion-col>
+                <ion-col col-6>{{ bill.attributes.name }}</ion-col>
+                <ion-col col-3 class="right-align-number">{{ bill.attributes.amount_max | currency }}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-row>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
 </ion-content>

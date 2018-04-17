@@ -23,14 +23,14 @@ export class BillsPage {
 
     this.loader.present();
 
-    this.billList.getBills().then( () => {
+    this.billList.getBills(2).then( () => {
       this.loader.dismiss();
     });
 
   }
 
   doRefresh(refresher){
-    this.billList.getBills().then( () => {
+    this.billList.getBills(2).then( () => {
       refresher.complete();
     });
   }
