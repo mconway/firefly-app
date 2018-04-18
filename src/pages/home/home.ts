@@ -38,8 +38,8 @@ export class HomePage {
       });
   }
 
-  getAccounts() {
-    return this.accountList.getAccounts().then((data) => {
+  getAccounts(refresh: boolean = false) {
+    return this.accountList.getAccounts(refresh).then((data) => {
       this.creditTotal = this.accountList.getSubgroupTotal("ccAsset");
       this.cashTotal = this.accountList.getSubgroupTotal("savingAsset") + this.accountList.getSubgroupTotal("defaultAsset");
     });
@@ -66,7 +66,7 @@ export class HomePage {
   }
 
   doRefresh(refresher){
-    Promise.all([this.getAccounts(), this.getRecentTransactions()]).then( () => {
+    Promise.all([this.getAccounts(true), this.getRecentTransactions()]).then( () => {
       refresher.complete();
     });
   }

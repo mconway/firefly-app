@@ -23,7 +23,7 @@ export class AccountsPage {
   }
 
   doRefresh(refresher){
-    this.accountList.getAccounts().then( () => {
+    this.accountList.getAccounts(true).then( () => {
       refresher.complete();
     });
   }
