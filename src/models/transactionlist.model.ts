@@ -7,9 +7,14 @@ export class TransactionListModel {
     public meta: any;
     public transactions: any;
     public lastUpdated: Date;
+    public transactionTypeIcons: any = {
+        'Withdrawal': 'md-arrow-back',
+        'Deposit': 'md-arrow-forward',
+        'Transfer': 'md-shuffle',
+    };
 
     constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
-
+        console.log('icons', this.transactionTypeIcons);
     }
 
     getTransactions(refresh: boolean = false) {
