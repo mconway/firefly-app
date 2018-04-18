@@ -9,6 +9,9 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
+    <ion-list-header>
+      Last Updated: {{ billList.lastUpdated | date: 'dd MMM HH:mm' }}
+    </ion-list-header>
     <ion-item-group *ngFor="let dueDate of billList.dueDates">
       <ion-item-divider color="secondary">{{ dueDate }}</ion-item-divider>
 

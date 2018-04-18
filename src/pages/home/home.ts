@@ -51,8 +51,8 @@ export class HomePage {
     });
   }
 
-  getUpcomingBills(){
-    return this.billList.getBills(0).then((t) => {
+  getUpcomingBills(refresh: boolean = false){
+    return this.billList.getBills(refresh).then((t) => {
       this.upcomingBills = this.billList.bills.slice(0,5);
     });
   }
@@ -66,7 +66,7 @@ export class HomePage {
   }
 
   doRefresh(refresher){
-    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills()]).then( () => {
+    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true)]).then( () => {
       refresher.complete();
     });
   }

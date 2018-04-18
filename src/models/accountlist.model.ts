@@ -47,7 +47,7 @@ export class AccountListModel {
             this.meta = data['meta'];
             this.accounts = data['accounts'];
             this.accounts.sort((a, b) => parseFloat(b.attributes.current_balance) - parseFloat(a.attributes.current_balance));
-            this.groupedAccounts = this.groupAccounts('role', data['accounts']);
+            this.groupedAccounts = this.groupAccounts('role', data['accounts']) || [];
             this.accountTypes = Object.keys(this.groupedAccounts).sort();
             this.lastUpdated = data['lastUpdated'];
         });
