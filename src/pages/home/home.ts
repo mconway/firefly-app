@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
-import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage } from '../transactions/transactions';
+import { AccountListModel } from '../../models/accountlist.model';
+import { TransactionListModel } from '../../models/transactionlist.model';
+import { BillListModel } from '../../models/billlist.model';
 
 @Component({
   selector: 'page-home',
@@ -11,49 +13,47 @@ import { TransactionsPage } from '../transactions/transactions';
 
 export class HomePage {
   accountMeta: any;
-  accountList: any;
   recentTransactions: any;
+  upcomingBills: any;
   cashTotal = 0;
   creditTotal = 0;
   loader: any;
 
-  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private loadingCtrl: LoadingController) {
+  constructor(
+    public navCtrl: NavController, 
+    private transactionList: TransactionListModel,
+    private loadingCtrl: LoadingController, 
+    private accountList: AccountListModel,
+    private billList: BillListModel) 
+  {
       this.loader = this.loadingCtrl.create({
         content: "Loading..."
       });
 
-      Promise.all([this.getAccounts(), this.getRecentTransactions()]).then( () => {
+      // Disable loader on home screen or you can't get to settings
+      //this.loader.present();
+
+      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills()]).then( () => {
         this.loader.dismiss();
       });
   }
 
-  getAccounts() {
-    return this.fireflyService.getAccounts().then((data) => {
-      this.accountList = data["data"];
-      this.accountMeta = data["meta"];
-
-      this.accountList.sort((a, b) => parseFloat(b.attributes.current_balance) - parseFloat(a.attributes.current_balance))
-
-      this.creditTotal = this.getAccountSummaries("ccAsset");
-      this.cashTotal = this.getAccountSummaries("savingAsset") + this.getAccountSummaries("defaultAsset");
+  getAccounts(refresh: boolean = false) {
+    return this.accountList.getAccounts(refresh).then((data) => {
+      this.creditTotal = this.accountList.getSubgroupTotal("ccAsset");
+      this.cashTotal = this.accountList.getSubgroupTotal("savingAsset") + this.accountList.getSubgroupTotal("defaultAsset");
     });
   }
 
-  getAccountSummaries(role) {
-    // ccAsset, sharedAsset, savingAsset, defaultAsset
-    var summaryAccounts = this.accountList.filter(function(a){return a.attributes.role === role});
-    var total = 0;
-
-    for(var i = 0; i < summaryAccounts.length; i++){
-      total += parseFloat(summaryAccounts[i].attributes.current_balance);
-    }
-
-    return total;
+  getRecentTransactions(refresh: boolean = false){
+    return this.transactionList.getTransactions(refresh).then((t) => {
+      this.recentTransactions = this.transactionList.transactions.slice(0,5);
+    });
   }
 
-  getRecentTransactions(){
-    return this.fireflyService.getTransactions().then((t) => {
-      this.recentTransactions = t["data"].slice(0,5);
+  getUpcomingBills(refresh: boolean = false){
+    return this.billList.getBills(refresh).then((t) => {
+      this.upcomingBills = this.billList.bills.slice(0,5);
     });
   }
 
@@ -66,7 +66,7 @@ export class HomePage {
   }
 
   doRefresh(refresher){
-    Promise.all([this.getAccounts(), this.getRecentTransactions()]).then( () => {
+    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true)]).then( () => {
       refresher.complete();
     });
   }
