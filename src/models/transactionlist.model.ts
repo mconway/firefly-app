@@ -1,18 +1,55 @@
 import { FireflyRemoteProvider } from "../providers/firefly-remote/firefly-remote";
 import { Inject, Injectable } from "@angular/core";
+import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class TransactionListModel {
+    public meta: any;
     public transactions: any;
+    public lastUpdated: Date;
 
-    constructor(@Inject(FireflyRemoteProvider) private fireflyService){
+    constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
 
     }
 
-    getTransactions() {
+    getTransactions(refresh: boolean = false) {
+        if(refresh){
+            return this.getTransactionsFromService();
+        }else{
+            return this.getTransactionsFromCache();
+        }
+    }
+
+    private getTransactionsFromService() {
         return this.fireflyService.getTransactions().then((data) => {
+            this.meta = data['meta'];
             this.transactions = data['data'];
+            this.lastUpdated = new Date();
+
+            this.saveToStorage();
+
             return this;
+        });
+    }
+
+    private getTransactionsFromCache() {
+        return this.storage.get('transactions').then((data) => {
+            if(!data)
+                data = { transactions: [] }
+
+            this.meta = data['meta'];
+            this.transactions = data['transactions'];
+            this.lastUpdated = data['lastUpdated'];
+
+            return this;
+        });
+    }
+    
+    private saveToStorage(){
+        this.storage.set('transactions', {
+            meta: this.meta,
+            transactions: this.transactions,
+            lastUpdated: this.lastUpdated
         });
     }
 }

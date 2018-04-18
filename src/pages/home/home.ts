@@ -45,8 +45,8 @@ export class HomePage {
     });
   }
 
-  getRecentTransactions(){
-    return this.transactionList.getTransactions().then((t) => {
+  getRecentTransactions(refresh: boolean = false){
+    return this.transactionList.getTransactions(refresh).then((t) => {
       this.recentTransactions = this.transactionList.transactions.slice(0,5);
     });
   }
@@ -66,7 +66,7 @@ export class HomePage {
   }
 
   doRefresh(refresher){
-    Promise.all([this.getAccounts(true), this.getRecentTransactions()]).then( () => {
+    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills()]).then( () => {
       refresher.complete();
     });
   }
