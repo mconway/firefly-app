@@ -97,11 +97,11 @@ export class FireflyRemoteProvider {
   }
 
   postTransaction(data: any){
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       this.getHttpHeaders()
         .then(h => {
           this.http.post(this.settings.apiUrl + '/transactions', JSON.stringify(data), { headers: h})
-          .subscribe(success => { return resolve(success); }, err => { console.log(err); })
+          .subscribe(success => { return resolve(success); }, err => { return reject(err) })
         });
       });
   }

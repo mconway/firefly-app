@@ -22,6 +22,10 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AccountListModel } from '../models/accountlist.model';
 import { TransactionListModel } from '../models/transactionlist.model';
 import { BillListModel } from '../models/billlist.model';
+import { TransactionModel } from '../models/transaction.model';
+import { TransactionItemModel } from '../models/transactionItem.model';
+
+import { Network } from '@ionic-native/network';
 
 @NgModule({
   declarations: [
@@ -63,7 +67,9 @@ import { BillListModel } from '../models/billlist.model';
     FireflyRemoteProvider,
     AccountListModel,
     TransactionListModel,
-    BillListModel
+    BillListModel,
+    TransactionModel,
+    Network
   ]
 })
 export class AppModule {}
