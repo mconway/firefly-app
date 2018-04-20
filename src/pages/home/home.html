@@ -6,42 +6,105 @@
 
 <ion-content >
   <ion-refresher (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-card (tap)="navToAccounts()">
-      <ion-card-header text-color="ff_text">
-        <ion-icon name="card"></ion-icon> Accounts
-      </ion-card-header>
-      <ion-card-content>
-          <ion-grid>
-              <ion-row>
-                <ion-col col-9>Cash:</ion-col>
-                <ion-col col-3 class="right-align-number">{{cashTotal | currency}}</ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-9>Credit:</ion-col>
-                <ion-col col-3 class="right-align-number">{{creditTotal | currency}}</ion-col>
-              </ion-row>
-          </ion-grid>
-      </ion-card-content>
-    </ion-card>
+    <ion-card-header text-color="ff_text">
+      <ion-row>
+        <ion-col col-6>Accounts</ion-col>
+        <ion-col col-6 text-right><ion-note>Last Updated: {{ accountList.lastUpdated | date: 'dd MMM HH:mm' }}</ion-note></ion-col>
+      </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <ion-row>
+              <ion-col col-9>Cash:</ion-col>
+              <ion-col col-3 class="right-align-number green-text">{{cashTotal | currency}}</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-9>Credit:</ion-col>
+              <ion-col col-3 class="right-align-number red-text">{{creditTotal | currency}}</ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card-content>
+  </ion-card>
 
-    <ion-card (tap)="navToTransactions()">
-      <ion-card-header>
-        <ion-icon name="cash"></ion-icon> Recent Transactions
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-          <ion-row *ngFor="let transaction of recentTransactions">
-            <ion-grid>
-              <ion-row>
-                <ion-col col-3>{{ transaction.attributes.date | date:'MMM dd' }}</ion-col>
-                <ion-col col-6>{{ transaction.attributes.description }}</ion-col>
-                <ion-col col-3 class="right-align-number">{{ transaction.attributes.amount | currency : transaction.attributes.currency_symbol }}</ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-row>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
+  <ion-card (tap)="navToTransactions()">
+    <ion-card-header>
+      <ion-row>
+        <ion-col col-6>Recent Transactions</ion-col>
+        <ion-col col-6 text-right><ion-note>Last Updated: {{ accountList.lastUpdated | date: 'dd MMM HH:mm' }}</ion-note></ion-col>
+      </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-row *ngFor="let transaction of recentTransactions">
+          <ion-grid>
+            <ion-row align-items-center>
+              <ion-col col-2>
+                <ion-row>
+                    {{ transaction.attributes.date | date:'MMM' }}
+                </ion-row>
+                <ion-row>
+                    {{ transaction.attributes.date | date:'dd' }}
+                </ion-row>
+              </ion-col>
+              <ion-col col-1><ion-icon [name]="transactionList.transactionTypeIcons[transaction.attributes.type]"></ion-icon></ion-col>
+              <ion-col col-6>
+                <ion-row>
+                  {{ transaction.attributes.description }}
+                </ion-row>
+                <ion-row>
+                    <ion-note>{{ transaction.attributes.category_name}}</ion-note>
+                </ion-row>
+              </ion-col>
+              <ion-col col-3 class="right-align-number">{{ transaction.attributes.amount | currency : transaction.attributes.currency_symbol }}</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-12></ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-row>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-row>
+        <ion-col col-6>Upcoming Bills</ion-col>
+        <ion-col col-6 text-right><ion-note>Last Updated: {{ billList.lastUpdated | date: 'dd MMM HH:mm' }}</ion-note></ion-col>
+      </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-row *ngFor="let bill of upcomingBills">
+          <ion-grid>
+            <ion-row align-items-center>
+              <ion-col col-2>
+                <ion-row>
+                  {{ bill.attributes.next_expected_match | date:'MMM' }}
+                </ion-row>
+                <ion-row>
+                    {{ bill.attributes.next_expected_match | date:'dd' }}
+                </ion-row>
+              </ion-col>
+              <ion-col col-7>
+                <ion-row>
+                  {{ bill.attributes.name }}
+                </ion-row>
+                <ion-row>
+                    <ion-note>Last Paid: {{ bill.attributes.paid_dates[bill.attributes.paid_dates.length -1] }}</ion-note>
+                </ion-row>
+              </ion-col>
+              <ion-col col-3 class="right-align-number">{{ bill.attributes.amount_max | currency }}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-row>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  <ion-row>
+      <ion-note>Network: {{ network.type }}</ion-note>
+  </ion-row>
 </ion-content>

@@ -20,6 +20,13 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
+import { AccountListModel } from '../models/accountlist.model';
+import { TransactionListModel } from '../models/transactionlist.model';
+import { BillListModel } from '../models/billlist.model';
+import { TransactionModel } from '../models/transaction.model';
+import { TransactionItemModel } from '../models/transactionItem.model';
+
+import { Network } from '@ionic-native/network';
 
 @NgModule({
   declarations: [
@@ -60,6 +67,11 @@ import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
     InAppBrowser
+    AccountListModel,
+    TransactionListModel,
+    BillListModel,
+    TransactionModel,
+    Network
   ]
 })
 export class AppModule {}

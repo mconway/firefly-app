@@ -8,22 +8,26 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list *ngFor="let accounts of orderedAccounts">
+  <ion-list>
     <ion-list-header>
-      <ion-row>
-        <ion-col col-9>{{accounts.role}}</ion-col>
-        <ion-col col-3  class="right-align-number">{{accounts.total | currency}}</ion-col>
-      </ion-row>
+      Last Updated: {{ accountList.lastUpdated | date: 'dd MMM HH:mm' }}
     </ion-list-header>
-    <ion-item *ngFor="let account of accounts.accounts">
-      <ion-grid>
+    <ion-item-group *ngFor="let type of this.accountList.accountTypes">
+      <ion-item-divider color="secondary">
+        <ion-row>
+          <ion-col col-9 text-capitalize>{{ type }}</ion-col>
+          <ion-col col-3 class="right-align-number">{{ this.accountList.getSubgroupTotal(type) | currency}}</ion-col>
+        </ion-row>
+      </ion-item-divider>
+    
+      <ion-item *ngFor="let account of this.accountList.groupedAccounts[type]" color="light">
         <ion-row>
           <ion-col col-9>{{account.attributes.name}}</ion-col>
-          <ion-col col-3 class="right-align-number">{{account.attributes.current_balance | currency}}</ion-col>
+          <ion-col col-3 class="right-align-number">{{account.attributes.current_balance | currency: account.attributes.currency_code}}</ion-col>
         </ion-row>
-      </ion-grid>
-    </ion-item>
-    <ion-item-divider></ion-item-divider>
+      </ion-item>
+
+    </ion-item-group>
   </ion-list>
 
 </ion-content>

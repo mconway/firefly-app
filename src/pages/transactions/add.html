@@ -31,14 +31,14 @@
     <ion-item *ngIf="form.value.type == 'withdrawal' || form.value.type == 'transfer'">
       <ion-label stacked color="primary">Source Account</ion-label>
       <ion-select formControlName="source" interface="action-sheet" (ionChange)="changeCurrencyCode('source')">
-          <ion-option *ngFor="let account of accountList" [value]="account.id">{{ account.attributes.name }} | {{ account.attributes.current_balance }} | ({{account.attributes.currency_code}})</ion-option>
+          <ion-option *ngFor="let account of accountList.accounts" [value]="account.id">{{ account.attributes.name }} | {{ account.attributes.current_balance }} | ({{account.attributes.currency_code}})</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item *ngIf="form.value.type == 'deposit' || form.value.type == 'transfer'">
       <ion-label stacked color="primary">Destination Account</ion-label>
       <ion-select formControlName="destination" interface="action-sheet" (ionChange)="changeCurrencyCode('destination')">
-          <ion-option *ngFor="let account of accountList" [value]="account.id">{{ account.attributes.name }} | {{ account.attributes.current_balance }} | ({{account.attributes.currency_code}})</ion-option>
+          <ion-option *ngFor="let account of accountList.accounts" [value]="account.id">{{ account.attributes.name }} | {{ account.attributes.current_balance }} | ({{account.attributes.currency_code}})</ion-option>
       </ion-select>
     </ion-item>
 
@@ -54,7 +54,7 @@
 
     <ion-item>
       <ion-label color="primary" stacked>Date</ion-label>
-      <ion-input placeholder="Date" formControlName="date"></ion-input>
+      <ion-datetime displayFormat="YYYY-MM-DD" formControlName="date"></ion-datetime>
     </ion-item>
 
     <ion-item>
