@@ -66,7 +66,7 @@ import { Network } from '@ionic-native/network';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
-    InAppBrowser
+    InAppBrowser,
     AccountListModel,
     TransactionListModel,
     BillListModel,
