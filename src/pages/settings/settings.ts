@@ -47,14 +47,21 @@ export class SettingsPage {
   }
 
   save() { 
+    // Save settings before we attempt to authenticate just in case something happens.
     this.storage.set('settings', JSON.stringify(this.form.value));
-    this.getServerInfo();
+    
+    //Authenticate to oauth to get an auth code
     this.getOauthToken().then( data => {
       var token = data["code"];
       this.form.get('oauth_token').setValue(token);
+      // Now get an access_token
       this.fireflyService.getOauthToken(token).then( data => {
+        // Save the access token as the PAT
         this.form.get('pat').setValue(data['access_token']);
         this.storage.set('settings', JSON.stringify(this.form.value));
+
+        // Refresh Server Info
+        this.getServerInfo();
       }).catch(err => {
         alert("An error occurred " + err.statusText);
       });
