@@ -19,9 +19,14 @@ import { FireflyRemoteProvider } from '../providers/firefly-remote/firefly-remot
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
 import { AccountListModel } from '../models/accountlist.model';
 import { TransactionListModel } from '../models/transactionlist.model';
 import { BillListModel } from '../models/billlist.model';
+import { TransactionModel } from '../models/transaction.model';
+import { TransactionItemModel } from '../models/transactionItem.model';
+
+import { Network } from '@ionic-native/network';
 
 @NgModule({
   declarations: [
@@ -41,7 +46,7 @@ import { BillListModel } from '../models/billlist.model';
     IonicModule.forRoot(MyApp,{ 'serverUrl': 'initial' }),
     IonicStorageModule.forRoot(),
     HttpModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -61,9 +66,12 @@ import { BillListModel } from '../models/billlist.model';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
+    InAppBrowser,
     AccountListModel,
     TransactionListModel,
-    BillListModel
+    BillListModel,
+    TransactionModel,
+    Network
   ]
 })
 export class AppModule {}

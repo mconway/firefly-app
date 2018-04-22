@@ -4,6 +4,8 @@ import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-re
 import { Platform, NavParams, ViewController } from 'ionic-angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TransactionListModel } from '../../models/transactionlist.model';
+import { TransactionModel } from '../../models/transaction.model';
+import { AccountListModel } from '../../models/accountlist.model';
 
 @Component({
   selector: 'page-home',
@@ -43,14 +45,14 @@ export class TransactionsPage {
 
 export class AddTransactionPage {
   private form : FormGroup;
-  private accountList: any;
 
   constructor(
       public platform: Platform, 
       public params: NavParams, 
       public viewCtrl: ViewController, 
       private formBuilder: FormBuilder, 
-      private fireflyService: FireflyRemoteProvider,
+      private model: TransactionModel,
+      private accountList: AccountListModel,
       private toastCtrl: ToastController
     )
   {
@@ -65,33 +67,18 @@ export class AddTransactionPage {
   save() {
     var formData = this.form.value;
 
-    var data = {
-      type: formData.type,
-      description: formData.description,
-      date: formData.date,
-      transactions: [
-        {
-          amount: formData.amount,
-          source_id: formData.source,
-          destination_id: formData.destination,
-          currency_code: formData.currency_code
-        }
-      ]
-    }
-
-    this.fireflyService.postTransaction(data).then( () => {
+    this.model.loadFromForm(formData);
+    this.model.save().then((message) => {
       this.presentToast("Transaction Created Successfully");
       this.dismiss();
     }).catch( err => {
-      this.presentToast(err);
+        this.presentToast(err.statusText);
     });
   }
 
   buildAccountDropDown()
   {
-    return this.fireflyService.getAccounts().then( (data) => {
-      this.accountList = data["data"];
-    });
+    return this.accountList.getAccounts();
   }
 
   buildForm(){
@@ -127,7 +114,7 @@ export class AddTransactionPage {
 
   changeCurrencyCode(control){
     var accountId = this.form.value[control];
-    var selectedAccount = this.accountList.filter(function(a){ return parseInt(a.id) === parseInt(accountId) });
+    var selectedAccount = this.accountList.accounts.filter(function(a){ return parseInt(a.id) === parseInt(accountId) });
     if(selectedAccount[0]){
       this.form.controls['currency_code'].setValue(selectedAccount[0].attributes.currency_code);
     }

@@ -6,6 +6,8 @@ import { AccountListModel } from '../../models/accountlist.model';
 import { TransactionListModel } from '../../models/transactionlist.model';
 import { BillListModel } from '../../models/billlist.model';
 
+import { Network } from '@ionic-native/network';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -24,7 +26,8 @@ export class HomePage {
     private transactionList: TransactionListModel,
     private loadingCtrl: LoadingController, 
     private accountList: AccountListModel,
-    private billList: BillListModel) 
+    private billList: BillListModel,
+    private network: Network) 
   {
       this.loader = this.loadingCtrl.create({
         content: "Loading..."
@@ -68,6 +71,6 @@ export class HomePage {
   doRefresh(refresher){
     Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true)]).then( () => {
       refresher.complete();
-    });
+    }).catch(err => { refresher.complete() });
   }
 }

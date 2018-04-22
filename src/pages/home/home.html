@@ -80,9 +80,23 @@
       <ion-list>
         <ion-row *ngFor="let bill of upcomingBills">
           <ion-grid>
-            <ion-row>
-              <ion-col col-3>{{ bill.attributes.next_expected_match | date:'MMM dd' }}</ion-col>
-              <ion-col col-6>{{ bill.attributes.name }}</ion-col>
+            <ion-row align-items-center>
+              <ion-col col-2>
+                <ion-row>
+                  {{ bill.attributes.next_expected_match | date:'MMM' }}
+                </ion-row>
+                <ion-row>
+                    {{ bill.attributes.next_expected_match | date:'dd' }}
+                </ion-row>
+              </ion-col>
+              <ion-col col-7>
+                <ion-row>
+                  {{ bill.attributes.name }}
+                </ion-row>
+                <ion-row>
+                    <ion-note>Last Paid: {{ bill.attributes.paid_dates[bill.attributes.paid_dates.length -1] }}</ion-note>
+                </ion-row>
+              </ion-col>
               <ion-col col-3 class="right-align-number">{{ bill.attributes.amount_max | currency }}</ion-col>
             </ion-row>
           </ion-grid>
@@ -90,4 +104,7 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+  <ion-row>
+      <ion-note>Network: {{ network.type }}</ion-note>
+  </ion-row>
 </ion-content>
