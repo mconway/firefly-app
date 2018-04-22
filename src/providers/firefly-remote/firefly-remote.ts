@@ -3,6 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
 import { query } from '@angular/core/src/animation/dsl';
+import { Subscriber } from 'rxjs/Subscriber';
 
 /*
   Generated class for the FireflyRemoteProvider provider.
@@ -116,6 +117,27 @@ export class FireflyRemoteProvider {
           }, err => { console.log(err); })
         });
     })
+  }
+
+  getOauthToken(token){
+    var bodyObject = {
+      'grant_type': "authorization_code",
+      'code': token,
+      'redirect_uri': "http://localhost/callback",
+      'client_id': this.settings.client_id,
+      'client_secret': this.settings.client_secret
+    }
+
+    var body = [];
+    for(var p in bodyObject){
+      body.push(encodeURIComponent(p) + "=" + encodeURIComponent(bodyObject[p]));
+    }
+
+    return new Promise( (resolve, reject) => {
+      this.http.post(this.settings.serverUrl + '/oauth/token', body.join('&'), { headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })}).subscribe(success => {
+        return resolve(success);
+      }, err => { reject(err)});
+    });
   }
 
 }

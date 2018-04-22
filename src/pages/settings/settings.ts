@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, ToastController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { ViewController } from 'ionic-angular';
 
@@ -25,6 +25,7 @@ export class SettingsPage {
     public viewCtrl: ViewController, 
     private formBuilder: FormBuilder, 
     private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
     private iab: InAppBrowser) 
   {
     this.buildForm();
@@ -37,6 +38,7 @@ export class SettingsPage {
 
       this.form.get('serverUrl').setValue(settings["serverUrl"]);
       this.form.get('pat').setValue(settings["pat"]); 
+      this.form.get('oauth_token').setValue(settings['oauth_token']);
       this.form.get('client_id').setValue(settings["client_id"]); 
       this.form.get('client_secret').setValue(settings["client_secret"]); 
       this.getServerInfo();
@@ -47,7 +49,28 @@ export class SettingsPage {
   save() { 
     this.storage.set('settings', JSON.stringify(this.form.value));
     this.getServerInfo();
-    this.getOauthToken();
+    this.getOauthToken().then( data => {
+      var token = data["code"];
+      this.form.get('oauth_token').setValue(token);
+      this.fireflyService.getOauthToken(token).then( data => {
+        this.form.get('pat').setValue(data['access_token']);
+        this.storage.set('settings', JSON.stringify(this.form.value));
+      }).catch(err => {
+        alert("An error occurred " + err.statusText);
+      });
+      
+    }).catch(err => {
+      this.presentToast("An error occurred " + err);
+    });
+  }
+
+  presentToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: "top"
+    });
+    toast.present();
   }
 
   dismiss() {
@@ -59,7 +82,8 @@ export class SettingsPage {
       serverUrl: [''],
       pat: [''],
       client_id: [''],
-      client_secret: ['']
+      client_secret: [''],
+      oauth_token: ['']
     });
   }
 
@@ -73,34 +97,34 @@ export class SettingsPage {
   }
 
   getOauthToken(){
-    console.log('retreiving auth token')
-    //var ref = this.iab;
-    var oauthUrl = this.form.value['serverUrl'] + '/oauth/authorize?client_id=' + this.form.value['client_id'] + '&redirect_uri=http://localhost/callback&scope=&response_type=token'
-    var ref = window.open(oauthUrl, '_blank', 'location=no');
-    ref.addEventListener('loadstart',function(event) {
-      console.log(event['url']);
-    });
-    /* return new Promise(function(resolve, reject){
+    var ref = this.iab;
+    var oauthUrl = this.form.value['serverUrl'] + '/oauth/authorize?client_id=' + this.form.value['client_id'] + '&redirect_uri=http%3A%2F%2Flocalhost%2Fcallback&scope=&response_type=code&state='
+     return new Promise(function(resolve, reject){
       var browserRef = ref.create(oauthUrl, '_blank', "location=no,clearsessioncache=yes,clearcache=yes");
       browserRef.on("loadstart").subscribe(event => {
+        //wait for the callback redirect
         if ((event.url).indexOf("http://localhost/callback") === 0) {
-            //browserRef.removeEventListener("exit", (event) => {});
+            //close the browser window
             browserRef.close();
-            var responseParameters = ((event.url).split("#")[1]).split("&");
+            //URL Schema = url?code=
+            var responseParameters = ((event.url).split("?")[1]).split("&");
             var parsedResponse = {};
+
             for (var i = 0; i < responseParameters.length; i++) {
+                //creates ['code'] = code
                 parsedResponse[responseParameters[i].split("=")[0]] = responseParameters[i].split("=")[1];
             }
-            if (parsedResponse["access_token"] !== undefined && parsedResponse["access_token"] !== null) {
+
+            if (parsedResponse["code"] !== undefined && parsedResponse["code"] !== null) {
                 resolve(parsedResponse);
             } else {
                 reject("Problem authenticating with Firefly iii");
             }
         }
       });
-//      browserRef.on("exit").subscribe(function(event) {
-//        reject("The Facebook sign in flow was canceled");
-//     });
-    });*/
+      browserRef.on("exit").subscribe(function(event) {
+        reject("The sign in flow was canceled");
+     });
+    });
   }
 }
