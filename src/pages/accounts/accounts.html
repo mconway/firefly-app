@@ -22,8 +22,8 @@
     
       <ion-item *ngFor="let account of this.accountList.groupedAccounts[type]" color="light">
         <ion-row>
-          <ion-col col-9>{{account.attributes.name}}</ion-col>
-          <ion-col col-3 class="right-align-number">{{account.attributes.current_balance | currency: account.attributes.currency_code}}</ion-col>
+          <ion-col col-7>{{account.attributes.name}}</ion-col>
+          <ion-col col-5 class="right-align-number">{{account.attributes.current_balance | currency: account.attributes.currency_code}} {{account.attributes.currency_code}}</ion-col>
         </ion-row>
       </ion-item>
 
