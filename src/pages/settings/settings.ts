@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController } from 'ionic-angular';
+import { NavController, LoadingController, ToastController, Platform } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { ViewController } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { AppVersion } from '@ionic-native/app-version'
 
 declare var window: any;
 
@@ -17,6 +18,8 @@ declare var window: any;
 export class SettingsPage {
   private form : FormGroup;
   private serverInfo: any = { version: "Disconnected" };
+  private version;
+  private name;
 
   constructor(
     public navCtrl: NavController, 
@@ -26,7 +29,9 @@ export class SettingsPage {
     private formBuilder: FormBuilder, 
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private iab: InAppBrowser) 
+    private iab: InAppBrowser,
+    private appVersion: AppVersion,
+    private platform: Platform) 
   {
     this.buildForm();
 
@@ -43,6 +48,11 @@ export class SettingsPage {
       this.form.get('client_secret').setValue(settings["client_secret"]); 
       this.getServerInfo();
     });
+
+    if (this.platform.is('cordova')) {
+      this.appVersion.getVersionNumber().then( data => { this.version = data });
+      this.appVersion.getAppName().then( data => { this.name = data });
+    }
 
   }
 

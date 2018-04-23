@@ -27,6 +27,7 @@ import { TransactionModel } from '../models/transaction.model';
 import { TransactionItemModel } from '../models/transactionItem.model';
 
 import { Network } from '@ionic-native/network';
+import { AppVersion } from '@ionic-native/app-version'
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { Network } from '@ionic-native/network';
     TransactionListModel,
     BillListModel,
     TransactionModel,
-    Network
+    Network,
+    AppVersion
   ]
 })
 export class AppModule {}
