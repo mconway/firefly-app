@@ -45,6 +45,7 @@ export class TransactionsPage {
 
 export class AddTransactionPage {
   private form : FormGroup;
+  private loader: any;
 
   constructor(
       public platform: Platform, 
@@ -53,11 +54,16 @@ export class AddTransactionPage {
       private formBuilder: FormBuilder, 
       private model: TransactionModel,
       private accountList: AccountListModel,
-      private toastCtrl: ToastController
+      private toastCtrl: ToastController,
+      private loadingCtrl: LoadingController
     )
   {
     this.buildForm();
     this.buildAccountDropDown();
+
+    this.loader = this.loadingCtrl.create({
+      content: "Please Wait..."
+    });
   }
 
   dismiss() {
@@ -65,14 +71,18 @@ export class AddTransactionPage {
   }
 
   save() {
+    this.loader.present();
+
     var formData = this.form.value;
 
     this.model.loadFromForm(formData);
     this.model.save().then((message) => {
       this.presentToast("Transaction Created Successfully");
+      this.loader.dismiss();
       this.dismiss();
     }).catch( err => {
-        this.presentToast(err.statusText);
+      this.loader.dismiss();
+      alert(err.statusText);
     });
   }
 
