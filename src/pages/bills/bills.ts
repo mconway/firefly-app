@@ -41,7 +41,7 @@ export class BillsPage {
 }
 
 @Component({
-  templateUrl: 'billDetail.html'
+  templateUrl: 'detail.html'
 })
 export class BillDetailPage {
   private bill;
