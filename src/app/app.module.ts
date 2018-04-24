@@ -9,7 +9,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { BillsPage, BillDetailPage } from '../pages/bills/bills';
 import { AccountsPage } from '../pages/accounts/accounts';
 import { SettingsPage } from '../pages/settings/settings';
-import { TransactionsPage, AddTransactionPage } from '../pages/transactions/transactions'
+import { TransactionsPage, AddTransactionPage, TransactionDetailPage } from '../pages/transactions/transactions'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -39,6 +39,7 @@ import { AppVersion } from '@ionic-native/app-version'
     TransactionsPage,
     SettingsPage,
     AddTransactionPage,
+    TransactionDetailPage,
     BillDetailPage
   ],
   imports: [
@@ -59,7 +60,8 @@ import { AppVersion } from '@ionic-native/app-version'
     TransactionsPage,
     AddTransactionPage,
     SettingsPage,
-    BillDetailPage
+    BillDetailPage,
+    TransactionDetailPage
   ],
   providers: [
     StatusBar,

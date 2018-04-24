@@ -29,8 +29,8 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card (tap)="navToTransactions()">
-    <ion-card-header>
+  <ion-card>
+    <ion-card-header (tap)="navToTransactions()">
       <ion-row>
         <ion-col col-6>Recent Transactions</ion-col>
         <ion-col col-6 text-right><ion-note>Last Updated: {{ accountList.lastUpdated | date: 'dd MMM HH:mm' }}</ion-note></ion-col>
@@ -38,33 +38,35 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <ion-row *ngFor="let transaction of recentTransactions">
-          <ion-grid>
-            <ion-row align-items-center>
-              <ion-col col-2>
-                <ion-row>
-                    {{ transaction.attributes.date | date:'MMM' }}
-                </ion-row>
-                <ion-row>
-                    {{ transaction.attributes.date | date:'dd' }}
-                </ion-row>
-              </ion-col>
-              <ion-col col-1><ion-icon [name]="transactionList.transactionTypeIcons[transaction.attributes.type]"></ion-icon></ion-col>
-              <ion-col col-6>
-                <ion-row>
-                  {{ transaction.attributes.description }}
-                </ion-row>
-                <ion-row>
-                    <ion-note>{{ transaction.attributes.category_name}}</ion-note>
-                </ion-row>
-              </ion-col>
-              <ion-col col-3 class="right-align-number">{{ transaction.attributes.amount | currency : transaction.attributes.currency_symbol }}</ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col col-12></ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-row>
+        <button *ngFor="let transaction of recentTransactions" (click)="showTransactionDetails(transaction)" ion-item color="light">
+          <ion-row >
+            <ion-grid>
+              <ion-row align-items-center>
+                <ion-col col-2>
+                  <ion-row>
+                      {{ transaction.attributes.date | date:'MMM' }}
+                  </ion-row>
+                  <ion-row>
+                      {{ transaction.attributes.date | date:'dd' }}
+                  </ion-row>
+                </ion-col>
+                <ion-col col-1><ion-icon [name]="transactionList.transactionTypeIcons[transaction.attributes.type]"></ion-icon></ion-col>
+                <ion-col col-6>
+                  <ion-row>
+                    {{ transaction.attributes.description }}
+                  </ion-row>
+                  <ion-row>
+                      <ion-note>{{ transaction.attributes.category_name}}</ion-note>
+                  </ion-row>
+                </ion-col>
+                <ion-col col-3 class="right-align-number">{{ transaction.attributes.amount | currency : transaction.attributes.currency_symbol }}</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col col-12></ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-row>
+        </button>
       </ion-list>
     </ion-card-content>
   </ion-card>

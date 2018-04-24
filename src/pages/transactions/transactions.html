@@ -12,7 +12,7 @@
       <ion-list-header>
         Last Updated: {{ transactionList.lastUpdated | date: 'dd MMM HH:mm' }}
       </ion-list-header>
-      <ion-item *ngFor="let transaction of transactionList.transactions">
+      <button *ngFor="let transaction of transactionList.transactions" (click)="showTransactionDetails(transaction)" ion-item color="light" >
         <ion-grid>
           <ion-row align-items-center>
             <ion-col col-2>
@@ -38,7 +38,7 @@
             <ion-col col-12></ion-col>
           </ion-row>
         </ion-grid>
-      </ion-item>
+      </button>
       <ion-item-divider></ion-item-divider>
     </ion-list>
   </ion-content>

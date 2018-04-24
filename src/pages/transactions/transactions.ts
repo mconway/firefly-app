@@ -37,6 +37,10 @@ export class TransactionsPage {
       refresher.complete();
     });
   }
+
+  showTransactionDetails(transaction){
+    this.navCtrl.push(TransactionDetailPage, { transaction: transaction });
+  }
 }
 
 @Component({
@@ -129,4 +133,19 @@ export class AddTransactionPage {
       this.form.controls['currency_code'].setValue(selectedAccount[0].attributes.currency_code);
     }
   }
+}
+
+@Component({
+  templateUrl: 'detail.html'
+})
+export class TransactionDetailPage {
+  private transaction;
+
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams)
+  {
+    this.transaction = navParams.get('transaction');
+  }
+
 }

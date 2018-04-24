@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { AccountsPage } from '../accounts/accounts';
-import { TransactionsPage } from '../transactions/transactions';
+import { TransactionsPage, TransactionDetailPage } from '../transactions/transactions';
 import { AccountListModel } from '../../models/accountlist.model';
 import { TransactionListModel } from '../../models/transactionlist.model';
 import { BillListModel } from '../../models/billlist.model';
@@ -67,8 +67,8 @@ export class HomePage {
 
   navToTransactions(){
     this.navCtrl.push(TransactionsPage);
-  }
-
+  }  
+  
   doRefresh(refresher){
     Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true)]).then( () => {
       refresher.complete();
@@ -77,5 +77,9 @@ export class HomePage {
 
   showBillDetails(bill){
     this.navCtrl.push(BillDetailPage, { bill: bill });
+  }
+
+  showTransactionDetails(transaction){
+    this.navCtrl.push(TransactionDetailPage, { transaction: transaction });
   }
 }
