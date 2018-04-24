@@ -7,6 +7,7 @@ import { TransactionListModel } from '../../models/transactionlist.model';
 import { BillListModel } from '../../models/billlist.model';
 
 import { Network } from '@ionic-native/network';
+import { BillDetailPage } from '../bills/bills';
 
 @Component({
   selector: 'page-home',
@@ -72,5 +73,9 @@ export class HomePage {
     Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true)]).then( () => {
       refresher.complete();
     }).catch(err => { refresher.complete() });
+  }
+
+  showBillDetails(bill){
+    this.navCtrl.push(BillDetailPage, { bill: bill });
   }
 }

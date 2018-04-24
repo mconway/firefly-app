@@ -78,7 +78,8 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <ion-row *ngFor="let bill of upcomingBills">
+        <button *ngFor="let bill of upcomingBills" (click)="showBillDetails(bill)" ion-item color="light">
+        <ion-row >
           <ion-grid>
             <ion-row align-items-center>
               <ion-col col-2>
@@ -101,6 +102,7 @@
             </ion-row>
           </ion-grid>
         </ion-row>
+      </button>
       </ion-list>
     </ion-card-content>
   </ion-card>

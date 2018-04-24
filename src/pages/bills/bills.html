@@ -15,12 +15,12 @@
     <ion-item-group *ngFor="let dueDate of billList.dueDates">
       <ion-item-divider color="secondary">{{ dueDate }}</ion-item-divider>
 
-      <ion-item *ngFor="let bill of billList.groupedBills[dueDate]" color="light">
+      <button *ngFor="let bill of billList.groupedBills[dueDate]" color="light" ion-item (click)="showBillDetails(bill)">
         <ion-row>
           <ion-col col-9>{{bill.attributes.name}}</ion-col>
           <ion-col col-3 class="right-align-number">{{bill.attributes.amount_max | currency}}</ion-col>
         </ion-row>
-      </ion-item>
+      </button>
       
     </ion-item-group>
   </ion-list>

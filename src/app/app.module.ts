@@ -6,7 +6,7 @@ import { MyApp } from './app.component';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
-import { BillsPage } from '../pages/bills/bills';
+import { BillsPage, BillDetailPage } from '../pages/bills/bills';
 import { AccountsPage } from '../pages/accounts/accounts';
 import { SettingsPage } from '../pages/settings/settings';
 import { TransactionsPage, AddTransactionPage } from '../pages/transactions/transactions'
@@ -38,7 +38,8 @@ import { AppVersion } from '@ionic-native/app-version'
     AccountsPage,
     TransactionsPage,
     SettingsPage,
-    AddTransactionPage
+    AddTransactionPage,
+    BillDetailPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +58,8 @@ import { AppVersion } from '@ionic-native/app-version'
     AccountsPage,
     TransactionsPage,
     AddTransactionPage,
-    SettingsPage
+    SettingsPage,
+    BillDetailPage
   ],
   providers: [
     StatusBar,
