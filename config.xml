@@ -84,6 +84,6 @@
     <plugin name="cordova-sqlite-storage" spec="^2.3.0" />
     <plugin name="cordova-plugin-inappbrowser" spec="^2.0.2" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
-    <engine name="android" spec="7.0.0" />
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
+    <engine name="android" spec="7.0.0" />
 </widget>
