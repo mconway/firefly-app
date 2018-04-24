@@ -4,7 +4,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content >
+<ion-content class="outer-content">
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -16,7 +16,7 @@
       </ion-row>
     </ion-card-header>
     <ion-card-content>
-        <ion-grid>
+        <ion-item color="light">
             <ion-row>
               <ion-col col-9>Cash:</ion-col>
               <ion-col col-3 class="right-align-number green-text">{{cashTotal | currency}}</ion-col>
@@ -25,7 +25,7 @@
               <ion-col col-9>Credit:</ion-col>
               <ion-col col-3 class="right-align-number red-text">{{creditTotal | currency}}</ion-col>
             </ion-row>
-        </ion-grid>
+        </ion-item>
     </ion-card-content>
   </ion-card>
 
@@ -60,9 +60,6 @@
                   </ion-row>
                 </ion-col>
                 <ion-col col-3 class="right-align-number">{{ transaction.attributes.amount | currency : transaction.attributes.currency_symbol }}</ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col col-12></ion-col>
               </ion-row>
             </ion-grid>
           </ion-row>
