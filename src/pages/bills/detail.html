@@ -6,37 +6,45 @@
 
 <ion-content class="outer-content">
     <ion-list>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Amount:
-            </ion-col>
-            <ion-col col-8 class="right-align-number">
-                {{ bill.attributes.amount_min | currency }} - {{ bill.attributes.amount_max | currency }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Frequency:
-            </ion-col>
-            <ion-col col-8 class="right-align-number">
-                {{ bill.attributes.repeat_freq }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Next Expected Date:
-            </ion-col>
-            <ion-col col-8 class="right-align-number">
-                {{ bill.attributes.next_expected_match | date: 'yyyy-MM-dd' }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Amount:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ bill.attributes.amount_min | currency }} - {{ bill.attributes.amount_max | currency }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Frequency:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ bill.attributes.repeat_freq }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Next Expected Date:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ bill.attributes.next_expected_match | date: 'yyyy-MM-dd' }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
                 <ion-col col-4>
                     Notes:
                 </ion-col>
-                <ion-col col-8>
+                <ion-col col-8 text-right>
                     {{ bill.attributes.notes }}
                 </ion-col>
             </ion-row>
+        </ion-item>
     </ion-list>
 </ion-content>
