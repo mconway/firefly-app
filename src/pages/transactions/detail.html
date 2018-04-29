@@ -6,77 +6,95 @@
 
 <ion-content class="outer-content">
     <ion-list>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Description:
-            </ion-col>
-            <ion-col col-8 class="right-align-number">
-                {{ transaction.attributes.description }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Amount:
-            </ion-col>
-            <ion-col col-8 class="right-align-number">
-                {{ transaction.attributes.amount | currency: transaction.attributes.currency_symbol }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Date:
-            </ion-col>
-            <ion-col col-8 class="right-align-number">
-                {{ transaction.attributes.date | date: 'yyyy-MM-dd' }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Type:
-            </ion-col>
-            <ion-col col-8 text-right>
-                {{ transaction.attributes.type }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                From:
-            </ion-col>
-            <ion-col col-8>
-                {{ transaction.attributes.source_name }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                To:
-            </ion-col>
-            <ion-col col-8>
-                {{ transaction.attributes.destination_name }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Category:
-            </ion-col>
-            <ion-col col-8>
-                {{ transaction.attributes.category_name }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Budget:
-            </ion-col>
-            <ion-col col-8>
-                {{ transaction.attributes.budget_name }}
-            </ion-col>
-        </ion-row>
-        <ion-row ion-item>
-            <ion-col col-4>
-                Bill:
-            </ion-col>
-            <ion-col col-8>
-                {{ transaction.attributes.bill_name }}
-            </ion-col>
-        </ion-row>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Description:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ transaction.attributes.description }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Amount:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ transaction.attributes.amount | currency: transaction.attributes.currency_symbol }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Date:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ transaction.attributes.date | date: 'yyyy-MM-dd' }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Type:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ transaction.attributes.type }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    From:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ transaction.attributes.source_name }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    To:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ transaction.attributes.destination_name }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Category:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ transaction.attributes.category_name }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Budget:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ transaction.attributes.budget_name }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Bill:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ transaction.attributes.bill_name }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
     </ion-list>
 </ion-content>
