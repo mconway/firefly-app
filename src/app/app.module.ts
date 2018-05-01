@@ -7,7 +7,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { BillsPage, BillDetailPage } from '../pages/bills/bills';
-import { AccountsPage } from '../pages/accounts/accounts';
+import { AccountsPage, AccountDetailPage } from '../pages/accounts/accounts';
 import { SettingsPage } from '../pages/settings/settings';
 import { TransactionsPage, AddTransactionPage, TransactionDetailPage } from '../pages/transactions/transactions'
 
@@ -40,7 +40,8 @@ import { AppVersion } from '@ionic-native/app-version'
     SettingsPage,
     AddTransactionPage,
     TransactionDetailPage,
-    BillDetailPage
+    BillDetailPage,
+    AccountDetailPage
   ],
   imports: [
     BrowserModule,
@@ -61,6 +62,7 @@ import { AppVersion } from '@ionic-native/app-version'
     AddTransactionPage,
     SettingsPage,
     BillDetailPage,
+    AccountDetailPage,
     TransactionDetailPage
   ],
   providers: [

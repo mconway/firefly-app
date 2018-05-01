@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Account Detail - {{ account.attributes.name }}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="outer-content">
+    <ion-list>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Current Balance:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ account.attributes.current_balance | currency }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Currency Type:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ account.attributes.currency_code }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Role:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ account.attributes.role }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Active:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ account.attributes.active }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Notes:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ account.attributes.notes }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </ion-list>
+</ion-content>

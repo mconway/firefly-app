@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, NavParams } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountListModel } from '../../models/accountlist.model';
 
@@ -27,4 +27,23 @@ export class AccountsPage {
       refresher.complete();
     });
   }
+
+  showAccountDetails(account){
+    this.navCtrl.push(AccountDetailPage, { account: account });
+  }
+}
+
+@Component({
+  templateUrl: 'detail.html'
+})
+export class AccountDetailPage {
+  private account;
+
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams)
+  {
+    this.account = navParams.get('account');
+  }
+
 }
