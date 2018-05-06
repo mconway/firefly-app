@@ -30,7 +30,7 @@
   </ion-card>
 
   <ion-card>
-    <ion-card-header (tap)="navToTransactions()">
+    <ion-card-header>
       <ion-row>
         <ion-col col-6>Recent Transactions</ion-col>
         <ion-col col-6 text-right><ion-note>Last Updated: {{ accountList.lastUpdated | date: 'dd MMM HH:mm' }}</ion-note></ion-col>
@@ -64,6 +64,9 @@
             </ion-grid>
           </ion-row>
         </button>
+          <ion-item (tap)="navToTransactions()" class="primary-text" color="light">
+            Show All
+        </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
