@@ -12,7 +12,7 @@
                     Current Balance:
                 </ion-col>
                 <ion-col col-8 class="right-align-number">
-                    {{ account.attributes.current_balance | currency }}
+                    {{ account.attributes.current_balance | currency: account.attributes.currency_code }}
                 </ion-col>
             </ion-row>
         </ion-item>

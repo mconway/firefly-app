@@ -20,6 +20,8 @@ export class AccountsPage {
     this.accountList.getAccounts().then( () => {
       this.loader.dismiss();
     });
+
+    console.log(this.accountList.getSubgroupTotal('ccAsset'));
   }
 
   doRefresh(refresher){

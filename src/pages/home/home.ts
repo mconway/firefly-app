@@ -38,14 +38,15 @@ export class HomePage {
       //this.loader.present();
 
       Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills()]).then( () => {
+        console.log(this.creditTotal, this.cashTotal)
         this.loader.dismiss();
       });
   }
 
   getAccounts(refresh: boolean = false) {
     return this.accountList.getAccounts(refresh).then((data) => {
-      this.creditTotal = this.accountList.getSubgroupTotal("ccAsset");
-      this.cashTotal = this.accountList.getSubgroupTotal("savingAsset") + this.accountList.getSubgroupTotal("defaultAsset");
+      this.creditTotal = this.accountList.getSubgroupTotal("ccAsset")[0].total;
+      this.cashTotal = this.accountList.getSubgroupTotal("savingAsset")[0].total + this.accountList.getSubgroupTotal("defaultAsset")[0].total;
     });
   }
 

@@ -15,7 +15,6 @@ export class AccountListModel {
     }
 
     getAccounts(refresh: boolean = false) {
-        console.log(refresh)
         if(refresh){
             return this.getAccountsFromService();
         }else{
@@ -70,17 +69,25 @@ export class AccountListModel {
           }, Object.create(null));
     }
 
-    getSubgroupTotal(role) : number{
+    getSubgroupTotal(role) : any{
         // ccAsset, sharedAsset, savingAsset, defaultAsset
         var subAccounts = this.groupedAccounts[role];
+        var subAccountsCurrency = this.groupAccounts('currency_code', subAccounts);
         var total = 0;
 
-        if(subAccounts) {
-            for(var i = 0; i < subAccounts.length; i++){
-                total += parseFloat(subAccounts[i].attributes.current_balance);
+        var groups = [];
+
+        for(let currency of Object.keys(subAccountsCurrency))
+        {
+            for(var i = 0; i < subAccountsCurrency[currency].length; i++){
+                total += parseFloat(subAccountsCurrency[currency][i].attributes.current_balance);
             }
+            groups.push({
+                total: total,
+                currency: currency
+            });
         }
 
-        return total;
+        return groups;
     }
 }

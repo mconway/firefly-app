@@ -14,7 +14,7 @@ export class TransactionListModel {
     };
 
     constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
-        console.log('icons', this.transactionTypeIcons);
+
     }
 
     getTransactions(refresh: boolean = false) {
