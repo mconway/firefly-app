@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, NavParams } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import * as moment from 'moment'
 import { BillListModel } from '../../models/billlist.model';
@@ -34,4 +34,23 @@ export class BillsPage {
       refresher.complete();
     });
   }
+
+  showBillDetails(bill){
+    this.navCtrl.push(BillDetailPage, { bill: bill });
+  }
+}
+
+@Component({
+  templateUrl: 'detail.html'
+})
+export class BillDetailPage {
+  private bill;
+
+  constructor(
+    private navCtrl: NavController,
+    private navParams: NavParams)
+  {
+    this.bill = navParams.get('bill');
+  }
+
 }

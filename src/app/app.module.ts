@@ -3,14 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
-import { BillsPage } from '../pages/bills/bills';
-import { AccountsPage } from '../pages/accounts/accounts';
+import { BillsPage, BillDetailPage } from '../pages/bills/bills';
+import { AccountsPage, AccountDetailPage } from '../pages/accounts/accounts';
 import { SettingsPage } from '../pages/settings/settings';
-import { TransactionsPage, AddTransactionPage } from '../pages/transactions/transactions'
+import { TransactionsPage, AddTransactionPage, TransactionDetailPage } from '../pages/transactions/transactions'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -27,11 +26,11 @@ import { TransactionModel } from '../models/transaction.model';
 import { TransactionItemModel } from '../models/transactionItem.model';
 
 import { Network } from '@ionic-native/network';
+import { AppVersion } from '@ionic-native/app-version'
 
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
     ContactPage,
     HomePage,
     TabsPage,
@@ -39,7 +38,10 @@ import { Network } from '@ionic-native/network';
     AccountsPage,
     TransactionsPage,
     SettingsPage,
-    AddTransactionPage
+    AddTransactionPage,
+    TransactionDetailPage,
+    BillDetailPage,
+    AccountDetailPage
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,6 @@ import { Network } from '@ionic-native/network';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
     ContactPage,
     HomePage,
     TabsPage,
@@ -59,7 +60,10 @@ import { Network } from '@ionic-native/network';
     AccountsPage,
     TransactionsPage,
     AddTransactionPage,
-    SettingsPage
+    SettingsPage,
+    BillDetailPage,
+    AccountDetailPage,
+    TransactionDetailPage
   ],
   providers: [
     StatusBar,
@@ -71,7 +75,8 @@ import { Network } from '@ionic-native/network';
     TransactionListModel,
     BillListModel,
     TransactionModel,
-    Network
+    Network,
+    AppVersion
   ]
 })
 export class AppModule {}

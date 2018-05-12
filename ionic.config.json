@@ -8,11 +8,11 @@
   "proxies": [
     {
       "path": "/api",
-      "proxyUrl": "http://taranis:8082/api"
+      "proxyUrl": "http://10.10.1.77:8085/api"
     },
     {
       "path": "/oauth",
-      "proxyUrl": "http://taranis:8082/oauth"
+      "proxyUrl": "http://10.10.1.77:8085/oauth"
     }
   ]
 }

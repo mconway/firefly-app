@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-import { AboutPage } from '../about/about';
 import { HomePage } from '../home/home';
 import { BillsPage } from '../bills/bills';
 import { AddTransactionPage } from '../transactions/transactions'
@@ -15,7 +14,6 @@ export class TabsPage {
 
   tab1Root = HomePage;
   tabBillRoot = BillsPage;
-  tab2Root = AboutPage;
   tabSettingsRoot = SettingsPage;
 
   constructor(public modalCtrl: ModalController) {
