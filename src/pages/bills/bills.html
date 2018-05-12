@@ -17,8 +17,8 @@
 
       <button *ngFor="let bill of billList.groupedBills[dueDate]" color="light" ion-item (click)="showBillDetails(bill)">
         <ion-row>
-          <ion-col col-9>{{bill.attributes.name}}</ion-col>
-          <ion-col col-3 class="right-align-number">{{bill.attributes.amount_max | currency}}</ion-col>
+          <ion-col col-9>{{bill.name}}</ion-col>
+          <ion-col col-3 class="right-align-number">{{bill.amountMax | currency: bill.currencyCode}}</ion-col>
         </ion-row>
       </button>
       

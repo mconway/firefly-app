@@ -1,6 +1,7 @@
 import { FireflyRemoteProvider } from "../providers/firefly-remote/firefly-remote";
 import { Inject, Injectable } from "@angular/core";
 import { Storage } from '@ionic/storage';
+import { BillModel } from "./bill.model";
 
 @Injectable()
 export class BillListModel {
@@ -33,8 +34,16 @@ export class BillListModel {
         var end = new Date(date.setMonth(date.getMonth() + 4)).toISOString().slice(0,10);
 
         return this.fireflyService.getBills(start, end).then((data) => {
-            this.bills = data['data'];
-            this.groupedBills = this.groupBills('next_expected_match', data['data']) || [];
+            this.bills = [];
+
+            for(var i = 0; i < data['data'].length; i++){
+                var bill = new BillModel(data['data'][i]);
+                if(bill.active){
+                    this.bills.push(bill);
+                }
+            }
+
+            this.groupedBills = this.groupBills('nextExpectedMatch', this.bills) || [];
             this.meta = data['meta'];
             this.dueDates = Object.keys(this.groupedBills).sort();
             this.lastUpdated = new Date();
@@ -72,9 +81,9 @@ export class BillListModel {
 
     groupBills(group: string, bills: any){
         return bills.reduce(function (r, a) {
-            r[a.attributes[group]] = r[a.attributes[group]] || [];
+            r[a[group]] = r[a[group]] || [];
             //console.log(moment(a.attributes.next_expected_match).toNow());
-            r[a.attributes[group]].push(a);
+            r[a[group]].push(a);
             return r;
         }, Object.create(null));
     }

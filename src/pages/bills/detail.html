@@ -1,6 +1,6 @@
 <ion-header>
     <ion-navbar color="primary">
-        <ion-title>Bill Detail - {{ bill.attributes.name }}</ion-title>
+        <ion-title>Bill Detail - {{ bill.name }}</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
                     Amount:
                 </ion-col>
                 <ion-col col-8 class="right-align-number">
-                    {{ bill.attributes.amount_min | currency }} - {{ bill.attributes.amount_max | currency }}
+                    {{ bill.amountMin | currency: bill.currencyCode }} - {{ bill.amountMax | currency: bill.currencyCode }}
                 </ion-col>
             </ion-row>
         </ion-item>
@@ -22,7 +22,7 @@
                     Frequency:
                 </ion-col>
                 <ion-col col-8 class="right-align-number">
-                    {{ bill.attributes.repeat_freq }}
+                    {{ bill.repeatFreq }}
                 </ion-col>
             </ion-row>
         </ion-item>
@@ -32,7 +32,7 @@
                     Next Expected Date:
                 </ion-col>
                 <ion-col col-8 class="right-align-number">
-                    {{ bill.attributes.next_expected_match | date: 'yyyy-MM-dd' }}
+                    {{ bill.nextExpectedMatch | date: 'yyyy-MM-dd' }}
                 </ion-col>
             </ion-row>
         </ion-item>
@@ -42,7 +42,7 @@
                     Notes:
                 </ion-col>
                 <ion-col col-8 text-right>
-                    {{ bill.attributes.notes }}
+                    {{ bill.notes }}
                 </ion-col>
             </ion-row>
         </ion-item>
