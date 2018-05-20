@@ -24,7 +24,7 @@ export class BillModel {
         this.active = billResult.attributes.active;
         this.payDates = billResult.attributes.pay_dates;
         this.paidDates = billResult.attributes.paid_dates;
-        this.nextExpectedMatch = billResult.attributes.next_expected_match;
+        this.nextExpectedMatch = new Date(billResult.attributes.next_expected_match);
         this.repeatFreq = billResult.attributes.repeat_freq;
 
         //added in API v0.3

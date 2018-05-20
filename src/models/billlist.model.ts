@@ -43,6 +43,7 @@ export class BillListModel {
                 }
             }
 
+            this.bills.sort((a, b) => { return a.nextExpectedMatch - b.nextExpectedMatch });
             this.groupedBills = this.groupBills('nextExpectedMatch', this.bills) || [];
             this.meta = data['meta'];
             this.dueDates = Object.keys(this.groupedBills).sort();

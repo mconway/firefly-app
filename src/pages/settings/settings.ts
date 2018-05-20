@@ -58,26 +58,29 @@ export class SettingsPage {
 
   save() { 
     // Save settings before we attempt to authenticate just in case something happens.
-    this.storage.set('settings', JSON.stringify(this.form.value));
-    
-    //Authenticate to oauth to get an auth code
-    this.getOauthToken().then( data => {
-      var token = data["code"];
-      this.form.get('oauth_token').setValue(token);
-      // Now get an access_token
-      this.fireflyService.getOauthToken(token).then( data => {
-        // Save the access token as the PAT
-        this.form.get('pat').setValue(data['access_token']);
-        this.storage.set('settings', JSON.stringify(this.form.value));
-
-        // Refresh Server Info
-        this.getServerInfo();
+    this.storage.set('settings', JSON.stringify(this.form.value)).then(r => {
+          //Authenticate to oauth to get an auth code
+      this.getOauthToken().then( data => {
+        var token = data["code"];
+        this.form.get('oauth_token').setValue(token);
+        // Now get an access_token
+        this.fireflyService.getOauthToken(token).then( data => {
+          // Save the access token as the PAT
+          this.form.get('pat').setValue(data['access_token']);
+          this.storage.set('settings', JSON.stringify(this.form.value)).then(r => {
+            //refresh firefly server settings
+            this.fireflyService.getSettings().then(d => {
+              // Refresh Server Info
+              this.getServerInfo();
+            });
+          });
+        }).catch(err => {
+          this.presentToast("An error occurred getting Token: " + err.statusText);
+        });
+        
       }).catch(err => {
-        alert("An error occurred " + err.statusText);
+        this.presentToast("An error occurred getting Code: " + err.statusText);
       });
-      
-    }).catch(err => {
-      this.presentToast("An error occurred " + err);
     });
   }
 
@@ -110,11 +113,15 @@ export class SettingsPage {
       this.fireflyService.getServerInfo().then(data => {
         this.serverInfo = data["data"];
         loading.dismiss();
+        this.presentToast("Connection Established");
+      }).catch( err => {
+        this.presentToast("Unable to connect to Firefly Instance");
       });
   }
 
   getOauthToken(){
     var ref = this.iab;
+    
     var oauthUrl = this.form.value['serverUrl'] + '/oauth/authorize?client_id=' + this.form.value['client_id'] + '&redirect_uri=http%3A%2F%2Flocalhost%2Fcallback&scope=&response_type=code&state='
      return new Promise(function(resolve, reject){
       var browserRef = ref.create(oauthUrl, '_blank', "location=no,clearsessioncache=yes,clearcache=yes");
