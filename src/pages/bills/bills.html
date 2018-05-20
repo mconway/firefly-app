@@ -13,7 +13,7 @@
       Last Updated: {{ billList.lastUpdated | date: 'dd MMM HH:mm' }}
     </ion-list-header>
     <ion-item-group *ngFor="let dueDate of billList.dueDates">
-      <ion-item-divider color="secondary">{{ dueDate }}</ion-item-divider>
+      <ion-item-divider color="secondary">{{ dueDate | date: 'yyyy/MM/dd' }}</ion-item-divider>
 
       <button *ngFor="let bill of billList.groupedBills[dueDate]" color="light" ion-item (click)="showBillDetails(bill)">
         <ion-row>
