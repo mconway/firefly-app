@@ -10,6 +10,7 @@ export class TransactionModel{
     public description: string;
     public date: Date;
     public transactions: TransactionItemModel[] = [];
+    public synced: boolean = false;
 
     public constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
 
@@ -26,6 +27,7 @@ export class TransactionModel{
             }
 
             this.fireflyService.postTransaction(data).then( () => {
+                console.log(data);
                 return resolve("Transaction Created Successfully");
             }).catch( err => {
                 return resolve("An error was encountered while saving your transaction");
