@@ -13,7 +13,7 @@ export class TransactionModel{
     public synced: boolean = false;
 
     public constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
-
+        console.log(this.fireflyService.isConnected);
     }
 
     public save() {
@@ -26,13 +26,40 @@ export class TransactionModel{
                 transactions: this.transactions
             }
 
-            this.fireflyService.postTransaction(data).then( () => {
-                console.log(data);
-                return resolve("Transaction Created Successfully");
-            }).catch( err => {
-                return resolve("An error was encountered while saving your transaction");
-            });
+            if(this.fireflyService.isConnected){
+                this.fireflyService.postTransaction(data).then( () => {
+                    this.synced = true;
+                    return resolve("Transaction Created Successfully");
+                }).catch( err => {
+                    return resolve("An error was encountered while saving your transaction");
+                });
+            }
+            else{
+                this.storage.get("pendingTransactions").then( pendingTransactions => {
+                    var pending = pendingTransactions;
+
+                    if(pending == null || pending == undefined){
+                        pending = [];
+                    }
+
+                    pending.push(data);
+                    this.storage.set("pendingTransactions", pending);
+                    return resolve("Transaction Queued");
+                });
+            }
+
         });
+    }
+
+    public loadFromQueue(queueData: any){
+        this.type = queueData.type;
+        this.description= queueData.description;
+        this.date = queueData.date;
+
+        // Only 1 sub item can be added for now
+        this.transactions = queueData.transactions;
+
+        return this;
     }
 
     public loadFromForm(formData: any){

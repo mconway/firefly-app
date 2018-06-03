@@ -38,11 +38,13 @@ export class HomePage {
       //this.loader.present();
 
       this.firefly.getServerInfo().then(data => {
-        Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills()]).then( () => {
-          console.log(this.creditTotal, this.cashTotal)
-          this.loader.dismiss();
-        });
-      })
+
+      });
+
+      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills()]).then( () => {
+        console.log(this.creditTotal, this.cashTotal)
+        this.loader.dismiss();
+      });
   }
 
   getAccounts(refresh: boolean = false) {
