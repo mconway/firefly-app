@@ -8,6 +8,11 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-card *ngIf="!firefly.isConnected">
+    <ion-item text-center>
+      <ion-note>Unable to connect to Firefly. You are working offline.</ion-note>
+    </ion-item>
+  </ion-card>
   <ion-card (tap)="navToAccounts()">
     <ion-card-header text-color="ff_text">
       <ion-row>
@@ -108,7 +113,4 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-  <ion-row>
-      <ion-note>Network: {{ network.type }}</ion-note>
-  </ion-row>
 </ion-content>

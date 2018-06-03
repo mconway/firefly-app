@@ -6,8 +6,8 @@ import { AccountListModel } from '../../models/accountlist.model';
 import { TransactionListModel } from '../../models/transactionlist.model';
 import { BillListModel } from '../../models/billlist.model';
 
-import { Network } from '@ionic-native/network';
 import { BillDetailPage } from '../bills/bills';
+import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 
 @Component({
   selector: 'page-home',
@@ -28,7 +28,7 @@ export class HomePage {
     private loadingCtrl: LoadingController, 
     private accountList: AccountListModel,
     private billList: BillListModel,
-    private network: Network) 
+    private firefly: FireflyRemoteProvider) 
   {
       this.loader = this.loadingCtrl.create({
         content: "Loading..."
@@ -37,10 +37,12 @@ export class HomePage {
       // Disable loader on home screen or you can't get to settings
       //this.loader.present();
 
-      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills()]).then( () => {
-        console.log(this.creditTotal, this.cashTotal)
-        this.loader.dismiss();
-      });
+      this.firefly.getServerInfo().then(data => {
+        Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills()]).then( () => {
+          console.log(this.creditTotal, this.cashTotal)
+          this.loader.dismiss();
+        });
+      })
   }
 
   getAccounts(refresh: boolean = false) {

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpEventType } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
@@ -15,6 +15,7 @@ import { Subscriber } from 'rxjs/Subscriber';
 export class FireflyRemoteProvider {
 
   private settings: any = {};
+  public isConnected: boolean = null;
 
   constructor(
     public http: HttpClient, 
@@ -113,8 +114,11 @@ export class FireflyRemoteProvider {
         .then( h => {
           this.http.get(this.settings.apiUrl + '/about', { headers: h })
           .subscribe(success => {
+            this.isConnected = true;
             return resolve(success);
-          }, err => { console.log(err); })
+          }, err => { 
+            this.isConnected = false; 
+            console.log(err); })
         });
     })
   }
