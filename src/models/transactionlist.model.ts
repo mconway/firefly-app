@@ -7,7 +7,7 @@ import { TransactionModel } from "./transaction.model";
 export class TransactionListModel {
     public meta: any;
     public transactions: any;
-    public pending: any;
+    public pending: any = [];
     public lastUpdated: Date;
     public transactionTypeIcons: any = {
         'Withdrawal': 'md-arrow-back',
@@ -37,7 +37,11 @@ export class TransactionListModel {
             this.saveToStorage();
 
             this.storage.get('pendingTransactions').then(pending =>{
-                this.pending = pending;
+                if(pending !== null && pending !== undefined)
+                {
+                    this.pending = pending;
+                }
+                
             });
 
             return this;
@@ -54,7 +58,10 @@ export class TransactionListModel {
             this.lastUpdated = data['lastUpdated'];
 
             this.storage.get('pendingTransactions').then(pending =>{
-                this.pending = pending;
+                if(pending !== null && pending !== undefined)
+                {
+                    this.pending = pending;
+                }
             });
 
             return this;
