@@ -10,7 +10,7 @@
     </ion-refresher>
     <ion-list>
       <ion-list-header>
-        Last Updated: {{ transactionList.lastUpdated | date: 'dd MMM HH:mm' }}
+        {{ transactionList.pending.length }} transactions pending. Last Updated: {{ transactionList.lastUpdated | date: 'dd MMM HH:mm' }}
       </ion-list-header>
       <button *ngFor="let transaction of transactionList.transactions" (click)="showTransactionDetails(transaction)" ion-item color="light" >
         <ion-grid>

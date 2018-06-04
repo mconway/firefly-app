@@ -86,7 +86,7 @@ export class AddTransactionPage {
       this.dismiss();
     }).catch( err => {
       this.loader.dismiss();
-      alert(err.statusText);
+      this.presentToast(err.statusText);
     });
   }
 
