@@ -84,6 +84,20 @@ export class FireflyRemoteProvider {
       });
   }
 
+  async getEntities(endpoint: string) {
+    return new Promise((resolve, reject) => {
+      this.getHttpHeaders()
+        .then(h => { 
+            this.http.get(this.settings.apiUrl + endpoint, {headers: h})
+              .subscribe(data => {
+                resolve(data);
+              }, err => {
+                reject(err);
+              });
+          });
+       });
+  }
+
   getTransactions() {
     return new Promise(resolve => {
       this.getHttpHeaders()

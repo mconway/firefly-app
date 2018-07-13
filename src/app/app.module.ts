@@ -15,7 +15,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FireflyRemoteProvider } from '../providers/firefly-remote/firefly-remote';
 
-import { HttpModule } from '@angular/http';
+import { HttpModule, BaseResponseOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
@@ -24,6 +24,10 @@ import { TransactionListModel } from '../models/transactionlist.model';
 import { BillListModel } from '../models/billlist.model';
 import { TransactionModel } from '../models/transaction.model';
 import { TransactionItemModel } from '../models/transactionItem.model';
+import { CategoryModel } from '../models/category.model';
+
+import { BaseRepository } from '../repositories/base.repository';
+import { CategoryRepository } from '../repositories/category.repository';
 
 import { Network } from '@ionic-native/network';
 import { AppVersion } from '@ionic-native/app-version'
@@ -75,6 +79,9 @@ import { AppVersion } from '@ionic-native/app-version'
     TransactionListModel,
     BillListModel,
     TransactionModel,
+    CategoryModel,
+    BaseRepository,
+    CategoryRepository,
     Network,
     AppVersion
   ]

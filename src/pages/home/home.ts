@@ -9,6 +9,9 @@ import { BillListModel } from '../../models/billlist.model';
 import { BillDetailPage } from '../bills/bills';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 
+//testing
+import { CategoryRepository } from '../../repositories/category.repository';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -28,7 +31,8 @@ export class HomePage {
     private loadingCtrl: LoadingController, 
     private accountList: AccountListModel,
     private billList: BillListModel,
-    private firefly: FireflyRemoteProvider) 
+    private firefly: FireflyRemoteProvider,
+    private repo: CategoryRepository)
   {
       this.loader = this.loadingCtrl.create({
         content: "Loading..."
@@ -76,6 +80,13 @@ export class HomePage {
   
   doRefresh(refresher){
     Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true)]).then( () => {
+
+            //testing
+            this.repo.getAll().then(d => {
+              console.log(d);
+            })
+            
+
       refresher.complete();
     }).catch(err => { refresher.complete() });
   }
