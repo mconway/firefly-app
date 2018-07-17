@@ -9,6 +9,7 @@ export class TransactionModel{
     public type: string;
     public description: string;
     public date: Date;
+    public categoryId: number;
     public transactions: TransactionItemModel[] = [];
     public synced: boolean = false;
 
@@ -23,6 +24,7 @@ export class TransactionModel{
                 type: this.type,
                 description: this.description,
                 date: this.date,
+                category_id: this.categoryId,
                 transactions: this.transactions
             }
 
@@ -66,6 +68,7 @@ export class TransactionModel{
         this.type = formData.type;
         this.description= formData.description;
         this.date = formData.date;
+        this.ca
 
         // Only 1 sub item can be added for now
         this.transactions.push(new TransactionItemModel(formData));

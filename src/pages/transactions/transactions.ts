@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { TransactionListModel } from '../../models/transactionlist.model';
 import { TransactionModel } from '../../models/transaction.model';
 import { AccountListModel } from '../../models/accountlist.model';
+import { CategoryRepository } from '../../repositories/category.repository';
 
 @Component({
   selector: 'page-home',
@@ -50,6 +51,7 @@ export class TransactionsPage {
 export class AddTransactionPage {
   private form : FormGroup;
   private loader: any;
+  private categories: any;
 
   constructor(
       public platform: Platform, 
@@ -59,11 +61,14 @@ export class AddTransactionPage {
       private model: TransactionModel,
       private accountList: AccountListModel,
       private toastCtrl: ToastController,
-      private loadingCtrl: LoadingController
+      private loadingCtrl: LoadingController,
+      private categoryRepo: CategoryRepository
     )
   {
     this.buildForm();
     this.buildAccountDropDown();
+
+    this.categoryRepo.getAll().then( d => { this.categories = d });
 
     this.loader = this.loadingCtrl.create({
       content: "Please Wait..."
@@ -101,6 +106,7 @@ export class AddTransactionPage {
       description: [''],
       source: [''],
       destination: [''],
+      category: [''],
       amount: [''],
       currency_code: [''],
       date: [ new Date().toISOString().slice(0,10) ]

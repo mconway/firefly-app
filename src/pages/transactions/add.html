@@ -43,6 +43,13 @@
     </ion-item>
 
     <ion-item>
+      <ion-label stacked color="primary">Category</ion-label>
+      <ion-select formControlName="category" interface="action-sheet">
+          <ion-option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }})</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
       <ion-label color="primary" stacked>Currency Code</ion-label>
       <ion-input placeholder="" formControlName="currency_code"></ion-input>
     </ion-item>
