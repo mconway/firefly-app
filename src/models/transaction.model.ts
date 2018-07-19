@@ -68,7 +68,7 @@ export class TransactionModel{
         this.type = formData.type;
         this.description= formData.description;
         this.date = formData.date;
-        this.ca
+        this.categoryId = formData.category_id;
 
         // Only 1 sub item can be added for now
         this.transactions.push(new TransactionItemModel(formData));

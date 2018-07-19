@@ -88,14 +88,24 @@ export class FireflyRemoteProvider {
     return new Promise((resolve, reject) => {
       this.getHttpHeaders()
         .then(h => { 
-            this.http.get(this.settings.apiUrl + endpoint, {headers: h})
-              .subscribe(data => {
-                resolve(data);
-              }, err => {
-                reject(err);
-              });
+            var url = this.settings.apiUrl + endpoint;
+            this.getEntitiesRecursive(url, h, [], resolve, reject);
           });
        });
+  }
+
+  getEntitiesRecursive(url, headers, entities: any, resolve, reject){
+    this.http.get(url, {headers: headers})
+    .subscribe(response => {
+      var allEntities = entities.concat(response["data"]);
+      if(response["links"].next !== undefined && response["links"].next !== null){
+        this.getEntitiesRecursive(response["links"].next, headers, allEntities, resolve, reject);
+      }else{
+        resolve(allEntities);
+      }
+    }, err => {
+      reject(err);
+    });
   }
 
   getTransactions() {

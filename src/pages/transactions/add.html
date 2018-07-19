@@ -45,7 +45,7 @@
     <ion-item>
       <ion-label stacked color="primary">Category</ion-label>
       <ion-select formControlName="category" interface="action-sheet">
-          <ion-option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }})</ion-option>
+          <ion-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-option>
       </ion-select>
     </ion-item>
 

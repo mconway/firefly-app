@@ -18,8 +18,11 @@ export class BaseRepository<T> implements IRead<T>
             this.fireflyService.getEntities(this.endpoint).then(d => {
                 var collection = [];
 
-                for(var i = 0; i < d["data"].length; i++){
-                    collection[i] = ModelFactory.create(this.model);
+                if(d.length > 0){
+                    for(var i = 0; i < d.length; i++){
+                        collection[i] = ModelFactory.create(this.model);
+                        collection[i].hydrate(d[i]);
+                    }
                 }
 
                 resolve(collection);

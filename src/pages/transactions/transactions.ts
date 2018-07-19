@@ -68,7 +68,7 @@ export class AddTransactionPage {
     this.buildForm();
     this.buildAccountDropDown();
 
-    this.categoryRepo.getAll().then( d => { this.categories = d });
+    this.categoryRepo.getAll().then( d => { this.categories = d; });
 
     this.loader = this.loadingCtrl.create({
       content: "Please Wait..."
