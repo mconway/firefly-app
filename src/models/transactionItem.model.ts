@@ -25,7 +25,7 @@ export class TransactionItemModel{
     public foreignCurrencyDp: Number;
     public billId: Number;
     public billName: string;
-    public categoryId: Number;
+    public category_id: Number;
     public categoryName: string;
     public budgetId: Number;
     public budgetName: string;
@@ -47,6 +47,7 @@ export class TransactionItemModel{
         this.source_id = data.source;
         this.destination_id = data.destination;
         this.currency_code = data.currency_code;
+        this.category_id = data.category_id;
 
         /*
         "updated_at": "2018-05-25T23:38:38+00:00",

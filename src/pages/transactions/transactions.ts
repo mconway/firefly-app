@@ -68,7 +68,7 @@ export class AddTransactionPage {
     this.buildForm();
     this.buildAccountDropDown();
 
-    this.categoryRepo.getAll().then( d => { this.categories = d; });
+    this.categoryRepo.getAll(true).then( d => { this.categories = d; });
 
     this.loader = this.loadingCtrl.create({
       content: "Please Wait..."
@@ -106,7 +106,7 @@ export class AddTransactionPage {
       description: [''],
       source: [''],
       destination: [''],
-      category: [''],
+      category_id: [''],
       amount: [''],
       currency_code: [''],
       date: [ new Date().toISOString().slice(0,10) ]

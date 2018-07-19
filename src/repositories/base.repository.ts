@@ -13,9 +13,9 @@ export class BaseRepository<T> implements IRead<T>
 
     }
 
-    getAll(): Promise<T[]> {
+    getAll(recursive:boolean = false): Promise<T[]> {
         return new Promise((resolve, reject) => {
-            this.fireflyService.getEntities(this.endpoint).then(d => {
+            this.fireflyService.getEntities(this.endpoint, recursive).then(d => {
                 var collection = [];
 
                 if(d.length > 0){
