@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="20180603" id="com.zerobyte.firefly" version="2018.06.03" windows-packageVersion="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="20180720" id="com.zerobyte.firefly" version="2018.07.20" windows-packageVersion="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>firefly-app</name>
     <description>An unofficial app for Firefly-iii Personal Finance</description>
     <author email="support@zerobytesolutions.com" href="http://zerobytesolutions.com/">Zerobyte Solutions</author>
@@ -24,12 +24,12 @@
     </platform>
     <platform name="android">
         <allow-intent href="market:*" />
-        <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
-        <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
-        <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
-        <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
-        <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
-        <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
+        <icon density="ldpi" src="resources/android/icon/piggy-ldpi-icon.png" />
+        <icon density="mdpi" src="resources/android/icon/piggy-mdpi-icon.png" />
+        <icon density="hdpi" src="resources/android/icon/piggy-hdpi-icon.png" />
+        <icon density="xhdpi" src="resources/android/icon/piggy-xhdpi-icon.png" />
+        <icon density="xxhdpi" src="resources/android/icon/piggy-xxhdpi-icon.png" />
+        <icon density="xxxhdpi" src="resources/android/icon/piggy-xxxhdpi-icon.png" />
         <splash density="land-ldpi" src="resources/android/splash/drawable-land-ldpi-screen.png" />
         <splash density="land-mdpi" src="resources/android/splash/drawable-land-mdpi-screen.png" />
         <splash density="land-hdpi" src="resources/android/splash/drawable-land-hdpi-screen.png" />
