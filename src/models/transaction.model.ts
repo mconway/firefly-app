@@ -13,7 +13,6 @@ export class TransactionModel{
     public synced: boolean = false;
 
     public constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
-        console.log(this.fireflyService.isConnected);
     }
 
     public save() {
@@ -25,6 +24,8 @@ export class TransactionModel{
                 date: this.date,
                 transactions: this.transactions
             }
+
+            console.log(data);
 
             if(this.fireflyService.isConnected){
                 this.fireflyService.postTransaction(data).then( () => {

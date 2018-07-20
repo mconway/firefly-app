@@ -7,6 +7,7 @@ import { TransactionListModel } from '../../models/transactionlist.model';
 import { TransactionModel } from '../../models/transaction.model';
 import { AccountListModel } from '../../models/accountlist.model';
 import { CategoryRepository } from '../../repositories/category.repository';
+import { AccountRepository } from '../../repositories/account.repository';
 
 @Component({
   selector: 'page-home',
@@ -52,6 +53,10 @@ export class AddTransactionPage {
   private form : FormGroup;
   private loader: any;
   private categories: any;
+  private accounts: any = [];
+  // shortcut
+  private expenseAccounts: any = [];
+  private revenueAccounts: any = [];
 
   constructor(
       public platform: Platform, 
@@ -62,13 +67,20 @@ export class AddTransactionPage {
       private accountList: AccountListModel,
       private toastCtrl: ToastController,
       private loadingCtrl: LoadingController,
-      private categoryRepo: CategoryRepository
+      private categoryRepo: CategoryRepository,
+      private accountRepo: AccountRepository
     )
   {
     this.buildForm();
     this.buildAccountDropDown();
 
     this.categoryRepo.getAll(true).then( d => { this.categories = d; });
+
+    //hacky!
+    this.accountRepo.getAll(true).then( d => { 
+      this.expenseAccounts = d.filter(function(a){ return a.type === "Expense account" });
+      this.revenueAccounts = d.filter(function(a){ return a.type === "Revenue account" })
+    });
 
     this.loader = this.loadingCtrl.create({
       content: "Please Wait..."
@@ -120,6 +132,11 @@ export class AddTransactionPage {
       position: "top"
     });
     toast.present();
+  }
+
+  getAccountsByType(type: string){
+    //need to cache these getall calls.
+    this.accountRepo.getAll(true).then( d => { return d.filter(function(a){ return a.type === type })  });
   }
 
   changeTransactionType(){

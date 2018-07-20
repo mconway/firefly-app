@@ -27,6 +27,7 @@ import { TransactionItemModel } from '../models/transactionItem.model';
 import { CategoryModel } from '../models/category.model';
 
 import { BaseRepository } from '../repositories/base.repository';
+import { AccountRepository } from '../repositories/account.repository';
 import { CategoryRepository } from '../repositories/category.repository';
 
 import { Network } from '@ionic-native/network';
@@ -81,6 +82,7 @@ import { AppVersion } from '@ionic-native/app-version'
     TransactionModel,
     CategoryModel,
     BaseRepository,
+    AccountRepository,
     CategoryRepository,
     Network,
     AppVersion
