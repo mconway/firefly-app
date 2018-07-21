@@ -47,7 +47,7 @@ export class TransactionItemModel{
         this.source_id = data.source;
         this.destination_id = data.destination;
         this.currency_code = data.currency_code;
-        this.category_id = data.category_id;
+        this.category_id = data.category_id !== '' ? data.category_id : null;
 
         /*
         "updated_at": "2018-05-25T23:38:38+00:00",

@@ -24,7 +24,7 @@
     </div>
 
     <ion-item>
-      <ion-label color="primary" stacked>Description</ion-label>
+      <ion-label color="primary" stacked>Description*</ion-label>
       <ion-input placeholder="Description" formControlName="description"></ion-input>
     </ion-item>
 
@@ -43,7 +43,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label stacked color="primary">Category</ion-label>
+      <ion-label stacked color="primary">Category*</ion-label>
       <ion-select formControlName="category_id" interface="action-sheet">
           <ion-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-option>
       </ion-select>
@@ -64,17 +64,17 @@
     </ion-item>
 
     <ion-item>
-      <ion-label color="primary" stacked>Currency Code</ion-label>
+      <ion-label color="primary" stacked>Currency Code*</ion-label>
       <ion-input placeholder="" formControlName="currency_code"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label color="primary" stacked>Amount</ion-label>
+      <ion-label color="primary" stacked>Amount*</ion-label>
       <ion-input placeholder="Amount" formControlName="amount"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label color="primary" stacked>Date</ion-label>
+      <ion-label color="primary" stacked>Date*</ion-label>
       <ion-datetime displayFormat="YYYY-MM-DD" formControlName="date"></ion-datetime>
     </ion-item>
 

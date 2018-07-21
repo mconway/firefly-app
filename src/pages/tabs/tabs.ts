@@ -5,7 +5,7 @@ import { BillsPage } from '../bills/bills';
 import { AddTransactionPage } from '../transactions/transactions'
 import { SettingsPage } from '../settings/settings'
 
-import { ModalController } from 'ionic-angular';
+import { ModalController, NavController } from 'ionic-angular';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -16,13 +16,14 @@ export class TabsPage {
   tabBillRoot = BillsPage;
   tabSettingsRoot = SettingsPage;
 
-  constructor(public modalCtrl: ModalController) {
+  constructor(public modalCtrl: ModalController, public navCtrl: NavController) {
 
   }
 
   tapEvent(e){
-    let modal = this.modalCtrl.create(AddTransactionPage);
-    modal.present();
+    this.navCtrl.push(AddTransactionPage);
+    //let modal = this.modalCtrl.create(AddTransactionPage);
+    //modal.present();
   }
 
   openSettings(e){

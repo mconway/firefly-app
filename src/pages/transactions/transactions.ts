@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { Platform, NavParams, ViewController } from 'ionic-angular';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionListModel } from '../../models/transactionlist.model';
 import { TransactionModel } from '../../models/transaction.model';
 import { AccountListModel } from '../../models/accountlist.model';
@@ -59,6 +59,7 @@ export class AddTransactionPage {
   private revenueAccounts: any = [];
 
   constructor(
+      public navCtrl: NavController,
       public platform: Platform, 
       public params: NavParams, 
       public viewCtrl: ViewController, 
@@ -88,23 +89,28 @@ export class AddTransactionPage {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    //this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   save() {
-    this.loader.present();
 
-    var formData = this.form.value;
+    if(this.form.valid){
+      this.loader.present();
+      var formData = this.form.value;
+      this.model.loadFromForm(formData);
+      this.model.save().then((message) => {
+        this.presentToast("Transaction Created Successfully");
+        this.loader.dismiss();
+        this.dismiss();
+      }).catch( err => {
+        this.loader.dismiss();
+        this.presentToast(err.statusText);
+      });
+    }else{
+      this.presentToast("Please fill out all required fields and try again.");
+    }
 
-    this.model.loadFromForm(formData);
-    this.model.save().then((message) => {
-      this.presentToast("Transaction Created Successfully");
-      this.loader.dismiss();
-      this.dismiss();
-    }).catch( err => {
-      this.loader.dismiss();
-      this.presentToast(err.statusText);
-    });
   }
 
   buildAccountDropDown()
@@ -114,14 +120,14 @@ export class AddTransactionPage {
 
   buildForm(){
     this.form = this.formBuilder.group({
-      type: ['withdrawal'],
-      description: [''],
+      type: ['withdrawal', Validators.required],
+      description: ['', Validators.required],
       source: [''],
       destination: [''],
-      category_id: [''],
-      amount: [''],
-      currency_code: [''],
-      date: [ new Date().toISOString().slice(0,10) ]
+      category_id: ['', Validators.required],
+      amount: ['', Validators.required],
+      currency_code: ['', Validators.required],
+      date: [ new Date().toISOString().slice(0,10), Validators.required ]
     });
   }
 

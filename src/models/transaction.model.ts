@@ -25,8 +25,6 @@ export class TransactionModel{
                 transactions: this.transactions
             }
 
-            console.log(data);
-
             if(this.fireflyService.isConnected){
                 this.fireflyService.postTransaction(data).then( () => {
                     this.synced = true;
@@ -69,7 +67,9 @@ export class TransactionModel{
         this.date = formData.date;
 
         // Only 1 sub item can be added for now
-        this.transactions.push(new TransactionItemModel(formData));
+        // Bug #230 - need to rethink how transaction model is instantiated. Use repo pattern.
+        this.transactions = [ new TransactionItemModel(formData)];
+        //this.transactions.push(new TransactionItemModel(formData));
 
         return this;
     }
