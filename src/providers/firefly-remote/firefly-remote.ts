@@ -84,6 +84,30 @@ export class FireflyRemoteProvider {
       });
   }
 
+  async getEntities(endpoint: string, recursive: boolean = false) {
+    return new Promise((resolve, reject) => {
+      this.getHttpHeaders()
+        .then(h => { 
+            var url = this.settings.apiUrl + endpoint;
+            this.getEntitiesRecursive(url, h, [], resolve, reject, recursive);
+          });
+       });
+  }
+
+  private getEntitiesRecursive(url, headers, entities: any, resolve, reject, recurse){
+    this.http.get(url, {headers: headers})
+    .subscribe(response => {
+      var allEntities = entities.concat(response["data"]);
+      if(recurse && response["links"].next !== undefined && response["links"].next !== null){
+        this.getEntitiesRecursive(response["links"].next, headers, allEntities, resolve, reject, recurse);
+      }else{
+        resolve(allEntities);
+      }
+    }, err => {
+      reject(err);
+    });
+  }
+
   getTransactions() {
     return new Promise(resolve => {
       this.getHttpHeaders()

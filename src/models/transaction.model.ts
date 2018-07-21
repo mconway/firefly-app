@@ -13,7 +13,6 @@ export class TransactionModel{
     public synced: boolean = false;
 
     public constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
-        console.log(this.fireflyService.isConnected);
     }
 
     public save() {
@@ -68,7 +67,9 @@ export class TransactionModel{
         this.date = formData.date;
 
         // Only 1 sub item can be added for now
-        this.transactions.push(new TransactionItemModel(formData));
+        // Bug #230 - need to rethink how transaction model is instantiated. Use repo pattern.
+        this.transactions = [ new TransactionItemModel(formData)];
+        //this.transactions.push(new TransactionItemModel(formData));
 
         return this;
     }

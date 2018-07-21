@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { Platform, NavParams, ViewController } from 'ionic-angular';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionListModel } from '../../models/transactionlist.model';
 import { TransactionModel } from '../../models/transaction.model';
 import { AccountListModel } from '../../models/accountlist.model';
+import { CategoryRepository } from '../../repositories/category.repository';
+import { AccountRepository } from '../../repositories/account.repository';
 
 @Component({
   selector: 'page-home',
@@ -50,8 +52,14 @@ export class TransactionsPage {
 export class AddTransactionPage {
   private form : FormGroup;
   private loader: any;
+  private categories: any;
+  private accounts: any = [];
+  // shortcut
+  private expenseAccounts: any = [];
+  private revenueAccounts: any = [];
 
   constructor(
+      public navCtrl: NavController,
       public platform: Platform, 
       public params: NavParams, 
       public viewCtrl: ViewController, 
@@ -59,11 +67,21 @@ export class AddTransactionPage {
       private model: TransactionModel,
       private accountList: AccountListModel,
       private toastCtrl: ToastController,
-      private loadingCtrl: LoadingController
+      private loadingCtrl: LoadingController,
+      private categoryRepo: CategoryRepository,
+      private accountRepo: AccountRepository
     )
   {
     this.buildForm();
     this.buildAccountDropDown();
+
+    this.categoryRepo.getAll(true).then( d => { this.categories = d; });
+
+    //hacky!
+    this.accountRepo.getAll(true).then( d => { 
+      this.expenseAccounts = d.filter(function(a){ return a.type === "Expense account" });
+      this.revenueAccounts = d.filter(function(a){ return a.type === "Revenue account" })
+    });
 
     this.loader = this.loadingCtrl.create({
       content: "Please Wait..."
@@ -71,23 +89,28 @@ export class AddTransactionPage {
   }
 
   dismiss() {
-    this.viewCtrl.dismiss();
+    //this.viewCtrl.dismiss();
+    this.navCtrl.pop();
   }
 
   save() {
-    this.loader.present();
 
-    var formData = this.form.value;
+    if(this.form.valid){
+      this.loader.present();
+      var formData = this.form.value;
+      this.model.loadFromForm(formData);
+      this.model.save().then((message) => {
+        this.presentToast("Transaction Created Successfully");
+        this.loader.dismiss();
+        this.dismiss();
+      }).catch( err => {
+        this.loader.dismiss();
+        this.presentToast(err.statusText);
+      });
+    }else{
+      this.presentToast("Please fill out all required fields and try again.");
+    }
 
-    this.model.loadFromForm(formData);
-    this.model.save().then((message) => {
-      this.presentToast("Transaction Created Successfully");
-      this.loader.dismiss();
-      this.dismiss();
-    }).catch( err => {
-      this.loader.dismiss();
-      this.presentToast(err.statusText);
-    });
   }
 
   buildAccountDropDown()
@@ -97,13 +120,14 @@ export class AddTransactionPage {
 
   buildForm(){
     this.form = this.formBuilder.group({
-      type: ['withdrawal'],
-      description: [''],
+      type: ['withdrawal', Validators.required],
+      description: ['', Validators.required],
       source: [''],
       destination: [''],
-      amount: [''],
-      currency_code: [''],
-      date: [ new Date().toISOString().slice(0,10) ]
+      category_id: ['', Validators.required],
+      amount: ['', Validators.required],
+      currency_code: ['', Validators.required],
+      date: [ new Date().toISOString().slice(0,10), Validators.required ]
     });
   }
 
@@ -114,6 +138,11 @@ export class AddTransactionPage {
       position: "top"
     });
     toast.present();
+  }
+
+  getAccountsByType(type: string){
+    //need to cache these getall calls.
+    this.accountRepo.getAll(true).then( d => { return d.filter(function(a){ return a.type === type })  });
   }
 
   changeTransactionType(){

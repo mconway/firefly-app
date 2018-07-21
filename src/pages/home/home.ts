@@ -28,7 +28,7 @@ export class HomePage {
     private loadingCtrl: LoadingController, 
     private accountList: AccountListModel,
     private billList: BillListModel,
-    private firefly: FireflyRemoteProvider) 
+    private firefly: FireflyRemoteProvider)
   {
       this.loader = this.loadingCtrl.create({
         content: "Loading..."
