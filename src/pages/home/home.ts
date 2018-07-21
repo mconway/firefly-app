@@ -8,6 +8,7 @@ import { BillListModel } from '../../models/billlist.model';
 
 import { BillDetailPage } from '../bills/bills';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
+import { AccountRepository } from '../../repositories/account.repository';
 
 @Component({
   selector: 'page-home',
@@ -26,7 +27,8 @@ export class HomePage {
     public navCtrl: NavController, 
     private transactionList: TransactionListModel,
     private loadingCtrl: LoadingController, 
-    private accountList: AccountListModel,
+    private accountList: AccountListModel, // replace this with a repo. requires some more refactoring.
+    private accountRepo: AccountRepository,
     private billList: BillListModel,
     private firefly: FireflyRemoteProvider)
   {
@@ -42,12 +44,15 @@ export class HomePage {
       });
 
       Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills()]).then( () => {
-        console.log(this.creditTotal, this.cashTotal)
         this.loader.dismiss();
       });
   }
 
   getAccounts(refresh: boolean = false) {
+    // beginning of refactor out of accountList.
+    this.accountRepo.getAll(true, refresh);
+
+    // this will get replaced with the account repo.
     return this.accountList.getAccounts(refresh).then((data) => {
       this.creditTotal = this.accountList.getSubgroupTotal("ccAsset")[0].total;
       this.cashTotal = this.accountList.getSubgroupTotal("savingAsset")[0].total + this.accountList.getSubgroupTotal("defaultAsset")[0].total;
