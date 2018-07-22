@@ -25,7 +25,8 @@ export class BaseRepository<T> implements IRead<T>
                 resolve(this._rawData);
             }else if(!refresh || !this.fireflyService.isConnected){
                 this.getEntitiesFromStorage().then(d => {
-                    collection = this.processData(d);
+                    if(d !== null)
+                        collection = d;
                     resolve(collection);
                 });
             }else{
@@ -47,11 +48,11 @@ export class BaseRepository<T> implements IRead<T>
     }
 
     private saveEntitiesToStorage(): Promise<T>{
-        return this.storage.set(typeof this.model, this._rawData);
+        return this.storage.set(this.endpoint, this._rawData);
     }
 
-    private getEntitiesFromStorage(): Promise<T>{
-        return this.storage.get(typeof this.model);
+    private getEntitiesFromStorage(): Promise<T[]>{
+        return this.storage.get(this.endpoint);
     }
 
     private processData(data: any): T[]{

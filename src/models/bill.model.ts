@@ -2,7 +2,6 @@ import { FireflyRemoteProvider } from "../providers/firefly-remote/firefly-remot
 import { Inject, Injectable } from "@angular/core";
 import { Storage } from '@ionic/storage';
 
-@Injectable()
 export class BillModel {
     id: number;
     name: string;
@@ -17,6 +16,11 @@ export class BillModel {
     repeatFreq: string;
 
     constructor(billResult: any){
+        if(billResult !== undefined && billResult !== null)
+            this.hydrate(billResult)
+    }
+
+    public hydrate(billResult: any){
         this.id = billResult.id;
         this.name = billResult.attributes.name;
         this.amountMin = billResult.attributes.amount_min;

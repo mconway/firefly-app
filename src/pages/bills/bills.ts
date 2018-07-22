@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController, NavParams } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import * as moment from 'moment'
-import { BillListModel } from '../../models/billlist.model';
+import { BillRepository } from '../../repositories/bill.repository';
 
 @Component({
   selector: 'page-home',
@@ -10,10 +10,12 @@ import { BillListModel } from '../../models/billlist.model';
 })
 export class BillsPage {
   private loader: any;
+  private groupedBills: any;
+  private dueDates: any;
 
   constructor(
     public navCtrl: NavController, 
-    private billList: BillListModel, 
+    private billRepo: BillRepository, 
     private loadingCtrl: LoadingController) 
   {
     
@@ -23,14 +25,33 @@ export class BillsPage {
 
     this.loader.present();
 
-    this.billList.getBills().then( () => {
+    this.billRepo.getAll(true, false).then( (d) => {
+      this.initiateBills(d);
       this.loader.dismiss();
     });
 
   }
 
+  initiateBills(data){
+    data.sort(function(a, b){
+      return a.nextExpectedMatch - b.nextExpectedMatch;
+    });
+    this.groupedBills = this.groupBills("nextExpectedMatch", data);
+    //console.log(this.groupedBills)
+    this.dueDates = Object.keys(this.groupedBills);
+  }
+
+  groupBills(group: string, bills: any){
+      return bills.reduce(function (r, a) {
+          r[a[group]] = r[a[group]] || [];
+          r[a[group]].push(a);
+          return r;
+      }, Object.create(null));
+  }
+
   doRefresh(refresher){
-    this.billList.getBills(true).then( () => {
+    this.billRepo.getAll(true, true).then( (d) => {
+      this.initiateBills(d);
       refresher.complete();
     });
   }

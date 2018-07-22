@@ -4,11 +4,12 @@ import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage, TransactionDetailPage } from '../transactions/transactions';
 import { AccountListModel } from '../../models/accountlist.model';
 import { TransactionListModel } from '../../models/transactionlist.model';
-import { BillListModel } from '../../models/billlist.model';
 
 import { BillDetailPage } from '../bills/bills';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountRepository } from '../../repositories/account.repository';
+import { BillRepository } from '../../repositories/bill.repository';
+import { BillModel } from '../../models/bill.model';
 
 @Component({
   selector: 'page-home',
@@ -29,7 +30,7 @@ export class HomePage {
     private loadingCtrl: LoadingController, 
     private accountList: AccountListModel, // replace this with a repo. requires some more refactoring.
     private accountRepo: AccountRepository,
-    private billList: BillListModel,
+    private billRepo: BillRepository,
     private firefly: FireflyRemoteProvider)
   {
       this.loader = this.loadingCtrl.create({
@@ -66,8 +67,8 @@ export class HomePage {
   }
 
   getUpcomingBills(refresh: boolean = false){
-    return this.billList.getBills(refresh).then((t) => {
-      this.upcomingBills = this.billList.bills.slice(0,5);
+    return this.billRepo.getAll(false, refresh).then((bills) => {
+      this.upcomingBills = bills.filter(function(a){return a.active}).slice(0,5);
     });
   }
 
