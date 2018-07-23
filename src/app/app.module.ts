@@ -19,7 +19,6 @@ import { HttpModule, BaseResponseOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
-import { AccountListModel } from '../models/accountlist.model';
 import { TransactionListModel } from '../models/transactionlist.model';
 import { TransactionModel } from '../models/transaction.model';
 import { TransactionItemModel } from '../models/transactionItem.model';
@@ -76,7 +75,6 @@ import { BillRepository } from '../repositories/bill.repository';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
     InAppBrowser,
-    AccountListModel,
     TransactionListModel,
     TransactionModel,
     CategoryModel,

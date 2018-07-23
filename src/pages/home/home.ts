@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage, TransactionDetailPage } from '../transactions/transactions';
-import { AccountListModel } from '../../models/accountlist.model';
 import { TransactionListModel } from '../../models/transactionlist.model';
 
 import { BillDetailPage } from '../bills/bills';
@@ -28,7 +27,6 @@ export class HomePage {
     public navCtrl: NavController, 
     private transactionList: TransactionListModel,
     private loadingCtrl: LoadingController, 
-    private accountList: AccountListModel, // replace this with a repo. requires some more refactoring.
     private accountRepo: AccountRepository,
     private billRepo: BillRepository,
     private firefly: FireflyRemoteProvider)
@@ -54,9 +52,10 @@ export class HomePage {
     this.accountRepo.getAll(true, refresh);
 
     // this will get replaced with the account repo.
-    return this.accountList.getAccounts(refresh).then((data) => {
-      this.creditTotal = this.accountList.getSubgroupTotal("ccAsset")[0].total;
-      this.cashTotal = this.accountList.getSubgroupTotal("savingAsset")[0].total + this.accountList.getSubgroupTotal("defaultAsset")[0].total;
+    return this.accountRepo.getAll(true, refresh).then((data) => {
+      var accounts = this.accountRepo.groupAccounts("role", data);
+      this.creditTotal = this.accountRepo.getSubgroupTotal("ccAsset", accounts)[0].total;
+      this.cashTotal = this.accountRepo.getSubgroupTotal("savingAsset", accounts)[0].total + this.accountRepo.getSubgroupTotal("defaultAsset",accounts)[0].total;
     });
   }
 

@@ -4,7 +4,6 @@ import { Platform, NavParams, ViewController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionListModel } from '../../models/transactionlist.model';
 import { TransactionModel } from '../../models/transaction.model';
-import { AccountListModel } from '../../models/accountlist.model';
 import { CategoryRepository } from '../../repositories/category.repository';
 import { AccountRepository } from '../../repositories/account.repository';
 

@@ -6,6 +6,7 @@ export class AccountModel {
     public currentBalance: number;
     public type: string;
     public role: string;
+    public virtualBalance: number;
 
     public hydrate(apiData: any){
         this.id = apiData.id;
@@ -15,5 +16,6 @@ export class AccountModel {
         this.currentBalance = apiData.attributes.current_balance;
         this.role = apiData.attributes.role;
         this.type = apiData.attributes.type;
+        this.virtualBalance = apiData.attributes.virtual_balance;
     }
 }
