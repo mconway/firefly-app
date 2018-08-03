@@ -18,6 +18,7 @@ It's built using the Ionic3 Framework and is published on both Google Play.
 #### Works on
 * Windows 10
 * Nexus 6P (Android 8.1)
+* Pixel XL ( Android 8.1)
 
 ## Features
 #### Current Features/Known Issues
