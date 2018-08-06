@@ -76,7 +76,7 @@ export class HomePage {
 
   getPiggyBanks(refresh: boolean = false){
     return this.piggybankRepo.getAll(true, refresh).then((piggyBanks) => {
-      this.piggyBanks = piggyBanks//.filter(function(a){return a.active});
+      this.piggyBanks = piggyBanks;
     });
   }
 
