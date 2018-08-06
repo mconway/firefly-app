@@ -110,4 +110,24 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-row>
+        <ion-col col-6>Goal Progress</ion-col>
+      </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid class="piggy-bank">
+          <ion-row *ngFor="let piggy of piggyBanks" align-items-center color="light">
+            <ion-col col-4>
+                {{ piggy.name }} ({{ piggy.percentage }}%)
+            </ion-col>
+            <ion-col col-8>
+                <ion-range min="0" [max]="piggy.targetAmount" [(ngModel)]="piggy.currentAmount" disabled="true" color="primary"></ion-range>
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

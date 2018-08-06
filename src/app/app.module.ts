@@ -22,11 +22,11 @@ import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
 import { TransactionListModel } from '../models/transactionlist.model';
 import { TransactionModel } from '../models/transaction.model';
 import { TransactionItemModel } from '../models/transactionItem.model';
-import { CategoryModel } from '../models/category.model';
 
 import { BaseRepository } from '../repositories/base.repository';
 import { AccountRepository } from '../repositories/account.repository';
 import { CategoryRepository } from '../repositories/category.repository';
+import { PiggybankRepository } from '../repositories/piggybank.repository';
 
 import { Network } from '@ionic-native/network';
 import { AppVersion } from '@ionic-native/app-version'
@@ -77,11 +77,11 @@ import { BillRepository } from '../repositories/bill.repository';
     InAppBrowser,
     TransactionListModel,
     TransactionModel,
-    CategoryModel,
     BaseRepository,
     AccountRepository,
     BillRepository,
     CategoryRepository,
+    PiggybankRepository,
     Network,
     AppVersion
   ]

@@ -9,6 +9,7 @@ import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-re
 import { AccountRepository } from '../../repositories/account.repository';
 import { BillRepository } from '../../repositories/bill.repository';
 import { BillModel } from '../../models/bill.model';
+import { PiggybankRepository } from '../../repositories/piggybank.repository';
 
 @Component({
   selector: 'page-home',
@@ -22,6 +23,7 @@ export class HomePage {
   cashTotal = 0;
   creditTotal = 0;
   loader: any;
+  piggyBanks: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -29,6 +31,7 @@ export class HomePage {
     private loadingCtrl: LoadingController, 
     private accountRepo: AccountRepository,
     private billRepo: BillRepository,
+    private piggybankRepo: PiggybankRepository,
     private firefly: FireflyRemoteProvider)
   {
       this.loader = this.loadingCtrl.create({
@@ -42,7 +45,7 @@ export class HomePage {
 
       });
 
-      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills()]).then( () => {
+      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills(), this.getPiggyBanks()]).then( () => {
         this.loader.dismiss();
       });
   }
@@ -71,6 +74,12 @@ export class HomePage {
     });
   }
 
+  getPiggyBanks(refresh: boolean = false){
+    return this.piggybankRepo.getAll(true, refresh).then((piggyBanks) => {
+      this.piggyBanks = piggyBanks//.filter(function(a){return a.active});
+    });
+  }
+
   navToAccounts(){
     this.navCtrl.push(AccountsPage);
   }
@@ -80,7 +89,7 @@ export class HomePage {
   }  
   
   doRefresh(refresher){
-    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true)]).then( () => {
+    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true), this.getPiggyBanks(true)]).then( () => {
       refresher.complete();
     }).catch(err => { refresher.complete() });
   }
