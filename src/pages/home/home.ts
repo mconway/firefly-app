@@ -70,6 +70,9 @@ export class HomePage {
 
   getUpcomingBills(refresh: boolean = false){
     return this.billRepo.getAll(false, refresh).then((bills) => {
+      bills.sort(function(a, b){
+        return a.nextExpectedMatch.getDate() - b.nextExpectedMatch.getDate();
+      });
       this.upcomingBills = bills.filter(function(a){return a.active}).slice(0,5);
     });
   }
