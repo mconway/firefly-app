@@ -14,6 +14,10 @@ export class BaseRepository<T> implements IRead<T>
         
     }
 
+    getEndpoint(){
+        return this.endpoint;
+    }
+
     getAll(recursive:boolean = false, refresh: boolean = false): Promise<T[]> {
         return new Promise((resolve, reject) => {
 
