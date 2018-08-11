@@ -34,7 +34,7 @@ export class BaseRepository<T> implements IRead<T>
                     resolve(collection);
                 });
             }else{
-                this.fireflyService.getEntities(this.endpoint, recursive).then(d => {
+                this.fireflyService.getEntities(this.getEndpoint(), recursive).then(d => {
                     collection = this.processData(d);
                     this.saveEntitiesToStorage();
                     resolve(collection);
@@ -52,11 +52,11 @@ export class BaseRepository<T> implements IRead<T>
     }
 
     private saveEntitiesToStorage(): Promise<T>{
-        return this.storage.set(this.endpoint, this._rawData);
+        return this.storage.set(this.getEndpoint(), this._rawData);
     }
 
     private getEntitiesFromStorage(): Promise<T[]>{
-        return this.storage.get(this.endpoint);
+        return this.storage.get(this.getEndpoint());
     }
 
     private processData(data: any): T[]{
