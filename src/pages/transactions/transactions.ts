@@ -6,6 +6,7 @@ import { TransactionListModel } from '../../models/transactionlist.model';
 import { TransactionModel } from '../../models/transaction.model';
 import { CategoryRepository } from '../../repositories/category.repository';
 import { AccountRepository } from '../../repositories/account.repository';
+import { PiggybankRepository } from '../../repositories/piggybank.repository';
 
 @Component({
   selector: 'page-home',
@@ -56,6 +57,7 @@ export class AddTransactionPage {
   private expenseAccounts: any = [];
   private revenueAccounts: any = [];
   private assetAccounts:   any = [];
+  private piggyBanks: any = [];
 
   constructor(
       public navCtrl: NavController,
@@ -67,7 +69,8 @@ export class AddTransactionPage {
       private toastCtrl: ToastController,
       private loadingCtrl: LoadingController,
       private categoryRepo: CategoryRepository,
-      private accountRepo: AccountRepository
+      private accountRepo: AccountRepository,
+      private piggyRepo: PiggybankRepository
     )
   {
     this.buildForm();
@@ -80,6 +83,10 @@ export class AddTransactionPage {
       this.expenseAccounts = d.filter(function(a){ return a.type === "Expense account" });
       this.revenueAccounts = d.filter(function(a){ return a.type === "Revenue account" });
       this.assetAccounts = d.filter(function(a){ return a.type === "Asset account" });
+    });
+
+    this.piggyRepo.getAll(true).then( pb => {
+      this.piggyBanks = pb;
     });
 
     this.loader = this.loadingCtrl.create({
@@ -121,6 +128,7 @@ export class AddTransactionPage {
       category_id: ['', Validators.required],
       amount: ['', Validators.required],
       currency_code: ['', Validators.required],
+      piggy_bank_id: [''],
       date: [ new Date().toISOString().slice(0,10), Validators.required ]
     });
   }

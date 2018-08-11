@@ -42,13 +42,6 @@
       </ion-select>
     </ion-item>
 
-    <ion-item>
-      <ion-label stacked color="primary">Category*</ion-label>
-      <ion-select formControlName="category_id" interface="action-sheet">
-          <ion-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-option>
-      </ion-select>
-    </ion-item>
-
     <ion-item *ngIf="form.value.type === 'withdrawal'">
       <ion-label stacked color="primary">Expense Account</ion-label>
       <ion-select formControlName="destination" interface="action-sheet"  [disabled]="form.value.type === 'deposit'">
@@ -60,6 +53,20 @@
       <ion-label stacked color="primary">Revenue Account</ion-label>
       <ion-select formControlName="source" interface="action-sheet" [disabled]="form.value.type === 'withdrawal'">
           <ion-option *ngFor="let account of revenueAccounts" [value]="account.id">{{ account.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked color="primary">Category*</ion-label>
+      <ion-select formControlName="category_id" interface="action-sheet">
+          <ion-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="form.value.type === 'transfer'">
+      <ion-label stacked color="primary">Piggy Bank</ion-label>
+      <ion-select formControlName="piggy_bank_id" interface="action-sheet" [disabled]="form.value.type !== 'transfer'">
+          <ion-option *ngFor="let piggy of piggyBanks" [value]="piggy.id">{{ piggy.name }}</ion-option>
       </ion-select>
     </ion-item>
 
