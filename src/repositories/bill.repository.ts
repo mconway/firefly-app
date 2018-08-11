@@ -8,8 +8,9 @@ export class BillRepository extends BaseRepository<BillModel>{
     // This needs to be more dynamic
     getEndpoint(){
         var date = new Date();
-        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).toISOString().slice(0, 10);
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).toISOString().slice(0, 10);
+        console.log(this.endpoint + "?start=" + firstDay + "&end=" + lastDay)
         return this.endpoint + "?start=" + firstDay + "&end=" + lastDay;
     }
 }
