@@ -28,7 +28,8 @@ export class BillModel {
         this.active = billResult.attributes.active;
         this.payDates = billResult.attributes.pay_dates;
         this.paidDates = billResult.attributes.paid_dates;
-        this.nextExpectedMatch = new Date(billResult.attributes.next_expected_match);
+        // Force 00:00:00 so that dates don't have time taken away when converting to locale.
+        this.nextExpectedMatch = new Date(billResult.attributes.next_expected_match + " 00:00:00");
         this.repeatFreq = billResult.attributes.repeat_freq;
 
         //added in API v0.3
