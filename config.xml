@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="201808010" id="com.zerobyte.firefly" version="0.4.1" windows-packageVersion="0.4.1.6040" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="201808671" id="com.zerobyte.firefly" version="0.4.0.0671" windows-packageVersion="0.4.0.0671" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>firefly-app</name>
     <description>An unofficial app for Firefly-iii Personal Finance</description>
     <author email="support@zerobytesolutions.com" href="http://zerobytesolutions.com/">Zerobyte Solutions</author>
@@ -13,6 +13,7 @@
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="27" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
