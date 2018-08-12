@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, NavParams } from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
-import { AccountListModel } from '../../models/accountlist.model';
+import { AccountRepository } from '../../repositories/account.repository';
+import { AccountModel } from '../../models/account.model';
 
 @Component({
   selector: 'page-home',
@@ -9,23 +10,33 @@ import { AccountListModel } from '../../models/accountlist.model';
 })
 export class AccountsPage {
   private loader: any;
+  private accounts: AccountModel[] = [];
+  private accountTypes: any = [];
 
-  constructor(public navCtrl: NavController, private fireflyService : FireflyRemoteProvider, private loadingCtrl: LoadingController, private accountList: AccountListModel) {
+  constructor(
+    public navCtrl: NavController, 
+    private fireflyService : FireflyRemoteProvider, 
+    private loadingCtrl: LoadingController, 
+    private accountRepo: AccountRepository) 
+  {
     this.loader = this.loadingCtrl.create({
       content: "Loading..."
     });
     
     this.loader.present();
 
-    this.accountList.getAccounts().then( () => {
+    this.accountRepo.getAll(true, false).then( (accounts) => {
+      var accountTypes = ["ccAsset", "defaultAsset", "sharedAsset", "savingAsset"];
+      accounts = accounts.filter(function(a) { return a.role !== null && accountTypes.indexOf(a.role) !== -1 });
+      this.accounts = this.accountRepo.groupAccounts("role", accounts);
+      this.accountTypes = Object.keys(this.accounts);
       this.loader.dismiss();
     });
-
-    console.log(this.accountList.getSubgroupTotal('ccAsset'));
   }
 
   doRefresh(refresher){
-    this.accountList.getAccounts(true).then( () => {
+    this.accountRepo.getAll(true, true).then( (accounts) => {
+      this.accounts = this.accountRepo.groupAccounts("role", accounts);
       refresher.complete();
     });
   }

@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
-import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { Platform, NavParams, ViewController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionListModel } from '../../models/transactionlist.model';
 import { TransactionModel } from '../../models/transaction.model';
-import { AccountListModel } from '../../models/accountlist.model';
 import { CategoryRepository } from '../../repositories/category.repository';
 import { AccountRepository } from '../../repositories/account.repository';
+import { PiggybankRepository } from '../../repositories/piggybank.repository';
 
 @Component({
   selector: 'page-home',
@@ -53,10 +52,12 @@ export class AddTransactionPage {
   private form : FormGroup;
   private loader: any;
   private categories: any;
-  private accounts: any = [];
+
   // shortcut
   private expenseAccounts: any = [];
   private revenueAccounts: any = [];
+  private assetAccounts:   any = [];
+  private piggyBanks: any = [];
 
   constructor(
       public navCtrl: NavController,
@@ -65,22 +66,27 @@ export class AddTransactionPage {
       public viewCtrl: ViewController, 
       private formBuilder: FormBuilder, 
       private model: TransactionModel,
-      private accountList: AccountListModel,
       private toastCtrl: ToastController,
       private loadingCtrl: LoadingController,
       private categoryRepo: CategoryRepository,
-      private accountRepo: AccountRepository
+      private accountRepo: AccountRepository,
+      private piggyRepo: PiggybankRepository
     )
   {
     this.buildForm();
-    this.buildAccountDropDown();
 
-    this.categoryRepo.getAll(true).then( d => { this.categories = d; });
+    // get away from hardcoding the refresh request into this repo...
+    this.categoryRepo.getAll(true, true).then( d => { this.categories = d; });
 
-    //hacky!
+    // get expense and revenue accounts
     this.accountRepo.getAll(true).then( d => { 
       this.expenseAccounts = d.filter(function(a){ return a.type === "Expense account" });
-      this.revenueAccounts = d.filter(function(a){ return a.type === "Revenue account" })
+      this.revenueAccounts = d.filter(function(a){ return a.type === "Revenue account" });
+      this.assetAccounts = d.filter(function(a){ return a.type === "Asset account" });
+    });
+
+    this.piggyRepo.getAll(true).then( pb => {
+      this.piggyBanks = pb;
     });
 
     this.loader = this.loadingCtrl.create({
@@ -113,11 +119,6 @@ export class AddTransactionPage {
 
   }
 
-  buildAccountDropDown()
-  {
-    return this.accountList.getAccounts();
-  }
-
   buildForm(){
     this.form = this.formBuilder.group({
       type: ['withdrawal', Validators.required],
@@ -127,6 +128,7 @@ export class AddTransactionPage {
       category_id: ['', Validators.required],
       amount: ['', Validators.required],
       currency_code: ['', Validators.required],
+      piggy_bank_id: [''],
       date: [ new Date().toISOString().slice(0,10), Validators.required ]
     });
   }
@@ -141,7 +143,6 @@ export class AddTransactionPage {
   }
 
   getAccountsByType(type: string){
-    //need to cache these getall calls.
     this.accountRepo.getAll(true).then( d => { return d.filter(function(a){ return a.type === type })  });
   }
 
@@ -157,9 +158,9 @@ export class AddTransactionPage {
 
   changeCurrencyCode(control){
     var accountId = this.form.value[control];
-    var selectedAccount = this.accountList.accounts.filter(function(a){ return parseInt(a.id) === parseInt(accountId) });
+    var selectedAccount = this.assetAccounts.filter(function(a){ return parseInt(a.id) === parseInt(accountId) });
     if(selectedAccount[0]){
-      this.form.controls['currency_code'].setValue(selectedAccount[0].attributes.currency_code);
+      this.form.controls['currency_code'].setValue(selectedAccount[0].currencyCode);
     }
   }
 }

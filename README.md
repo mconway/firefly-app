@@ -18,27 +18,25 @@ It's built using the Ionic3 Framework and is published on both Google Play.
 #### Works on
 * Windows 10
 * Nexus 6P (Android 8.1)
+* Pixel XL ( Android 8.1)
 
 ## Features
 #### Current Features/Known Issues
-* You can use the app offline to view account balances and transactions. Can't add a transaction offline yet.
-* Bills don't have a currency code set, so they all show as USD. 
-* Account Summaries are also showing the $ symbol. This should be fixed when the next release of Firefly is out, as James added some new endpoints for me.
+* You can use the app offline to view account balances and create transactions.
+* Account Summaries on the overview page are showing the $ symbol.
 * You can add transactions for Withdrawal, Transfer or Deposit.
 * You can tap on any list item for more information. (basically just more of a data page at this point)
 * OAuth is enabled.
-* It seems that Firefly has some sort of caching mechnaism, so some transactions added through the API may not show up in the web/mobile app immediately.
 
 #### Planned Features - Not an exhaustive list
-* Add a transaction even without a network connection
 * Better/more error and status messages
 * See transactions by account
 * Fix the odd currency issues.
 * Add/Edit/Delete Accounts
 * Add/Edit/Delete Bills
 * Update/Delete Transactions
-* Set Category/Budget when creating a transaction
-* Set Revenue/Expense account when creating a transaction
+* Set Category/Budget when creating a transaction (Category is done!)
+* Set Revenue/Expense account when creating a transaction (Done!)
 * View bill status (Past-due, paid, etc)
 * Use average bill amount instead of Max.
 * Split account summary totals up by currency type.

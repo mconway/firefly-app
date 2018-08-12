@@ -11,29 +11,32 @@ export class BaseRepository<T> implements IRead<T>
     protected _rawData: any = null;
 
     constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
-        console.log("Creating new repository " + typeof this);
+        
     }
 
-    getAll(recursive:boolean = false): Promise<T[]> {
+    getEndpoint(){
+        return this.endpoint;
+    }
+
+    getAll(recursive:boolean = false, refresh: boolean = false): Promise<T[]> {
         return new Promise((resolve, reject) => {
 
+            // instantiate collection just in case.
             var collection = [];
 
             // Check for cached data before making a call to the web service.
-            if(this._rawData !== null){
+            if(!refresh && this._rawData !== null){
                 resolve(this._rawData);
+            }else if(!refresh || !this.fireflyService.isConnected){
+                this.getEntitiesFromStorage().then(d => {
+                    if(d !== null)
+                        collection = d;
+                    resolve(collection);
+                });
             }else{
-                this.fireflyService.getEntities(this.endpoint, recursive).then(d => {
-
-                    if(d.length > 0){
-                        for(var i = 0; i < d.length; i++){
-                            collection[i] = ModelFactory.create(this.model);
-                            collection[i].hydrate(d[i]);
-                        }
-
-                        this._rawData = collection;
-                    }
-
+                this.fireflyService.getEntities(this.getEndpoint(), recursive).then(d => {
+                    collection = this.processData(d);
+                    this.saveEntitiesToStorage();
                     resolve(collection);
                 });
             }
@@ -46,6 +49,31 @@ export class BaseRepository<T> implements IRead<T>
 
     findOne(): Promise<T> {
         throw new Error("Method not implemented");
+    }
+
+    private saveEntitiesToStorage(): Promise<T>{
+        return this.storage.set(this.getEndpoint(), this._rawData);
+    }
+
+    private getEntitiesFromStorage(): Promise<T[]>{
+        return this.storage.get(this.getEndpoint());
+    }
+
+    private processData(data: any): T[]{
+
+        var collection = [];        
+
+        if(data !== null && data.length > 0){
+            
+            for(var i = 0; i < data.length; i++){
+                collection[i] = ModelFactory.create(this.model);
+                collection[i].hydrate(data[i]);
+            }
+
+            this._rawData = collection;
+        }
+
+        return collection;
     }
 
 }

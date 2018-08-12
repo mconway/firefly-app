@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage, TransactionDetailPage } from '../transactions/transactions';
-import { AccountListModel } from '../../models/accountlist.model';
 import { TransactionListModel } from '../../models/transactionlist.model';
-import { BillListModel } from '../../models/billlist.model';
 
 import { BillDetailPage } from '../bills/bills';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
+import { AccountRepository } from '../../repositories/account.repository';
+import { BillRepository } from '../../repositories/bill.repository';
+import { BillModel } from '../../models/bill.model';
+import { PiggybankRepository } from '../../repositories/piggybank.repository';
 
 @Component({
   selector: 'page-home',
@@ -21,13 +23,15 @@ export class HomePage {
   cashTotal = 0;
   creditTotal = 0;
   loader: any;
+  piggyBanks: any;
 
   constructor(
     public navCtrl: NavController, 
     private transactionList: TransactionListModel,
     private loadingCtrl: LoadingController, 
-    private accountList: AccountListModel,
-    private billList: BillListModel,
+    private accountRepo: AccountRepository,
+    private billRepo: BillRepository,
+    private piggybankRepo: PiggybankRepository,
     private firefly: FireflyRemoteProvider)
   {
       this.loader = this.loadingCtrl.create({
@@ -41,16 +45,20 @@ export class HomePage {
 
       });
 
-      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills()]).then( () => {
-        console.log(this.creditTotal, this.cashTotal)
+      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills(), this.getPiggyBanks()]).then( () => {
         this.loader.dismiss();
       });
   }
 
   getAccounts(refresh: boolean = false) {
-    return this.accountList.getAccounts(refresh).then((data) => {
-      this.creditTotal = this.accountList.getSubgroupTotal("ccAsset")[0].total;
-      this.cashTotal = this.accountList.getSubgroupTotal("savingAsset")[0].total + this.accountList.getSubgroupTotal("defaultAsset")[0].total;
+    // beginning of refactor out of accountList.
+    this.accountRepo.getAll(true, refresh);
+
+    // this will get replaced with the account repo.
+    return this.accountRepo.getAll(true, refresh).then((data) => {
+      var accounts = this.accountRepo.groupAccounts("role", data);
+      this.creditTotal = this.accountRepo.getSubgroupTotal("ccAsset", accounts)[0].total;
+      this.cashTotal = this.accountRepo.getSubgroupTotal("savingAsset", accounts)[0].total + this.accountRepo.getSubgroupTotal("defaultAsset",accounts)[0].total;
     });
   }
 
@@ -61,8 +69,18 @@ export class HomePage {
   }
 
   getUpcomingBills(refresh: boolean = false){
-    return this.billList.getBills(refresh).then((t) => {
-      this.upcomingBills = this.billList.bills.slice(0,5);
+    return this.billRepo.getAll(false, refresh).then((bills) => {
+      bills.sort(function(a, b){
+        return a.nextExpectedMatch.getTime() - b.nextExpectedMatch.getTime();
+      });
+
+      this.upcomingBills = bills.filter(function(a){return a.active}).slice(0,5);
+    });
+  }
+
+  getPiggyBanks(refresh: boolean = false){
+    return this.piggybankRepo.getAll(true, refresh).then((piggyBanks) => {
+      this.piggyBanks = piggyBanks;
     });
   }
 
@@ -75,7 +93,7 @@ export class HomePage {
   }  
   
   doRefresh(refresher){
-    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true)]).then( () => {
+    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true), this.getPiggyBanks(true)]).then( () => {
       refresher.complete();
     }).catch(err => { refresher.complete() });
   }

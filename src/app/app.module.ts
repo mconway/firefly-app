@@ -19,19 +19,18 @@ import { HttpModule, BaseResponseOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
-import { AccountListModel } from '../models/accountlist.model';
 import { TransactionListModel } from '../models/transactionlist.model';
-import { BillListModel } from '../models/billlist.model';
 import { TransactionModel } from '../models/transaction.model';
 import { TransactionItemModel } from '../models/transactionItem.model';
-import { CategoryModel } from '../models/category.model';
 
 import { BaseRepository } from '../repositories/base.repository';
 import { AccountRepository } from '../repositories/account.repository';
 import { CategoryRepository } from '../repositories/category.repository';
+import { PiggybankRepository } from '../repositories/piggybank.repository';
 
 import { Network } from '@ionic-native/network';
 import { AppVersion } from '@ionic-native/app-version'
+import { BillRepository } from '../repositories/bill.repository';
 
 @NgModule({
   declarations: [
@@ -76,14 +75,13 @@ import { AppVersion } from '@ionic-native/app-version'
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
     InAppBrowser,
-    AccountListModel,
     TransactionListModel,
-    BillListModel,
     TransactionModel,
-    CategoryModel,
     BaseRepository,
     AccountRepository,
+    BillRepository,
     CategoryRepository,
+    PiggybankRepository,
     Network,
     AppVersion
   ]

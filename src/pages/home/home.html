@@ -17,7 +17,6 @@
     <ion-card-header text-color="ff_text">
       <ion-row>
         <ion-col col-6>Accounts</ion-col>
-        <ion-col col-6 text-right><ion-note>Last Updated: {{ accountList.lastUpdated | date: 'dd MMM HH:mm' }}</ion-note></ion-col>
       </ion-row>
     </ion-card-header>
     <ion-card-content>
@@ -38,7 +37,6 @@
     <ion-card-header>
       <ion-row>
         <ion-col col-6>Recent Transactions</ion-col>
-        <ion-col col-6 text-right><ion-note>Last Updated: {{ accountList.lastUpdated | date: 'dd MMM HH:mm' }}</ion-note></ion-col>
       </ion-row>
     </ion-card-header>
     <ion-card-content>
@@ -80,7 +78,6 @@
     <ion-card-header>
       <ion-row>
         <ion-col col-6>Upcoming Bills</ion-col>
-        <ion-col col-6 text-right><ion-note>Last Updated: {{ billList.lastUpdated | date: 'dd MMM HH:mm' }}</ion-note></ion-col>
       </ion-row>
     </ion-card-header>
     <ion-card-content>
@@ -111,6 +108,26 @@
         </ion-row>
       </button>
       </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-row>
+        <ion-col col-6>Goal Progress</ion-col>
+      </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid class="piggy-bank">
+          <ion-row *ngFor="let piggy of piggyBanks" align-items-center color="light">
+            <ion-col col-4>
+                {{ piggy.name }} ({{ piggy.percentage }}%)
+            </ion-col>
+            <ion-col col-8>
+                <ion-range min="0" [max]="piggy.targetAmount" [(ngModel)]="piggy.currentAmount" disabled="true" color="primary"></ion-range>
+            </ion-col>
+          </ion-row>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>

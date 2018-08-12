@@ -9,6 +9,7 @@ export class TransactionModel{
     public type: string;
     public description: string;
     public date: Date;
+    public piggyBankId: Number;
     public transactions: TransactionItemModel[] = [];
     public synced: boolean = false;
 
@@ -22,6 +23,7 @@ export class TransactionModel{
                 type: this.type,
                 description: this.description,
                 date: this.date,
+                piggy_bank_id: this.piggyBankId,
                 transactions: this.transactions
             }
 
@@ -54,6 +56,7 @@ export class TransactionModel{
         this.type = queueData.type;
         this.description= queueData.description;
         this.date = queueData.date;
+        this.piggyBankId = queueData.piggyBankId != '' ? queueData.piggyBankId : null;
 
         // Only 1 sub item can be added for now
         this.transactions = queueData.transactions;
@@ -65,6 +68,7 @@ export class TransactionModel{
         this.type = formData.type;
         this.description= formData.description;
         this.date = formData.date;
+        this.piggyBankId = formData.piggy_bank_id !== '' ? formData.piggy_bank_id : null;
 
         // Only 1 sub item can be added for now
         // Bug #230 - need to rethink how transaction model is instantiated. Use repo pattern.

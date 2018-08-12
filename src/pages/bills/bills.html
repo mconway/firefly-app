@@ -9,13 +9,10 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <ion-list-header>
-      Last Updated: {{ billList.lastUpdated | date: 'dd MMM HH:mm' }}
-    </ion-list-header>
-    <ion-item-group *ngFor="let dueDate of billList.dueDates">
+    <ion-item-group *ngFor="let dueDate of dueDates">
       <ion-item-divider color="secondary">{{ dueDate | date: 'yyyy/MM/dd' }}</ion-item-divider>
 
-      <button *ngFor="let bill of billList.groupedBills[dueDate]" color="light" ion-item (click)="showBillDetails(bill)">
+      <button *ngFor="let bill of groupedBills[dueDate]" color="light" ion-item (click)="showBillDetails(bill)">
         <ion-row>
           <ion-col col-9>{{bill.name}}</ion-col>
           <ion-col col-3 class="right-align-number">{{bill.amountMax | currency: bill.currencyCode}}</ion-col>
