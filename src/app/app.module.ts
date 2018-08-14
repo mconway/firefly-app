@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler, Menu } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { ContactPage } from '../pages/contact/contact';
@@ -31,6 +31,7 @@ import { PiggybankRepository } from '../repositories/piggybank.repository';
 import { Network } from '@ionic-native/network';
 import { AppVersion } from '@ionic-native/app-version'
 import { BillRepository } from '../repositories/bill.repository';
+import { MenuPage } from '../pages/menu/menu';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { BillRepository } from '../repositories/bill.repository';
     ContactPage,
     HomePage,
     TabsPage,
+    MenuPage,
     BillsPage,
     AccountsPage,
     TransactionsPage,
@@ -60,6 +62,7 @@ import { BillRepository } from '../repositories/bill.repository';
     ContactPage,
     HomePage,
     TabsPage,
+    MenuPage,
     BillsPage,
     AccountsPage,
     TransactionsPage,
