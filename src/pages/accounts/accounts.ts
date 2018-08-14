@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, NavParams } from 'ionic-angular';
-import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountRepository } from '../../repositories/account.repository';
 import { AccountModel } from '../../models/account.model';
 
@@ -15,7 +14,6 @@ export class AccountsPage {
 
   constructor(
     public navCtrl: NavController, 
-    private fireflyService : FireflyRemoteProvider, 
     private loadingCtrl: LoadingController, 
     private accountRepo: AccountRepository) 
   {
@@ -52,11 +50,8 @@ export class AccountsPage {
 export class AccountDetailPage {
   private account;
 
-  constructor(
-    private navCtrl: NavController,
-    private navParams: NavParams)
+  constructor(private navParams: NavParams)
   {
-    this.account = navParams.get('account');
+    this.account = this.navParams.get('account');
   }
-
 }

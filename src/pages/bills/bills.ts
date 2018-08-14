@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, NavParams } from 'ionic-angular';
-import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
-import * as moment from 'moment'
 import { BillRepository } from '../../repositories/bill.repository';
 
 @Component({
@@ -37,7 +35,6 @@ export class BillsPage {
       return a.nextExpectedMatch - b.nextExpectedMatch;
     });
     this.groupedBills = this.groupBills("nextExpectedMatch", data);
-    //console.log(this.groupedBills)
     this.dueDates = Object.keys(this.groupedBills);
   }
 
@@ -67,11 +64,8 @@ export class BillsPage {
 export class BillDetailPage {
   private bill;
 
-  constructor(
-    private navCtrl: NavController,
-    private navParams: NavParams)
+  constructor(private navParams: NavParams)
   {
-    this.bill = navParams.get('bill');
+    this.bill = this.navParams.get('bill');
   }
-
 }

@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, Nav, Tabs } from 'ionic-angular';
-import { TabsPage } from "../tabs/tabs";
 import { HomePage } from '../home/home';
 import { BillsPage } from '../bills/bills';
 import { TransactionsPage } from '../transactions/transactions';

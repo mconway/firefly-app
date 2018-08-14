@@ -23,4 +23,8 @@ export class TabsPage {
   constructor(public modalCtrl: ModalController, public navCtrl: NavController, public navParams: NavParams) {
     this.selectedIndex = this.navParams.data.tabIndex || 0;
   }
+
+  tapEvent(e){
+    this.navCtrl.push(AddTransactionPage);
+  }
 }

@@ -1,9 +1,7 @@
-import { HttpClient, HttpParams, HttpEventType } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { Injectable } from '@angular/core';
-import { query } from '@angular/core/src/animation/dsl';
-import { Subscriber } from 'rxjs/Subscriber';
 
 /*
   Generated class for the FireflyRemoteProvider provider.

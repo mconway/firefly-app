@@ -8,7 +8,6 @@ import { BillDetailPage } from '../bills/bills';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountRepository } from '../../repositories/account.repository';
 import { BillRepository } from '../../repositories/bill.repository';
-import { BillModel } from '../../models/bill.model';
 import { PiggybankRepository } from '../../repositories/piggybank.repository';
 
 @Component({
