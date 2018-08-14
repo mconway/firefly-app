@@ -16,4 +16,13 @@
     </ion-content>
 </ion-menu>
 
+<ion-fab bottom right>
+    <button ion-fab mini><ion-icon name="menu"></ion-icon></button>
+    <ion-fab-list side="top">
+        <button ion-fab *ngFor="let p of pages">
+            <ion-icon [name]="p.icon" (click)="openPage(p)"></ion-icon>
+        </button>
+    </ion-fab-list>
+</ion-fab>
+
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
