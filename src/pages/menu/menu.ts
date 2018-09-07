@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, Nav, Tabs } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { BillsPage } from '../bills/bills';
-import { TransactionsPage } from '../transactions/transactions';
+import { TransactionsPage, AddTransactionPage } from '../transactions/transactions';
 import { SettingsPage } from '../settings/settings';
 import { AccountsPage } from '../accounts/accounts';
 
@@ -24,9 +24,13 @@ export class MenuPage{
         { title: 'Settings', component: SettingsPage, icon: "settings", index: 3 },
     ];
 
-    constructor(public navctrl: NavController) { }
+    constructor(public navCtrl: NavController) { }
 
     openPage(page){
         this.content.setRoot(page.component, {selectedIndex: page.index});
+    }
+
+    tapEvent(e){
+        this.navCtrl.push(AddTransactionPage);
     }
 }
