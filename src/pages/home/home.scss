@@ -17,19 +17,3 @@ page-home {
 .primary-text{
     color: color($colors, primary);
 }
-
-/* progress bars */
-.piggy-bank .range-md.range-disabled .range-bar-active{
-    background-color: color($colors, primary);
-}
-
-
-
-.range-md .range-bar {
-    top: 15px;
-    height: 8px;
-}
-
-.range-md.range-disabled .range-knob{
-    display: none;
-}

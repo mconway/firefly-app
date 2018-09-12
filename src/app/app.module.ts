@@ -32,6 +32,7 @@ import { Network } from '@ionic-native/network';
 import { AppVersion } from '@ionic-native/app-version'
 import { BillRepository } from '../repositories/bill.repository';
 import { MenuPage } from '../pages/menu/menu';
+import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggybanks';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,9 @@ import { MenuPage } from '../pages/menu/menu';
     AddTransactionPage,
     TransactionDetailPage,
     BillDetailPage,
-    AccountDetailPage
+    AccountDetailPage,
+    PiggyBanksPage,
+    PiggyBankDetailPage
   ],
   imports: [
     BrowserModule,
@@ -70,7 +73,9 @@ import { MenuPage } from '../pages/menu/menu';
     SettingsPage,
     BillDetailPage,
     AccountDetailPage,
-    TransactionDetailPage
+    TransactionDetailPage,
+    PiggyBanksPage,
+    PiggyBankDetailPage
   ],
   providers: [
     StatusBar,

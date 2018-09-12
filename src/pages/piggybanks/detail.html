@@ -1,0 +1,70 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>Piggy Bank Detail - {{ piggy.description }}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="outer-content">
+    <ion-list>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Name:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ piggy.name }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Target Amount:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ piggy.targetAmount | currency: piggy.currencySymbol }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Current Amount:
+                </ion-col>
+                <ion-col col-8 class="right-align-number">
+                    {{ piggy.currentAmount | currency: piggy.currencySymbol }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Left to Save:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ piggy.leftToSave | currency: piggy.currencySymbol }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Saved per Month:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ piggy.savePerMonth | currency: piggy.currencySymbol }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-row>
+                <ion-col col-4>
+                    Target Date:
+                </ion-col>
+                <ion-col col-8 text-right>
+                    {{ piggy.targetDate | date: 'yyyy-MM-dd' }}
+                </ion-col>
+            </ion-row>
+        </ion-item>
+    </ion-list>
+</ion-content>
