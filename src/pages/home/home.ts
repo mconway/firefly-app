@@ -56,8 +56,8 @@ export class HomePage {
     // this will get replaced with the account repo.
     return this.accountRepo.getAll(true, refresh).then((data) => {
       var accounts = this.accountRepo.groupAccounts("role", data);
-      this.creditTotal = this.accountRepo.getSubgroupTotal("ccAsset", accounts)[0].total;
-      this.cashTotal = this.accountRepo.getSubgroupTotal("savingAsset", accounts)[0].total + this.accountRepo.getSubgroupTotal("defaultAsset",accounts)[0].total;
+      this.creditTotal = this.accountRepo.getSubgroupTotal(["ccAsset"], accounts);
+      this.cashTotal = this.accountRepo.getSubgroupTotal(["defaultAsset","savingAsset"],accounts);
     });
   }
 
