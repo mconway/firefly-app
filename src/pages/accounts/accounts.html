@@ -12,13 +12,11 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <ion-list-header>
-    </ion-list-header>
     <ion-item-group *ngFor="let type of accountTypes">
       <ion-item-divider color="secondary">
         <ion-row>
           <ion-col col-9 text-capitalize>{{ type }}</ion-col>
-          <ion-col col-3 class="right-align-number" *ngFor="let group of accountRepo.getSubgroupTotal(type, accounts)">{{ group.total | currency: group.currency }}</ion-col>
+          <ion-col col-3 class="right-align-number" *ngFor="let group of accountRepo.getSubgroupTotal([type], accounts)">{{group.val.total | currency: group.val.currencySymbol}} </ion-col>
         </ion-row>
       </ion-item-divider>
     
