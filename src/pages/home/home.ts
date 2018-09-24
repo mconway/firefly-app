@@ -9,6 +9,7 @@ import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-re
 import { AccountRepository } from '../../repositories/account.repository';
 import { BillRepository } from '../../repositories/bill.repository';
 import { PiggybankRepository } from '../../repositories/piggybank.repository';
+import { SettingsPage } from '../settings/settings';
 
 @Component({
   selector: 'page-home',
@@ -41,7 +42,11 @@ export class HomePage {
       //this.loader.present();
 
       this.firefly.getServerInfo().then(data => {
-
+        
+      }, err => {
+        if(err == "NotConfigured"){
+          this.navCtrl.push(SettingsPage);
+        }
       });
 
       Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills(), this.getPiggyBanks()]).then( () => {
