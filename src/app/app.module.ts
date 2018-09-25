@@ -18,10 +18,9 @@ import { FireflyRemoteProvider } from '../providers/firefly-remote/firefly-remot
 import { HttpModule, BaseResponseOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
-import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { TransactionListModel } from '../models/transactionlist.model';
 import { TransactionModel } from '../models/transaction.model';
-import { TransactionItemModel } from '../models/transactionItem.model';
 
 import { BaseRepository } from '../repositories/base.repository';
 import { AccountRepository } from '../repositories/account.repository';
@@ -33,6 +32,9 @@ import { AppVersion } from '@ionic-native/app-version'
 import { BillRepository } from '../repositories/bill.repository';
 import { MenuPage } from '../pages/menu/menu';
 import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggybanks';
+import { BudgetLimitRepository } from '../repositories/budgetlimit.repository';
+import { BudgetsPage } from '../pages/budgets/budgets';
+import { BudgetRepository } from '../repositories/budget.repository';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggyba
     TabsPage,
     MenuPage,
     BillsPage,
+    BudgetsPage,
     AccountsPage,
     TransactionsPage,
     SettingsPage,
@@ -67,6 +70,7 @@ import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggyba
     TabsPage,
     MenuPage,
     BillsPage,
+    BudgetsPage,
     AccountsPage,
     TransactionsPage,
     AddTransactionPage,
@@ -88,6 +92,8 @@ import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggyba
     BaseRepository,
     AccountRepository,
     BillRepository,
+    BudgetRepository,
+    BudgetLimitRepository,
     CategoryRepository,
     PiggybankRepository,
     Network,

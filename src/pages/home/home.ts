@@ -10,6 +10,8 @@ import { AccountRepository } from '../../repositories/account.repository';
 import { BillRepository } from '../../repositories/bill.repository';
 import { PiggybankRepository } from '../../repositories/piggybank.repository';
 import { SettingsPage } from '../settings/settings';
+import { BudgetRepository } from '../../repositories/budget.repository';
+import { BudgetLimitRepository } from '../../repositories/budgetlimit.repository';
 
 @Component({
   selector: 'page-home',
@@ -31,6 +33,8 @@ export class HomePage {
     private loadingCtrl: LoadingController, 
     private accountRepo: AccountRepository,
     private billRepo: BillRepository,
+    private budgetsRepo: BudgetRepository,
+    private budgetLimitsRepo: BudgetLimitRepository,
     private piggybankRepo: PiggybankRepository,
     private firefly: FireflyRemoteProvider)
   {
@@ -49,7 +53,7 @@ export class HomePage {
         }
       });
 
-      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills(), this.getPiggyBanks()]).then( () => {
+      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills(), this.getPiggyBanks(), this.budgetsRepo.getAll(), this.budgetLimitsRepo.getAll()]).then( () => {
         this.loader.dismiss();
       });
   }
@@ -101,7 +105,7 @@ export class HomePage {
   }
   
   doRefresh(refresher){
-    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true), this.getPiggyBanks(true)]).then( () => {
+    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true), this.getPiggyBanks(true), this.budgetsRepo.getAll(true), this.budgetLimitsRepo.getAll(true)]).then( () => {
       refresher.complete();
     }).catch(err => { refresher.complete() });
   }
