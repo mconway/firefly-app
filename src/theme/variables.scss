@@ -68,7 +68,19 @@ $card-md-background-color: color($colors, light);
 // --------------------------------------------------
 // Windows only Sass variables can go here
 
+/* progress bars */
+.piggy-bank .range-md.range-disabled .range-bar-active{
+  background-color: color($colors, primary);
+}
 
+.range-md .range-bar {
+  top: 15px !important;
+  height: 8px !important;
+}
+
+.range-md.range-disabled .range-knob{
+  display: none;
+}
 
 
 // App Theme
@@ -95,16 +107,3 @@ $card-md-background-color: color($colors, light);
 @import "roboto";
 @import "noto-sans";
 
-/* progress bars */
-.piggy-bank .range-md.range-disabled .range-bar-active{
-  background-color: color($colors, primary);
-}
-
-.range-md .range-bar {
-  top: 15px;
-  height: 8px;
-}
-
-.range-md.range-disabled .range-knob{
-  display: none;
-}
