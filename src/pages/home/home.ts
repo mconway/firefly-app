@@ -43,26 +43,38 @@ export class HomePage {
       });
 
       // Disable loader on home screen or you can't get to settings
-      //this.loader.present();
+      this.loader.present();
 
       this.firefly.getServerInfo().then(data => {
-        
+        this.getAllData(this.firefly.isConnected).then( () => {
+          this.loader.dismiss();
+        });
       }, err => {
+        this.loader.dismiss();
+
+        // not configured error coming from provider
         if(err == "NotConfigured"){
           this.navCtrl.push(SettingsPage);
         }
       });
-
-      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills(), this.getPiggyBanks(), this.budgetsRepo.getAll(), this.budgetLimitsRepo.getAll()]).then( () => {
-        this.loader.dismiss();
-      });
   }
 
-  getAccounts(refresh: boolean = false) {
-    // beginning of refactor out of accountList.
+  private getAllData(refresh:boolean = false){
+    var dataMethods = [
+      this.getAccounts(refresh),
+      this.getRecentTransactions(refresh),
+      this.getUpcomingBills(refresh),
+      this.getPiggyBanks(refresh),
+      this.budgetsRepo.getAll(true, refresh),
+      this.budgetLimitsRepo.getAll(true, refresh)
+    ]
+
+    return Promise.all(dataMethods);
+  }
+
+  private getAccounts(refresh: boolean = false) {
     this.accountRepo.getAll(true, refresh);
 
-    // this will get replaced with the account repo.
     return this.accountRepo.getAll(true, refresh).then((data) => {
       var accounts = this.accountRepo.groupAccounts("role", data);
       this.creditTotal = this.accountRepo.getSubgroupTotal(["ccAsset"], accounts);
@@ -70,13 +82,13 @@ export class HomePage {
     });
   }
 
-  getRecentTransactions(refresh: boolean = false){
+  private getRecentTransactions(refresh: boolean = false){
     return this.transactionList.getTransactions(refresh).then((t) => {
       this.recentTransactions = this.transactionList.transactions.slice(0,5);
     });
   }
 
-  getUpcomingBills(refresh: boolean = false){
+  private getUpcomingBills(refresh: boolean = false){
     return this.billRepo.getAll(false, refresh).then((bills) => {
       bills.sort(function(a, b){
         return a.nextExpectedMatch.getTime() - b.nextExpectedMatch.getTime();
@@ -86,11 +98,19 @@ export class HomePage {
     });
   }
 
-  getPiggyBanks(refresh: boolean = false){
+  private getPiggyBanks(refresh: boolean = false){
     return this.piggybankRepo.getAll(true, refresh).then((piggyBanks) => {
       this.piggyBanks = piggyBanks;
     });
   }
+
+  private doRefresh(refresher){
+    this.getAllData(true).then( () => {
+      refresher.complete();
+    }).catch(err => { refresher.complete() });
+  }
+
+  // navigation methods
 
   navToAccounts(){
     this.navCtrl.push(AccountsPage);
@@ -102,12 +122,6 @@ export class HomePage {
 
   addTransaction(){
     this.navCtrl.push(AddTransactionPage);
-  }
-  
-  doRefresh(refresher){
-    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true), this.getPiggyBanks(true), this.budgetsRepo.getAll(true, true), this.budgetLimitsRepo.getAll(true, true)]).then( () => {
-      refresher.complete();
-    }).catch(err => { refresher.complete() });
   }
 
   showBillDetails(bill){
