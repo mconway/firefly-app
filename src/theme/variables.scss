@@ -82,6 +82,10 @@ $card-md-background-color: color($colors, light);
   display: none;
 }
 
+/* Remove blue background from list items in cards */
+.card-content-md .item-md{
+  background-color: transparent;
+}
 
 // App Theme
 // --------------------------------------------------

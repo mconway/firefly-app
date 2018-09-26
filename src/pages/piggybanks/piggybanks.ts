@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, LoadingController, NavParams } from 'ionic-angular';
 import { PiggybankModel } from '../../models/piggybank.model';
 import { PiggybankRepository } from '../../repositories/piggybank.repository';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'page-home',
@@ -24,7 +25,6 @@ export class PiggyBanksPage {
 
     this.piggyRepo.getAll(true, false).then( (piggyBanks) => {
       this.piggyBanks = piggyBanks;
-      console.log(this.piggyBanks);
       this.loader.dismiss();
     });
   }
@@ -45,9 +45,26 @@ export class PiggyBanksPage {
   })
   export class PiggyBankDetailPage {
     private piggy;
+    private chart: any;
+    @ViewChild('progressChart') progressChart;
   
     constructor(private navParams: NavParams)
     {
       this.piggy = this.navParams.get('piggy');
+    }
+
+    ionViewDidLoad(){
+      this.chart = new Chart(this.progressChart.nativeElement, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [this.piggy.percentage, 100 - this.piggy.percentage],
+            backgroundColor: [
+              "#00FF00"
+            ]
+          }],
+          
+        }
+      });
     }
   }
