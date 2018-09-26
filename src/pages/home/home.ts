@@ -105,7 +105,7 @@ export class HomePage {
   }
   
   doRefresh(refresher){
-    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true), this.getPiggyBanks(true), this.budgetsRepo.getAll(true), this.budgetLimitsRepo.getAll(true)]).then( () => {
+    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true), this.getPiggyBanks(true), this.budgetsRepo.getAll(true, true), this.budgetLimitsRepo.getAll(true, true)]).then( () => {
       refresher.complete();
     }).catch(err => { refresher.complete() });
   }
