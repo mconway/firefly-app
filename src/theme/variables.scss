@@ -87,6 +87,13 @@ $card-md-background-color: color($colors, light);
   background-color: transparent;
 }
 
+/* Trucate text for long descirptions*/
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 // App Theme
 // --------------------------------------------------
 // Ionic apps can have different themes applied, which can
