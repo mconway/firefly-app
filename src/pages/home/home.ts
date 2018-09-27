@@ -42,11 +42,11 @@ export class HomePage {
         content: "Loading..."
       });
 
-      // Disable loader on home screen or you can't get to settings
-      this.loader.present();
+      // Loader isn't going away for some people
+      // this.loader.present();
 
       this.firefly.getServerInfo().then(data => {
-        this.getAllData(this.firefly.isConnected).then( () => {
+        this.getAllData().then( () => {
           this.loader.dismiss();
         });
       }, err => {
