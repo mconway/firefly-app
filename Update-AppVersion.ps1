@@ -18,9 +18,9 @@ function Update-AppVersion
     $versionPoints = $version.Split('.')
     $major = $versionPoints[0]
     $minor = $versionPoints[1]
-    $build = $versionPoints[2]
+    $patch = $versionPoints[2]
 
-    $version = "$major.$minor.$buildNumber"
+    $version = "$major.$minor.$patch.$buildNumber"
 
     Write-Verbose "Version $version" -Verbose
     Write-Verbose "VersionCode $versionCode" -Verbose
