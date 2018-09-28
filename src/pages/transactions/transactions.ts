@@ -137,7 +137,7 @@ export class AddTransactionPage {
     let toast = this.toastCtrl.create({
       message: msg,
       duration: 3000,
-      position: "top"
+      position: "bottom"
     });
     toast.present();
   }
@@ -171,11 +171,9 @@ export class AddTransactionPage {
 export class TransactionDetailPage {
   private transaction;
 
-  constructor(
-    private navCtrl: NavController,
-    private navParams: NavParams)
+  constructor(private navParams: NavParams)
   {
-    this.transaction = navParams.get('transaction');
+    this.transaction = this.navParams.get('transaction');
   }
 
 }

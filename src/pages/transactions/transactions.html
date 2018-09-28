@@ -1,5 +1,8 @@
 <ion-header>
     <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+          </button>
       <ion-title>Transactions</ion-title>
     </ion-navbar>
   </ion-header>
@@ -25,7 +28,7 @@
             </ion-col>
             <ion-col col-1><ion-icon [name]="transactionList.transactionTypeIcons[transaction.attributes.type]"></ion-icon></ion-col>
             <ion-col col-6>
-              <ion-row>
+              <ion-row class="truncate">
                 {{ transaction.attributes.description }}
               </ion-row>
               <ion-row>

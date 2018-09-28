@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { AccountsPage } from '../accounts/accounts';
-import { TransactionsPage, TransactionDetailPage } from '../transactions/transactions';
+import { TransactionsPage, TransactionDetailPage, AddTransactionPage } from '../transactions/transactions';
 import { TransactionListModel } from '../../models/transactionlist.model';
 
 import { BillDetailPage } from '../bills/bills';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountRepository } from '../../repositories/account.repository';
 import { BillRepository } from '../../repositories/bill.repository';
-import { BillModel } from '../../models/bill.model';
 import { PiggybankRepository } from '../../repositories/piggybank.repository';
+import { SettingsPage } from '../settings/settings';
+import { BudgetRepository } from '../../repositories/budget.repository';
+import { BudgetLimitRepository } from '../../repositories/budgetlimit.repository';
 
 @Component({
   selector: 'page-home',
@@ -31,6 +33,8 @@ export class HomePage {
     private loadingCtrl: LoadingController, 
     private accountRepo: AccountRepository,
     private billRepo: BillRepository,
+    private budgetsRepo: BudgetRepository,
+    private budgetLimitsRepo: BudgetLimitRepository,
     private piggybankRepo: PiggybankRepository,
     private firefly: FireflyRemoteProvider)
   {
@@ -38,37 +42,53 @@ export class HomePage {
         content: "Loading..."
       });
 
-      // Disable loader on home screen or you can't get to settings
-      //this.loader.present();
+      // Loader isn't going away for some people
+      // this.loader.present();
 
       this.firefly.getServerInfo().then(data => {
-
-      });
-
-      Promise.all([this.getAccounts(), this.getRecentTransactions(), this.getUpcomingBills(), this.getPiggyBanks()]).then( () => {
+        this.getAllData().then( () => {
+          this.loader.dismiss();
+        });
+      }, err => {
         this.loader.dismiss();
+
+        // not configured error coming from provider
+        if(err == "NotConfigured"){
+          this.navCtrl.push(SettingsPage);
+        }
       });
   }
 
-  getAccounts(refresh: boolean = false) {
-    // beginning of refactor out of accountList.
+  private getAllData(refresh:boolean = false){
+    var dataMethods = [
+      this.getAccounts(refresh),
+      this.getRecentTransactions(refresh),
+      this.getUpcomingBills(refresh),
+      this.getPiggyBanks(refresh),
+      this.budgetsRepo.getAll(true, refresh),
+      this.budgetLimitsRepo.getAll(true, refresh)
+    ]
+
+    return Promise.all(dataMethods);
+  }
+
+  private getAccounts(refresh: boolean = false) {
     this.accountRepo.getAll(true, refresh);
 
-    // this will get replaced with the account repo.
     return this.accountRepo.getAll(true, refresh).then((data) => {
       var accounts = this.accountRepo.groupAccounts("role", data);
-      this.creditTotal = this.accountRepo.getSubgroupTotal("ccAsset", accounts)[0].total;
-      this.cashTotal = this.accountRepo.getSubgroupTotal("savingAsset", accounts)[0].total + this.accountRepo.getSubgroupTotal("defaultAsset",accounts)[0].total;
+      this.creditTotal = this.accountRepo.getSubgroupTotal(["ccAsset"], accounts);
+      this.cashTotal = this.accountRepo.getSubgroupTotal(["defaultAsset","savingAsset"],accounts);
     });
   }
 
-  getRecentTransactions(refresh: boolean = false){
+  private getRecentTransactions(refresh: boolean = false){
     return this.transactionList.getTransactions(refresh).then((t) => {
       this.recentTransactions = this.transactionList.transactions.slice(0,5);
     });
   }
 
-  getUpcomingBills(refresh: boolean = false){
+  private getUpcomingBills(refresh: boolean = false){
     return this.billRepo.getAll(false, refresh).then((bills) => {
       bills.sort(function(a, b){
         return a.nextExpectedMatch.getTime() - b.nextExpectedMatch.getTime();
@@ -78,11 +98,19 @@ export class HomePage {
     });
   }
 
-  getPiggyBanks(refresh: boolean = false){
+  private getPiggyBanks(refresh: boolean = false){
     return this.piggybankRepo.getAll(true, refresh).then((piggyBanks) => {
       this.piggyBanks = piggyBanks;
     });
   }
+
+  private doRefresh(refresher){
+    this.getAllData(true).then( () => {
+      refresher.complete();
+    }).catch(err => { refresher.complete() });
+  }
+
+  // navigation methods
 
   navToAccounts(){
     this.navCtrl.push(AccountsPage);
@@ -91,11 +119,9 @@ export class HomePage {
   navToTransactions(){
     this.navCtrl.push(TransactionsPage);
   }  
-  
-  doRefresh(refresher){
-    Promise.all([this.getAccounts(true), this.getRecentTransactions(true), this.getUpcomingBills(true), this.getPiggyBanks(true)]).then( () => {
-      refresher.complete();
-    }).catch(err => { refresher.complete() });
+
+  addTransaction(){
+    this.navCtrl.push(AddTransactionPage);
   }
 
   showBillDetails(bill){

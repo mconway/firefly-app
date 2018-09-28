@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler, Menu } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { ContactPage } from '../pages/contact/contact';
@@ -18,10 +18,9 @@ import { FireflyRemoteProvider } from '../providers/firefly-remote/firefly-remot
 import { HttpModule, BaseResponseOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
-import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser'
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { TransactionListModel } from '../models/transactionlist.model';
 import { TransactionModel } from '../models/transaction.model';
-import { TransactionItemModel } from '../models/transactionItem.model';
 
 import { BaseRepository } from '../repositories/base.repository';
 import { AccountRepository } from '../repositories/account.repository';
@@ -31,6 +30,11 @@ import { PiggybankRepository } from '../repositories/piggybank.repository';
 import { Network } from '@ionic-native/network';
 import { AppVersion } from '@ionic-native/app-version'
 import { BillRepository } from '../repositories/bill.repository';
+import { MenuPage } from '../pages/menu/menu';
+import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggybanks';
+import { BudgetLimitRepository } from '../repositories/budgetlimit.repository';
+import { BudgetsPage } from '../pages/budgets/budgets';
+import { BudgetRepository } from '../repositories/budget.repository';
 
 @NgModule({
   declarations: [
@@ -38,14 +42,18 @@ import { BillRepository } from '../repositories/bill.repository';
     ContactPage,
     HomePage,
     TabsPage,
+    MenuPage,
     BillsPage,
+    BudgetsPage,
     AccountsPage,
     TransactionsPage,
     SettingsPage,
     AddTransactionPage,
     TransactionDetailPage,
     BillDetailPage,
-    AccountDetailPage
+    AccountDetailPage,
+    PiggyBanksPage,
+    PiggyBankDetailPage
   ],
   imports: [
     BrowserModule,
@@ -60,14 +68,18 @@ import { BillRepository } from '../repositories/bill.repository';
     ContactPage,
     HomePage,
     TabsPage,
+    MenuPage,
     BillsPage,
+    BudgetsPage,
     AccountsPage,
     TransactionsPage,
     AddTransactionPage,
     SettingsPage,
     BillDetailPage,
     AccountDetailPage,
-    TransactionDetailPage
+    TransactionDetailPage,
+    PiggyBanksPage,
+    PiggyBankDetailPage
   ],
   providers: [
     StatusBar,
@@ -80,6 +92,8 @@ import { BillRepository } from '../repositories/bill.repository';
     BaseRepository,
     AccountRepository,
     BillRepository,
+    BudgetRepository,
+    BudgetLimitRepository,
     CategoryRepository,
     PiggybankRepository,
     Network,

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, NavParams } from 'ionic-angular';
-import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { AccountRepository } from '../../repositories/account.repository';
 import { AccountModel } from '../../models/account.model';
 
@@ -15,7 +14,6 @@ export class AccountsPage {
 
   constructor(
     public navCtrl: NavController, 
-    private fireflyService : FireflyRemoteProvider, 
     private loadingCtrl: LoadingController, 
     private accountRepo: AccountRepository) 
   {
@@ -25,18 +23,27 @@ export class AccountsPage {
     
     this.loader.present();
 
-    this.accountRepo.getAll(true, false).then( (accounts) => {
-      var accountTypes = ["ccAsset", "defaultAsset", "sharedAsset", "savingAsset"];
-      accounts = accounts.filter(function(a) { return a.role !== null && accountTypes.indexOf(a.role) !== -1 });
-      this.accounts = this.accountRepo.groupAccounts("role", accounts);
+    this.getAccounts();
+  }
+
+  getAccounts(){
+    return this.accountRepo.getAll(true, false).then( (accounts) => {
+      var accountTypes = ["Asset account", "Loan", "Mortgage", "Debt"];
+      var accountRoles = ["ccAsset", "defaultAsset", "sharedAsset", "savingAsset"];
+
+      accounts = accounts.filter(function(a) { 
+        var result = a.type !== null && ( (a.type === accountTypes[0] && a.role !== null && accountRoles.indexOf(a.role) !== -1) || accountTypes.indexOf(a.type) !== -1);
+        return result;
+      });
+
+      this.accounts = this.accountRepo.groupAccounts("type", accounts);
       this.accountTypes = Object.keys(this.accounts);
       this.loader.dismiss();
     });
   }
 
   doRefresh(refresher){
-    this.accountRepo.getAll(true, true).then( (accounts) => {
-      this.accounts = this.accountRepo.groupAccounts("role", accounts);
+    this.getAccounts().then(() => {
       refresher.complete();
     });
   }
@@ -52,11 +59,8 @@ export class AccountsPage {
 export class AccountDetailPage {
   private account;
 
-  constructor(
-    private navCtrl: NavController,
-    private navParams: NavParams)
+  constructor(private navParams: NavParams)
   {
-    this.account = navParams.get('account');
+    this.account = this.navParams.get('account');
   }
-
 }

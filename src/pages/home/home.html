@@ -1,6 +1,9 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Overview</ion-title>
+      <button ion-button menuToggle item-start>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    <ion-title ion-content>Overview</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -23,11 +26,11 @@
         <ion-item color="light">
             <ion-row>
               <ion-col col-3>Cash:</ion-col>
-              <ion-col col-9 class="right-align-number green-text">{{cashTotal | currency}}</ion-col>
+              <ion-col col-9 class="right-align-number green-text"><span *ngFor="let a of cashTotal">{{a.val.total | currency: a.val.currencySymbol}} </span></ion-col>
             </ion-row>
             <ion-row>
               <ion-col col-3>Credit:</ion-col>
-              <ion-col col-9 class="right-align-number red-text">{{creditTotal | currency}}</ion-col>
+              <ion-col col-9 class="right-align-number red-text"><span *ngFor="let a of creditTotal">{{a.val.total | currency: a.val.currencySymbol}} </span></ion-col>
             </ion-row>
         </ion-item>
     </ion-card-content>
@@ -55,7 +58,7 @@
                 </ion-col>
                 <ion-col col-1><ion-icon [name]="transactionList.transactionTypeIcons[transaction.attributes.type]"></ion-icon></ion-col>
                 <ion-col col-6>
-                  <ion-row>
+                  <ion-row class="truncate">
                     {{ transaction.attributes.description }}
                   </ion-row>
                   <ion-row>

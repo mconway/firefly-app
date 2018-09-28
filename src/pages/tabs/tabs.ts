@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { HomePage } from '../home/home';
 import { BillsPage } from '../bills/bills';
 import { AddTransactionPage } from '../transactions/transactions'
 import { SettingsPage } from '../settings/settings'
 
-import { ModalController, NavController } from 'ionic-angular';
+import { ModalController, NavController, NavParams, Tabs } from 'ionic-angular';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -16,18 +16,15 @@ export class TabsPage {
   tabBillRoot = BillsPage;
   tabSettingsRoot = SettingsPage;
 
-  constructor(public modalCtrl: ModalController, public navCtrl: NavController) {
+  selectedIndex: Number;
 
+  @ViewChild('tabNav') tabs: Tabs;
+
+  constructor(public modalCtrl: ModalController, public navCtrl: NavController, public navParams: NavParams) {
+    this.selectedIndex = this.navParams.data.tabIndex || 0;
   }
 
   tapEvent(e){
     this.navCtrl.push(AddTransactionPage);
-    //let modal = this.modalCtrl.create(AddTransactionPage);
-    //modal.present();
-  }
-
-  openSettings(e){
-    let modal = this.modalCtrl.create(SettingsPage);
-    modal.present();
   }
 }

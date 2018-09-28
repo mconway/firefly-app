@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar color="primary">
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+    <ion-title>Budgets</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="outer-content">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+      <button *ngFor="let budget of budgets" color="light" ion-item>
+        <ion-row>
+          <ion-col col-9>{{ budget.name }} </ion-col>
+          <ion-col col-3 class="right-align-number">{{budget.limits[0].amount | currency}}</ion-col>
+        </ion-row>
+      </button>
+  </ion-list>
+</ion-content>

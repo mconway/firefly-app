@@ -68,8 +68,31 @@ $card-md-background-color: color($colors, light);
 // --------------------------------------------------
 // Windows only Sass variables can go here
 
+/* progress bars */
+.piggy-bank .range-md.range-disabled .range-bar-active{
+  background-color: color($colors, primary);
+}
 
+.range-md .range-bar {
+  top: 15px !important;
+  height: 8px !important;
+}
 
+.range-md.range-disabled .range-knob{
+  display: none;
+}
+
+/* Remove blue background from list items in cards */
+.card-content-md .item-md{
+  background-color: transparent;
+}
+
+/* Trucate text for long descirptions*/
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 // App Theme
 // --------------------------------------------------
@@ -94,3 +117,4 @@ $card-md-background-color: color($colors, light);
 
 @import "roboto";
 @import "noto-sans";
+
