@@ -11,23 +11,22 @@
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <ion-list>
-      <button *ngFor="let piggy of piggyBanks" (click)="showDetails(piggy)" ion-item color="light" >
-        <ion-grid class="piggy-bank">
-            <ion-row align-items-center color="light">
-                <ion-col col-2>
-                    <ion-row>
-                        {{ piggy.percentage }}%
-                    </ion-row>
-                </ion-col>
-                <ion-col col-8>
-                    {{ piggy.name }}
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <!--<ion-range min="0" [max]="piggy.targetAmount" [(ngModel)]="piggy.currentAmount" disabled="true" color="primary"></ion-range>-->
-            </ion-row>
-        </ion-grid>
-      </button>
-    </ion-list>
+    
+    <button *ngFor="let piggy of piggyBanks" (click)="showDetails(piggy)" ion-item color="light" >
+        <ion-card>
+            <ion-card-header>
+                <ion-row>
+                    <ion-col col-8>Progress for {{ piggy.name }}</ion-col>
+                    <ion-col text-right>
+                        {{ piggy.percentage/100 | percent }}
+                    </ion-col>
+                </ion-row>
+            </ion-card-header>
+            <ion-card-content>
+                <canvas #progressChart id="p{{ piggy.id }}"></canvas>
+                <ion-item text-center>Amount to save per month: {{ piggy.savePerMonth | currency: piggy.currencySymbol }}</ion-item>
+            </ion-card-content>
+        </ion-card>
+    </button>
+    
   </ion-content>

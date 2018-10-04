@@ -1,10 +1,11 @@
 import { IRead } from './interfaces/iread.repository';
+import { IWrite } from './interfaces/iwrite.repository';
 import { ModelFactory } from '../models/model.factory';
 import { FireflyRemoteProvider } from '../providers/firefly-remote/firefly-remote';
 import { Storage } from '@ionic/storage';
 import { Inject } from "@angular/core";
 
-export class BaseRepository<T> implements IRead<T>
+export class BaseRepository<T> implements IRead<T>, IWrite<T>
 {
     protected endpoint: string = '';
     protected model: any;
@@ -14,11 +15,11 @@ export class BaseRepository<T> implements IRead<T>
         
     }
 
-    getEndpoint(){
+    public getEndpoint(){
         return this.endpoint;
     }
 
-    getAll(recursive:boolean = false, refresh: boolean = false): Promise<T[]> {
+    public getAll(recursive:boolean = false, refresh: boolean = false): Promise<T[]> {
         return new Promise((resolve, reject) => {
 
             // instantiate collection just in case.
@@ -43,11 +44,11 @@ export class BaseRepository<T> implements IRead<T>
         });
     }
 
-    find(): Promise<T[]> {
+    public find(): Promise<T[]> {
         throw new Error("Method not implemented");
     }
 
-    findOne(): Promise<T> {
+    public findOne(): Promise<T> {
         throw new Error("Method not implemented");
     }
 
@@ -74,6 +75,11 @@ export class BaseRepository<T> implements IRead<T>
         }
 
         return collection;
+    }
+
+    public update(delta: any): Promise<T>{
+        var entity = delta.getApiEntity();
+        return this.fireflyService.updateEntity(this.getEndpoint() + "/" + delta.id, entity);
     }
 
 }

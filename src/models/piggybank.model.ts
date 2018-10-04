@@ -33,4 +33,14 @@ export class PiggybankModel {
         this.targetDate = apiData.attributes.target_date;
         this.active = apiData.attributes.active;
     }
+
+    public getApiEntity(){
+        return {
+            "name": this.name,
+            "account_id": 3,
+            "target_amount": this.targetAmount,
+            "start_date": this.startDate,
+            "target_date": this.targetDate,
+        };
+    }
 }
