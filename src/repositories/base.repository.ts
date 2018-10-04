@@ -15,8 +15,12 @@ export class BaseRepository<T> implements IRead<T>, IWrite<T>
         
     }
 
-    public getEndpoint(){
-        return this.endpoint;
+    public getEndpoint(id: number = null){
+        if(id === null){
+            return this.endpoint;
+        }else{
+            return this.endpoint + "/" + id.toString();
+        }
     }
 
     public getAll(recursive:boolean = false, refresh: boolean = false): Promise<T[]> {
@@ -50,6 +54,11 @@ export class BaseRepository<T> implements IRead<T>, IWrite<T>
 
     public findOne(): Promise<T> {
         throw new Error("Method not implemented");
+    }
+
+    public getOne(id: number): Promise<T> {
+        var endpoint = this.getEndpoint(id);
+        return this.fireflyService.getEntities(endpoint, false);
     }
 
     private saveEntitiesToStorage(): Promise<T>{

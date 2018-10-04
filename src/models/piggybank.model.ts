@@ -14,12 +14,16 @@ export class PiggybankModel {
     public startDate: Date;
     public targetDate: Date;
     public active: boolean;
+    public accountId: number;
 
     constructor(){
 
     }
 
     public hydrate(apiData: any){
+
+        console.log(apiData)
+
         this.id = apiData.id;
         this.name = apiData.attributes.name;
         this.currencyCode = apiData.attributes.currency_code;
@@ -32,12 +36,19 @@ export class PiggybankModel {
         this.startDate = apiData.attributes.start_date;
         this.targetDate = apiData.attributes.target_date;
         this.active = apiData.attributes.active;
+        
+        // if we got the details page
+        if(apiData.relationships !== null && apiData.relationships !== undefined){
+            if(apiData.relationships.account !== null && apiData.relationships.account !== undefined){
+                this.accountId = apiData.relationships.account.data.id;
+            }
+        }
     }
 
     public getApiEntity(){
         return {
             "name": this.name,
-            "account_id": 3,
+            "account_id": this.accountId,
             "target_amount": this.targetAmount,
             "start_date": this.startDate,
             "target_date": this.targetDate,

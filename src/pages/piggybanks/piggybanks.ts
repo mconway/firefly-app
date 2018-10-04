@@ -80,7 +80,14 @@ export class PiggyBankDetailPage {
     private toastCtrl: ToastController)
   {
     this.piggy = this.navParams.get('piggy');
-    this.buildForm();
+    this.piggyBankRepo.getOne(this.piggy.id).then(p => {      
+      this.piggy.hydrate(p[0]);
+      this.buildForm();
+    }, err => {
+      this.presentToast(err.message);
+      console.log(err);
+    })
+    
   }
 
   edit(piggy: PiggybankModel){
@@ -104,7 +111,6 @@ export class PiggyBankDetailPage {
         this.presentToast("Piggy Bank changes saved successfully");
       }, err => { 
         this.presentToast(err.message);
-        console.log(err);
       });
 
     }
