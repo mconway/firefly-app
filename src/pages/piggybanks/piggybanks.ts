@@ -81,7 +81,10 @@ export class PiggyBankDetailPage {
   {
     this.piggy = this.navParams.get('piggy');
     this.piggyBankRepo.getOne(this.piggy.id).then(p => {      
+      // hack
+      p[0]['included'] = p['included'];
       this.piggy.hydrate(p[0]);
+      //end hack
       this.buildForm();
     }, err => {
       this.presentToast(err.message);

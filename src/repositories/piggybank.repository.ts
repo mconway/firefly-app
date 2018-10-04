@@ -9,7 +9,7 @@ export class PiggybankRepository extends BaseRepository<PiggybankModel>{
         if(id === null){
             return this.endpoint;
         }else{
-            return this.endpoint + "/" + id.toString() + "?include=account"
+            return this.endpoint + "/" + id.toString() + "?include=account,piggy_bank_events"
         }
     }
 }

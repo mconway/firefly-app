@@ -1,4 +1,6 @@
 import { Inject, Injectable } from "@angular/core";
+import { asPureExpressionData } from "@angular/core/src/view";
+import { PiggyBankEventModel } from "./piggybankevent.model";
 
 @Injectable()
 export class PiggybankModel {
@@ -16,14 +18,13 @@ export class PiggybankModel {
     public active: boolean;
     public accountId: number;
 
+    public events: PiggyBankEventModel[] = [];
+
     constructor(){
 
     }
 
     public hydrate(apiData: any){
-
-        console.log(apiData)
-
         this.id = apiData.id;
         this.name = apiData.attributes.name;
         this.currencyCode = apiData.attributes.currency_code;
@@ -41,6 +42,13 @@ export class PiggybankModel {
         if(apiData.relationships !== null && apiData.relationships !== undefined){
             if(apiData.relationships.account !== null && apiData.relationships.account !== undefined){
                 this.accountId = apiData.relationships.account.data.id;
+            }
+            if(apiData.relationships.piggy_bank_events !== null && apiData.relationships.piggy_bank_events !== undefined && apiData.included !== null && apiData.included !== undefined){
+                var events = apiData.included.filter(e => { return e.type == "piggy_bank_events" });
+                events.forEach(e => {
+                    var event = new PiggyBankEventModel(e);
+                    this.events.push(event);
+                });
             }
         }
     }

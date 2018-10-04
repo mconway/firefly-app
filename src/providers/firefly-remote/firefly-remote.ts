@@ -72,6 +72,9 @@ export class FireflyRemoteProvider {
       if(recurse && response["links"].next !== undefined && response["links"].next !== null){
         this.getEntitiesRecursive(response["links"].next, headers, allEntities, resolve, reject, recurse);
       }else{
+        // need to clean this up to handle extra items besides data - this was added to get piggybankevents
+        if(response['included'] !== undefined)
+          allEntities['included'] = response['included'];
         resolve(allEntities);
       }
     }, err => {
