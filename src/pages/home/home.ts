@@ -131,4 +131,9 @@ export class HomePage {
   showTransactionDetails(transaction){
     this.navCtrl.push(TransactionDetailPage, { transaction: transaction });
   }
+
+  
+  tapEvent(e){
+    this.navCtrl.push(AddTransactionPage);
+  }
 }

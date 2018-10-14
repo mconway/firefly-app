@@ -33,8 +33,4 @@ export class MenuPage{
     openPage(page){
         this.content.setRoot(page.component, {selectedIndex: page.index});
     }
-
-    tapEvent(e){
-        this.navCtrl.push(AddTransactionPage);
-    }
 }
