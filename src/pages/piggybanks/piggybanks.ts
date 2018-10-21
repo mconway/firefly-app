@@ -49,6 +49,11 @@ export class PiggyBanksPage {
       var piggy: PiggybankModel = this.piggyBanks.filter(p => p.id === element.nativeElement.id.replace("p",""))[0];
       var chart = new Chart(element.nativeElement, {
         type: 'doughnut',
+        options: {
+          tooltips: {
+            enabled: false
+          }
+        },
         data: {
           datasets: [{
             data: [piggy.percentage, 100 - piggy.percentage],
@@ -141,6 +146,11 @@ export class PiggyBankDetailPage {
   ionViewDidLoad(){
     this.chart = new Chart(this.progressChart.nativeElement, {
       type: 'doughnut',
+      options: {
+        tooltips: {
+          enabled: false
+        }
+      },
       data: {
         datasets: [{
           data: [this.piggy.percentage, 100 - this.piggy.percentage],
