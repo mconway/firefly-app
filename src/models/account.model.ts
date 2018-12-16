@@ -14,7 +14,7 @@ export class AccountModel {
         this.currencyCode = apiData.attributes.currency_code;
         this.currencySymbol = apiData.attributes.currency_symbol;
         this.currentBalance = apiData.attributes.current_balance;
-        this.role = apiData.attributes.role;
+        this.role = apiData.attributes.account_role;
         this.type = apiData.attributes.type;
         this.virtualBalance = apiData.attributes.virtual_balance;
     }
