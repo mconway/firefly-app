@@ -10,6 +10,7 @@ export class BillsPage {
   private loader: any;
   private groupedBills: any;
   private dueDates: any;
+  private month: number;
 
   constructor(
     public navCtrl: NavController, 
@@ -23,7 +24,7 @@ export class BillsPage {
 
     this.loader.present();
 
-    this.billRepo.getAll(true, false).then( (d) => {
+    this.billRepo.getAll(this.month, true, false).then( (d) => {
       this.initiateBills(d);
       this.loader.dismiss();
     });
@@ -47,7 +48,7 @@ export class BillsPage {
   }
 
   doRefresh(refresher){
-    this.billRepo.getAll(true, true).then( (d) => {
+    this.billRepo.getAll(this.month, true, true).then( (d) => {
       this.initiateBills(d);
       refresher.complete();
     });

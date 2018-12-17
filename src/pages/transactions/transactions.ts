@@ -52,6 +52,7 @@ export class AddTransactionPage {
   private form : FormGroup;
   private loader: any;
   private categories: any;
+  private month: number;
 
   // shortcut
   private expenseAccounts: any = [];
@@ -76,16 +77,16 @@ export class AddTransactionPage {
     this.buildForm();
 
     // get away from hardcoding the refresh request into this repo...
-    this.categoryRepo.getAll(true, true).then( d => { this.categories = d; });
+    this.categoryRepo.getAll(this.month, true, true).then( d => { this.categories = d; });
 
     // get expense and revenue accounts
-    this.accountRepo.getAll(true).then( d => { 
+    this.accountRepo.getAll(this.month, true).then( d => { 
       this.expenseAccounts = d.filter(function(a){ return a.type === "Expense account" });
       this.revenueAccounts = d.filter(function(a){ return a.type === "Revenue account" });
       this.assetAccounts = d.filter(function(a){ return a.type === "Asset account" });
     });
 
-    this.piggyRepo.getAll(true).then( pb => {
+    this.piggyRepo.getAll(this.month, true).then( pb => {
       this.piggyBanks = pb;
     });
 
@@ -143,7 +144,7 @@ export class AddTransactionPage {
   }
 
   getAccountsByType(type: string){
-    this.accountRepo.getAll(true).then( d => { return d.filter(function(a){ return a.type === type })  });
+    this.accountRepo.getAll(this.month, true).then( d => { return d.filter(function(a){ return a.type === type })  });
   }
 
   changeTransactionType(){

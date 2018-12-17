@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Nav, Tabs } from 'ionic-angular';
+import { NavController, Nav, Tabs, Events } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { BillsPage } from '../bills/bills';
 import { BudgetsPage } from '../budgets/budgets';
@@ -15,6 +15,7 @@ import { PiggyBanksPage } from '../piggybanks/piggybanks';
   
 export class MenuPage{
     rootPage = HomePage;
+    private selectedMonth: Number;
 
     @ViewChild('content') content: NavController;
 
@@ -28,9 +29,31 @@ export class MenuPage{
         { title: 'Settings', component: SettingsPage, icon: "settings", index: 3 },
     ];
 
-    constructor(public navCtrl: NavController) { }
+    private months = [];
+
+    constructor(public navCtrl: NavController, private events: Events) {
+        var date = new Date();
+
+        // build out the months for the dropdown
+        for( var i = date.getMonth(); i >= 0; i--){
+            var d = new Date(date.getFullYear(), i);
+            this.months[i] = d.toLocaleString(navigator.language, { month: "long"});
+        }
+
+        this.selectedMonth = date.getMonth();
+        this.events.subscribe("settings:saved", () =>{
+            this.onChange();
+        });
+        this.events.subscribe("month:request", () => {
+            this.onChange();
+        });
+    }
 
     openPage(page){
         this.content.setRoot(page.component, {selectedIndex: page.index});
+    }
+
+    onChange(){
+        this.events.publish("month:changed",this.selectedMonth);
     }
 }

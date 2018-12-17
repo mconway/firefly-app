@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, ToastController, Platform } from 'ionic-angular';
+import { NavController, LoadingController, ToastController, Platform , Events} from 'ionic-angular';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
 import { ViewController } from 'ionic-angular';
 
@@ -31,7 +31,8 @@ export class SettingsPage {
     private toastCtrl: ToastController,
     private iab: InAppBrowser,
     private appVersion: AppVersion,
-    private platform: Platform) 
+    private platform: Platform,
+    private events: Events) 
   {
     this.buildForm();
 
@@ -114,6 +115,7 @@ export class SettingsPage {
         this.serverInfo = data["data"];
         loading.dismiss();
         this.presentToast("Connection Established");
+        this.events.publish("settings:saved");
       }).catch( err => {
         this.presentToast("Unable to connect to Firefly Instance");
       });

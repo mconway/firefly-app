@@ -13,6 +13,7 @@ import { ChangeDetectorStatus } from '@angular/core/src/change_detection/constan
 export class PiggyBanksPage {
   private loader: any;
   private piggyBanks: PiggybankModel[] = [];
+  private month: number;
 
   @ViewChildren('progressChart') progressCharts;
 
@@ -27,14 +28,14 @@ export class PiggyBanksPage {
     
     this.loader.present();
 
-    this.piggyRepo.getAll(true, false).then( (piggyBanks) => {
+    this.piggyRepo.getAll(this.month, true, false).then( (piggyBanks) => {
       this.piggyBanks = piggyBanks;
       this.loader.dismiss();
     });
   }
 
   doRefresh(refresher){
-    this.piggyRepo.getAll(true, true).then( (piggyBanks) => {
+    this.piggyRepo.getAll(this.month, true, true).then( (piggyBanks) => {
       refresher.complete();
     });
   }

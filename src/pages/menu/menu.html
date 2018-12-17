@@ -7,6 +7,11 @@
 
     <ion-content>
         <ion-list>
+                <ion-item>
+                    <ion-select [(ngModel)]="selectedMonth" (ngModelChange)="onChange()" id="monthFilter">
+                        <ion-option *ngFor="let month of months; let i = index" [value]="i">{{ month }}</ion-option>
+                    </ion-select>
+                </ion-item>
             <button ion-item menuClose *ngFor="let p of pages">
                 <ion-icon item-start [name]="p.icon" (click)="openPage(p)">
                     {{ p.title }}

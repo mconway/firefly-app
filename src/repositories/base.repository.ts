@@ -10,6 +10,7 @@ export class BaseRepository<T> implements IRead<T>, IWrite<T>
     protected endpoint: string = '';
     protected model: any;
     protected _rawData: any = null;
+    protected month: number;
 
     constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
         
@@ -23,7 +24,10 @@ export class BaseRepository<T> implements IRead<T>, IWrite<T>
         }
     }
 
-    public getAll(recursive:boolean = false, refresh: boolean = false): Promise<T[]> {
+    public getAll(month: number, recursive:boolean = false, refresh: boolean = false): Promise<T[]> {
+
+        this.month = month;
+
         return new Promise((resolve, reject) => {
 
             // instantiate collection just in case.
