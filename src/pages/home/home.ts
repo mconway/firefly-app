@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, Events } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Events } from 'ionic-angular';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage, TransactionDetailPage, AddTransactionPage } from '../transactions/transactions';
 import { TransactionListModel } from '../../models/transactionlist.model';
@@ -31,6 +31,7 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController, 
+    private navParams: NavParams,
     private events: Events,
     private transactionList: TransactionListModel,
     private loadingCtrl: LoadingController, 
@@ -41,6 +42,8 @@ export class HomePage {
     private piggybankRepo: PiggybankRepository,
     private firefly: FireflyRemoteProvider)
   {
+      this.month = parseInt(this.navParams.get("month"));
+
       this.events.subscribe("month:changed", (month) =>{
         this.month = parseInt(month);
         this.getAllData(true);
@@ -143,7 +146,6 @@ export class HomePage {
   showTransactionDetails(transaction){
     this.navCtrl.push(TransactionDetailPage, { transaction: transaction });
   }
-
   
   tapEvent(e){
     this.navCtrl.push(AddTransactionPage);

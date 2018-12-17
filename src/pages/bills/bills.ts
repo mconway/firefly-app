@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, NavParams } from 'ionic-angular';
+import { NavController, LoadingController, NavParams, Events } from 'ionic-angular';
 import { BillRepository } from '../../repositories/bill.repository';
 
 @Component({
@@ -14,10 +14,19 @@ export class BillsPage {
 
   constructor(
     public navCtrl: NavController, 
+    private navParams: NavParams,
     private billRepo: BillRepository, 
+    private events: Events,
     private loadingCtrl: LoadingController) 
   {
     
+    this.month = parseInt(this.navParams.get("month"));
+
+    this.events.subscribe("month:changed", (month) =>{
+      this.month = parseInt(month);
+      this.doRefresh(true);
+    });
+
     this.loader = this.loadingCtrl.create({
       content: "Loading..."
     });
