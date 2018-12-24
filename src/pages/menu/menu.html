@@ -7,6 +7,11 @@
 
     <ion-content>
         <ion-list>
+                <ion-item>
+                    <ion-select [(ngModel)]="selectedMonth" (ngModelChange)="onChange()" id="monthFilter">
+                        <ion-option *ngFor="let month of months; let i = index" [value]="i">{{ month }}</ion-option>
+                    </ion-select>
+                </ion-item>
             <button ion-item menuClose *ngFor="let p of pages">
                 <ion-icon item-start [name]="p.icon" (click)="openPage(p)">
                     {{ p.title }}
@@ -15,9 +20,5 @@
         </ion-list>
     </ion-content>
 </ion-menu>
-
-<ion-fab right>
-    <button ion-fab mini color="secondary" (tap)="tapEvent($event)"><ion-icon name="add"></ion-icon></button>
-</ion-fab>
 
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

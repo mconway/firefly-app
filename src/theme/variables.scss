@@ -94,6 +94,11 @@ $card-md-background-color: color($colors, light);
   text-overflow: ellipsis;
 }
 
+#monthFilter {
+  min-width: 100%;
+  font-size: 2.2rem;
+}
+
 // App Theme
 // --------------------------------------------------
 // Ionic apps can have different themes applied, which can

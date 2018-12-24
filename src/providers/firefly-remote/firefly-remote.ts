@@ -55,40 +55,6 @@ export class FireflyRemoteProvider {
     }); 
   }
 
-  async getAccounts() {
-    return new Promise((resolve, reject) => {
-      this.getHttpHeaders()
-        .then(h => { 
-            this.http.get(this.settings.apiUrl + '/accounts?type=asset', {headers: h})
-              .subscribe(data => {
-                resolve(data);
-              }, err => {
-                reject(err);
-              });
-          });
-       });
-  }
-
-  getBills(start, end) {
-    return new Promise(resolve => {
-      this.getHttpHeaders()
-        .then(h => {
-          this.http.get(this.settings.apiUrl + '/bills', {
-            headers: h, 
-            params: {
-              'start': start,
-              'end': end
-            }
-          }
-        ).subscribe(bills => {
-              resolve(bills);
-            }, err => {
-              console.log(err)
-            });
-        });
-      });
-  }
-
   async getEntities(endpoint: string, recursive: boolean = false) {
     return new Promise((resolve, reject) => {
       this.getHttpHeaders()
@@ -106,10 +72,25 @@ export class FireflyRemoteProvider {
       if(recurse && response["links"].next !== undefined && response["links"].next !== null){
         this.getEntitiesRecursive(response["links"].next, headers, allEntities, resolve, reject, recurse);
       }else{
+        // need to clean this up to handle extra items besides data - this was added to get piggybankevents
+        if(response['included'] !== undefined)
+          allEntities['included'] = response['included'];
         resolve(allEntities);
       }
     }, err => {
       reject(err);
+    });
+  }
+
+  public updateEntity(endpoint: string, entity: any){
+    return new Promise((resolve, reject) => {
+      this.getHttpHeaders()
+      .then(h => {
+        this.http.put(this.settings.apiUrl + endpoint, entity, { headers: h }).subscribe(response => resolve(response));
+      }, err => {
+        console.log(err.message);
+        reject(err);
+      });
     });
   }
 

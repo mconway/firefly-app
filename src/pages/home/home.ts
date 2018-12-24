@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Events } from 'ionic-angular';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage, TransactionDetailPage, AddTransactionPage } from '../transactions/transactions';
 import { TransactionListModel } from '../../models/transactionlist.model';
@@ -12,6 +12,7 @@ import { PiggybankRepository } from '../../repositories/piggybank.repository';
 import { SettingsPage } from '../settings/settings';
 import { BudgetRepository } from '../../repositories/budget.repository';
 import { BudgetLimitRepository } from '../../repositories/budgetlimit.repository';
+import { IfObservable } from 'rxjs/observable/IfObservable';
 
 @Component({
   selector: 'page-home',
@@ -26,9 +27,12 @@ export class HomePage {
   creditTotal = 0;
   loader: any;
   piggyBanks: any;
+  month: number; 
 
   constructor(
     public navCtrl: NavController, 
+    private navParams: NavParams,
+    private events: Events,
     private transactionList: TransactionListModel,
     private loadingCtrl: LoadingController, 
     private accountRepo: AccountRepository,
@@ -38,6 +42,13 @@ export class HomePage {
     private piggybankRepo: PiggybankRepository,
     private firefly: FireflyRemoteProvider)
   {
+      this.month = parseInt(this.navParams.get("month"));
+
+      this.events.subscribe("month:changed", (month) =>{
+        this.month = parseInt(month);
+        this.getAllData(true);
+      });
+
       this.loader = this.loadingCtrl.create({
         content: "Loading..."
       });
@@ -65,17 +76,17 @@ export class HomePage {
       this.getRecentTransactions(refresh),
       this.getUpcomingBills(refresh),
       this.getPiggyBanks(refresh),
-      this.budgetsRepo.getAll(true, refresh),
-      this.budgetLimitsRepo.getAll(true, refresh)
+      this.budgetsRepo.getAll(this.month, true, refresh),
+      this.budgetLimitsRepo.getAll(this.month, true, refresh)
     ]
 
     return Promise.all(dataMethods);
   }
 
   private getAccounts(refresh: boolean = false) {
-    this.accountRepo.getAll(true, refresh);
+    this.accountRepo.getAll(this.month, true, refresh);
 
-    return this.accountRepo.getAll(true, refresh).then((data) => {
+    return this.accountRepo.getAll(this.month, true, refresh).then((data) => {
       var accounts = this.accountRepo.groupAccounts("role", data);
       this.creditTotal = this.accountRepo.getSubgroupTotal(["ccAsset"], accounts);
       this.cashTotal = this.accountRepo.getSubgroupTotal(["defaultAsset","savingAsset"],accounts);
@@ -89,7 +100,7 @@ export class HomePage {
   }
 
   private getUpcomingBills(refresh: boolean = false){
-    return this.billRepo.getAll(false, refresh).then((bills) => {
+    return this.billRepo.getAll(this.month, false, refresh).then((bills) => {
       bills.sort(function(a, b){
         return a.nextExpectedMatch.getTime() - b.nextExpectedMatch.getTime();
       });
@@ -99,12 +110,16 @@ export class HomePage {
   }
 
   private getPiggyBanks(refresh: boolean = false){
-    return this.piggybankRepo.getAll(true, refresh).then((piggyBanks) => {
+    return this.piggybankRepo.getAll(this.month, true, refresh).then((piggyBanks) => {
       this.piggyBanks = piggyBanks;
     });
   }
 
   private doRefresh(refresher){
+    if(this.month === null || this.month === undefined){
+      this.events.publish("month:request");
+    }
+
     this.getAllData(true).then( () => {
       refresher.complete();
     }).catch(err => { refresher.complete() });
@@ -130,5 +145,9 @@ export class HomePage {
 
   showTransactionDetails(transaction){
     this.navCtrl.push(TransactionDetailPage, { transaction: transaction });
+  }
+  
+  tapEvent(e){
+    this.navCtrl.push(AddTransactionPage);
   }
 }

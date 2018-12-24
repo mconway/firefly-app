@@ -11,6 +11,7 @@ export class AccountsPage {
   private loader: any;
   private accounts: AccountModel[] = [];
   private accountTypes: any = [];
+  private month: number;
 
   constructor(
     public navCtrl: NavController, 
@@ -27,7 +28,7 @@ export class AccountsPage {
   }
 
   getAccounts(){
-    return this.accountRepo.getAll(true, false).then( (accounts) => {
+    return this.accountRepo.getAll(this.month, true, false).then( (accounts) => {
       var accountTypes = ["Asset account", "Loan", "Mortgage", "Debt"];
       var accountRoles = ["ccAsset", "defaultAsset", "sharedAsset", "savingAsset"];
 

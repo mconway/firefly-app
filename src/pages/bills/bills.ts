@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController, NavParams } from 'ionic-angular';
+import { NavController, LoadingController, NavParams, Events } from 'ionic-angular';
 import { BillRepository } from '../../repositories/bill.repository';
 
 @Component({
@@ -10,20 +10,30 @@ export class BillsPage {
   private loader: any;
   private groupedBills: any;
   private dueDates: any;
+  private month: number;
 
   constructor(
     public navCtrl: NavController, 
+    private navParams: NavParams,
     private billRepo: BillRepository, 
+    private events: Events,
     private loadingCtrl: LoadingController) 
   {
     
+    this.month = parseInt(this.navParams.get("month"));
+
+    this.events.subscribe("month:changed", (month) =>{
+      this.month = parseInt(month);
+      this.doRefresh(true);
+    });
+
     this.loader = this.loadingCtrl.create({
       content: "Loading..."
     });
 
     this.loader.present();
 
-    this.billRepo.getAll(true, false).then( (d) => {
+    this.billRepo.getAll(this.month, true, false).then( (d) => {
       this.initiateBills(d);
       this.loader.dismiss();
     });
@@ -47,7 +57,7 @@ export class BillsPage {
   }
 
   doRefresh(refresher){
-    this.billRepo.getAll(true, true).then( (d) => {
+    this.billRepo.getAll(this.month, true, true).then( (d) => {
       this.initiateBills(d);
       refresher.complete();
     });

@@ -1,24 +1,33 @@
 import { IRead } from './interfaces/iread.repository';
+import { IWrite } from './interfaces/iwrite.repository';
 import { ModelFactory } from '../models/model.factory';
 import { FireflyRemoteProvider } from '../providers/firefly-remote/firefly-remote';
 import { Storage } from '@ionic/storage';
 import { Inject } from "@angular/core";
 
-export class BaseRepository<T> implements IRead<T>
+export class BaseRepository<T> implements IRead<T>, IWrite<T>
 {
     protected endpoint: string = '';
     protected model: any;
     protected _rawData: any = null;
+    protected month: number;
 
     constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
         
     }
 
-    getEndpoint(){
-        return this.endpoint;
+    public getEndpoint(id: number = null){
+        if(id === null){
+            return this.endpoint;
+        }else{
+            return this.endpoint + "/" + id.toString();
+        }
     }
 
-    getAll(recursive:boolean = false, refresh: boolean = false): Promise<T[]> {
+    public getAll(month: number, recursive:boolean = false, refresh: boolean = false): Promise<T[]> {
+
+        this.month = month;
+
         return new Promise((resolve, reject) => {
 
             // instantiate collection just in case.
@@ -43,12 +52,17 @@ export class BaseRepository<T> implements IRead<T>
         });
     }
 
-    find(): Promise<T[]> {
+    public find(): Promise<T[]> {
         throw new Error("Method not implemented");
     }
 
-    findOne(): Promise<T> {
+    public findOne(): Promise<T> {
         throw new Error("Method not implemented");
+    }
+
+    public getOne(id: number): Promise<T> {
+        var endpoint = this.getEndpoint(id);
+        return this.fireflyService.getEntities(endpoint, false);
     }
 
     private saveEntitiesToStorage(): Promise<T>{
@@ -74,6 +88,11 @@ export class BaseRepository<T> implements IRead<T>
         }
 
         return collection;
+    }
+
+    public update(delta: any): Promise<T>{
+        var entity = delta.getApiEntity();
+        return this.fireflyService.updateEntity(this.getEndpoint() + "/" + delta.id, entity);
     }
 
 }

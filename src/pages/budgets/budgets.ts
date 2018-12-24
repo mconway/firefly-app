@@ -12,6 +12,7 @@ import { BudgetLimitModel } from '../../models/budgetlimit.model';
 export class BudgetsPage {
   private loader: any;
   private budgets: any;
+  private month: number; 
 
   constructor(
     public navCtrl: NavController, 
@@ -25,7 +26,7 @@ export class BudgetsPage {
 
     this.loader.present();
 
-    Promise.all([this.budgetRepo.getAll(true, false), this.budgetLimitRepo.getAll(true, false)]).then( (values) => {
+    Promise.all([this.budgetRepo.getAll(this.month, true, false), this.budgetLimitRepo.getAll(this.month, true, false)]).then( (values) => {
       this.budgets = this.initiateBudgets(values);
       this.loader.dismiss();
     });
@@ -51,7 +52,7 @@ export class BudgetsPage {
   }
 
   doRefresh(refresher){
-    Promise.all([this.budgetRepo.getAll(true, true), this.budgetLimitRepo.getAll(true, true)]).then( (values) => {
+    Promise.all([this.budgetRepo.getAll(this.month, true, true), this.budgetLimitRepo.getAll(this.month, true, true)]).then( (values) => {
       this.budgets = this.initiateBudgets(values);
       refresher.complete();
     });

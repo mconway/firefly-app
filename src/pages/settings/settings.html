@@ -15,29 +15,44 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  <form [formGroup]="form" (ngSubmit)="save()">
+<ion-content class="outer-content">
+  <ion-card>
+    <ion-card-header>
+      Client Authentication
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="form" (ngSubmit)="save()">
 
-    <ion-item>
-      <ion-label color="primary" stacked>Server Url</ion-label>
-      <ion-input placeholder="Url" formControlName="serverUrl"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>Server Url</ion-label>
+        <ion-input placeholder="Url" formControlName="serverUrl"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label color="primary" stacked>Client Id</ion-label>
-      <ion-input placeholder="Client Id" formControlName="client_id"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>Client Id</ion-label>
+        <ion-input placeholder="Client Id" formControlName="client_id"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label color="primary" stacked>Client Secret</ion-label>
-      <ion-input placeholder="Client Secret" formControlName="client_secret"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>Client Secret</ion-label>
+        <ion-input placeholder="Client Secret" formControlName="client_secret"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <button ion-button type="submit" color="primary">Save</button>
-    </ion-item>
+      <ion-item-divider></ion-item-divider>
 
-  </form>
+      <ion-row>
+        <ion-col col-12 text-right>
+          <button ion-button icon-start type="submit" color="primary">
+            <ion-icon name="save"></ion-icon>
+            Save
+          </button>
+      </ion-col>
+      </ion-row>
+
+    </form>
+    </ion-card-content>
+  </ion-card>
+  
 
   <ion-card>
     <ion-card-header>

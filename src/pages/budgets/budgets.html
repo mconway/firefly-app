@@ -15,7 +15,7 @@
       <button *ngFor="let budget of budgets" color="light" ion-item>
         <ion-row>
           <ion-col col-9>{{ budget.name }} </ion-col>
-          <ion-col col-3 class="right-align-number">{{budget.limits[0].amount | currency}}</ion-col>
+          <ion-col col-3 class="right-align-number" *ngIf="budget.limits[0] !== undefined">{{budget.limits[0].amount | currency}}</ion-col>
         </ion-row>
       </button>
   </ion-list>
