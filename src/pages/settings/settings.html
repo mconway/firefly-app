@@ -24,18 +24,31 @@
       <form [formGroup]="form" (ngSubmit)="save()">
 
       <ion-item>
+        <ion-label> Authentication Method:</ion-label>
+        <ion-select formControlName="authType" interface="action-sheet">
+          <ion-option value="oauth">OAUTH2</ion-option>
+          <ion-option value="pat">PAT</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
         <ion-label color="primary" stacked>Server Url</ion-label>
         <ion-input placeholder="Url" formControlName="serverUrl"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="form.value.authType === 'oauth'">
         <ion-label color="primary" stacked>Client Id</ion-label>
-        <ion-input placeholder="Client Id" formControlName="client_id"></ion-input>
+        <ion-input placeholder="Client Id" formControlName="client_id" [disabled]="form.value.authType !== 'oauth'"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="form.value.authType === 'oauth'">
         <ion-label color="primary" stacked>Client Secret</ion-label>
-        <ion-input placeholder="Client Secret" formControlName="client_secret"></ion-input>
+        <ion-input placeholder="Client Secret" formControlName="client_secret" [disabled]="form.value.authType !== 'oauth'"></ion-input>
+      </ion-item>
+
+      <ion-item *ngIf="form.value.authType === 'pat'">
+        <ion-label color="primary" stacked>PAT Token</ion-label>
+        <ion-input placeholder="Token" formControlName="pat" [disabled]="form.value.authType !== 'pat'"></ion-input>
       </ion-item>
 
       <ion-item-divider></ion-item-divider>

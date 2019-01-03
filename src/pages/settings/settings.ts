@@ -47,6 +47,11 @@ export class SettingsPage {
       this.form.get('oauth_token').setValue(settings['oauth_token']);
       this.form.get('client_id').setValue(settings["client_id"]); 
       this.form.get('client_secret').setValue(settings["client_secret"]); 
+      if(settings["authType"] === undefined || settings["authType"] === null || settings["authType"] === "")
+      {
+        settings["authType"] = "oauth";
+      }
+      this.form.get('authType').setValue(settings["authType"]);
       this.getServerInfo();
     });
 
@@ -60,28 +65,36 @@ export class SettingsPage {
   save() { 
     // Save settings before we attempt to authenticate just in case something happens.
     this.storage.set('settings', JSON.stringify(this.form.value)).then(r => {
-          //Authenticate to oauth to get an auth code
-      this.getOauthToken().then( data => {
-        var token = data["code"];
-        this.form.get('oauth_token').setValue(token);
-        // Now get an access_token
-        this.fireflyService.getOauthToken(token).then( data => {
-          // Save the access token as the PAT
-          this.form.get('pat').setValue(data['access_token']);
-          this.storage.set('settings', JSON.stringify(this.form.value)).then(r => {
-            //refresh firefly server settings
-            this.fireflyService.getSettings().then(d => {
-              // Refresh Server Info
-              this.getServerInfo();
+      console.log(r)
+      if(this.form.value.authType === "oauth"){
+        // Authenticate to oauth to get an auth code
+        this.getOauthToken().then( data => {
+          var token = data["code"];
+          this.form.get('oauth_token').setValue(token);
+          // Now get an access_token
+          this.fireflyService.getOauthToken(token).then( data => {
+            // Save the access token as the PAT
+            this.form.get('pat').setValue(data['access_token']);
+            this.storage.set('settings', JSON.stringify(this.form.value)).then(r => {
+              //refresh firefly server settings
+              this.fireflyService.getSettings().then(d => {
+                // Refresh Server Info
+                this.getServerInfo();
+              });
             });
+          }).catch(err => {
+            this.presentToast("An error occurred getting Token: " + err.statusText);
           });
         }).catch(err => {
-          this.presentToast("An error occurred getting Token: " + err.statusText);
+          this.presentToast("An error occurred getting Code: " + err.statusText);
         });
-        
-      }).catch(err => {
-        this.presentToast("An error occurred getting Code: " + err.statusText);
-      });
+      }else{
+        //refresh firefly server settings
+        this.fireflyService.getSettings().then(d => {
+          // Refresh Server Info
+          this.getServerInfo();
+        });
+      }
     });
   }
 
@@ -104,7 +117,8 @@ export class SettingsPage {
       pat: [''],
       client_id: [''],
       client_secret: [''],
-      oauth_token: ['']
+      oauth_token: [''],
+      authType: ['oauth']
     });
   }
 
