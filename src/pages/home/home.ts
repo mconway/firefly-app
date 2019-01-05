@@ -27,7 +27,7 @@ export class HomePage {
   creditTotal = 0;
   loader: any;
   piggyBanks: any;
-  month: number; 
+  month: number = null; 
 
   constructor(
     public navCtrl: NavController, 
@@ -42,11 +42,15 @@ export class HomePage {
     private piggybankRepo: PiggybankRepository,
     private firefly: FireflyRemoteProvider)
   {
-      this.month = parseInt(this.navParams.get("month"));
+      if(this.navParams.get("month") !== undefined){
+        this.month = parseInt(this.navParams.get("month"));
+      }
 
       this.events.subscribe("month:changed", (month) =>{
-        this.month = parseInt(month);
-        this.getAllData(true);
+        if(month !== undefined){
+          this.month = parseInt(month);
+          this.getAllData(true);
+        }
       });
 
       this.loader = this.loadingCtrl.create({
@@ -80,7 +84,7 @@ export class HomePage {
       this.budgetLimitsRepo.getAll(this.month, true, refresh)
     ]
 
-    return Promise.all(dataMethods);
+    return Promise.all(dataMethods).then(() => { console.log("refresh complete"); });
   }
 
   private getAccounts(refresh: boolean = false) {
@@ -118,11 +122,12 @@ export class HomePage {
   private doRefresh(refresher){
     if(this.month === null || this.month === undefined){
       this.events.publish("month:request");
-    }
-
-    this.getAllData(true).then( () => {
       refresher.complete();
-    }).catch(err => { refresher.complete() });
+    }else{
+      this.getAllData(true).then( () => {
+        refresher.complete();
+      }).catch(err => { refresher.complete(); console.log(err) });
+    }
   }
 
   // navigation methods
