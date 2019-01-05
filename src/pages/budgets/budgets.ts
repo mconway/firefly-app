@@ -18,6 +18,7 @@ export class BudgetsPage {
     public navCtrl: NavController, 
     private budgetRepo: BudgetRepository,
     private budgetLimitRepo: BudgetLimitRepository, 
+    private navParams: NavParams,
     private loadingCtrl: LoadingController) 
   { 
     this.loader = this.loadingCtrl.create({
@@ -26,7 +27,9 @@ export class BudgetsPage {
 
     this.loader.present();
 
-    Promise.all([this.budgetRepo.getAll(this.month, true, false), this.budgetLimitRepo.getAll(this.month, true, false)]).then( (values) => {
+    this.month = parseInt(this.navParams.get("month"));
+
+    Promise.all([this.budgetRepo.getAll(this.month, true, false)]).then( (values) => {
       this.budgets = this.initiateBudgets(values);
       this.loader.dismiss();
     });
@@ -43,16 +46,18 @@ export class BudgetsPage {
     });
 
     budgets.forEach(budget => {
-      budget.limits = budgetLimits.filter(function(b){
-        return b.relatedBudget === budget.id;
+      this.budgetRepo.getLimits(budget.id).then(l => {
+        // var limit = new BudgetLimitModel(l)
+        budget.limits = l;
       });
+      
     });
 
     return budgets;
   }
 
   doRefresh(refresher){
-    Promise.all([this.budgetRepo.getAll(this.month, true, true), this.budgetLimitRepo.getAll(this.month, true, true)]).then( (values) => {
+    Promise.all([this.budgetRepo.getAll(this.month, true, true)]).then( (values) => {
       this.budgets = this.initiateBudgets(values);
       refresher.complete();
     });
