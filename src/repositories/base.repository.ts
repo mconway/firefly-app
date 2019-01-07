@@ -12,7 +12,7 @@ export class BaseRepository<T> implements IRead<T>, IWrite<T>
     protected _rawData: any = null;
     protected month: number;
 
-    constructor(@Inject(FireflyRemoteProvider) private fireflyService, @Inject(Storage) private storage){
+    constructor(@Inject(FireflyRemoteProvider) protected fireflyService, @Inject(Storage) private storage){
         
     }
 
@@ -65,15 +65,15 @@ export class BaseRepository<T> implements IRead<T>, IWrite<T>
         return this.fireflyService.getEntities(endpoint, false);
     }
 
-    private saveEntitiesToStorage(): Promise<T>{
+    protected saveEntitiesToStorage(): Promise<T>{
         return this.storage.set(this.getEndpoint(), this._rawData);
     }
 
-    private getEntitiesFromStorage(): Promise<T[]>{
+    protected getEntitiesFromStorage(): Promise<T[]>{
         return this.storage.get(this.getEndpoint());
     }
 
-    private processData(data: any): T[]{
+    protected processData(data: any): T[]{
 
         var collection = [];        
 

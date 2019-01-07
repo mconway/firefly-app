@@ -4,6 +4,7 @@ export class BudgetModel {
     id: Number;
     name: string;
     active: boolean;
+    spent: number;
     limits: BudgetLimitModel[];
 
     constructor(result: any){
@@ -15,5 +16,9 @@ export class BudgetModel {
         this.id = result.id;
         this.name = result.attributes.name;
         this.active = result.attributes.active;
+
+        // added in 0.9
+        if(result.attributes.spent !== undefined && result.attributes.spent[0] !== undefined)
+            this.spent = result.attributes.spent[0].amount;
     }
 }
