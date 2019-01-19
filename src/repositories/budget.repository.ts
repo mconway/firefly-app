@@ -36,7 +36,7 @@ export class BudgetRepository extends BaseRepository<BudgetModel>{
                     resolve(collection);
                 });
             }else{
-                this.fireflyService.getEntities(this.endpoint + "/" + id + "/limits/?start=" + this.getStartDate() + "&end=" + this.getEndDate(), recursive).then(d => {
+                this.fireflyService.getEntities(this.endpoint + "/" + id + "/limits?start=" + this.getStartDate() + "&end=" + this.getEndDate(), recursive).then(d => {
                     collection[0] = new BudgetLimitModel(d[0]);
                     this.saveEntitiesToStorage();
                     resolve(collection);

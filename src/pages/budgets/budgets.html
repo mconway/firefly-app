@@ -14,9 +14,9 @@
   <ion-list>
       <button *ngFor="let budget of budgets" color="light" ion-item>
         <ion-row>
-          <ion-col col-9>{{ budget.name }} </ion-col>
-          <ion-col col-3 class="right-align-number" *ngIf="budget.spent === undefined && budget.limits !== undefined">{{budget.limits[0].amount | currency}}</ion-col>
-          <ion-col col-3 class="right-align-number" *ngIf="budget.spent !== undefined">{{budget.spent | currency}} / <span *ngIf="budget.limits !== undefined && budget.limits.count > 0">{{ budget.limits[0].amount | currency }}</span></ion-col>
+          <ion-col col-7>{{ budget.name }} </ion-col>
+          <ion-col col-5 class="right-align-number" *ngIf="budget.spent === undefined && budget.limits !== undefined">{{budget.limits[0].amount | currency}}</ion-col>
+          <ion-col col-5 class="right-align-number" *ngIf="budget.spent !== undefined">{{budget.spent | currency}} / <span *ngIf="budget.limits !== undefined && budget.limits.length > 0">{{ budget.limits[0].amount | currency }}</span></ion-col>
         </ion-row>
       </button>
   </ion-list>
