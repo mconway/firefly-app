@@ -44,6 +44,8 @@ export class HomePage {
   {
       if(this.navParams.get("month") !== undefined){
         this.month = parseInt(this.navParams.get("month"));
+      }else{
+        this.events.publish("month:request");
       }
 
       this.events.subscribe("month:changed", (month) =>{
@@ -81,7 +83,6 @@ export class HomePage {
       this.getUpcomingBills(refresh),
       this.getPiggyBanks(refresh),
       this.budgetsRepo.getAll(this.month, true, refresh),
-      this.budgetLimitsRepo.getAll(this.month, true, refresh)
     ]
 
     return Promise.all(dataMethods).then(() => { console.log("refresh complete"); });
@@ -106,7 +107,7 @@ export class HomePage {
   private getUpcomingBills(refresh: boolean = false){
     return this.billRepo.getAll(this.month, false, refresh).then((bills) => {
       bills.sort(function(a, b){
-        return a.nextExpectedMatch.getTime() - b.nextExpectedMatch.getTime();
+        return new Date(a.nextExpectedMatch).getTime() - new Date(b.nextExpectedMatch).getTime();
       });
 
       this.upcomingBills = bills.filter(function(a){return a.active}).slice(0,5);
