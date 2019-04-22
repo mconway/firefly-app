@@ -68,7 +68,13 @@ export class FireflyRemoteProvider {
   private getEntitiesRecursive(url, headers, entities: any, resolve, reject, recurse){
     this.http.get(url, {headers: headers})
     .subscribe(response => {
-      var allEntities = entities.concat(response["data"]);
+      if(!Array.isArray(response)){
+        var allEntities = entities.concat(response["data"]);
+      }
+      else{
+        var allEntities = entities.concat(response);
+      }
+      
       if(recurse && response["links"].next !== undefined && response["links"].next !== null){
         this.getEntitiesRecursive(response["links"].next, headers, allEntities, resolve, reject, recurse);
       }else{
