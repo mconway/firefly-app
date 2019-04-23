@@ -32,6 +32,7 @@ export class HomePage {
   month: number = null; 
 
   @ViewChild('categorySpendChart') categoryChart;
+  @ViewChild('budgetSpendChart') budgetChart;
 
   constructor(
     public navCtrl: NavController, 
@@ -88,7 +89,7 @@ export class HomePage {
       this.getUpcomingBills(refresh),
       this.getPiggyBanks(refresh),
       this.getCharts(refresh),
-      this.budgetsRepo.getAll(this.month, true, refresh),
+      this.getBudgets(refresh)
     ]
 
     return Promise.all(dataMethods).then(() => { console.log("refresh complete"); console.log()});
@@ -101,6 +102,57 @@ export class HomePage {
       var accounts = this.accountRepo.groupAccounts("role", data);
       this.creditTotal = this.accountRepo.getSubgroupTotal(["ccAsset"], accounts);
       this.cashTotal = this.accountRepo.getSubgroupTotal(["defaultAsset","savingAsset"],accounts);
+    });
+  }
+
+  private getBudgets(refresh: boolean = false){
+    this.budgetsRepo.getAll(this.month, true, refresh).then(b => {
+
+      console.log(b);
+
+      var filteredBudgets = b.filter( budget => budget.spent !== undefined).sort((first, second) => { return first.spent - second.spent });
+
+      var budgets = [];
+
+      filteredBudgets.forEach( (budget) => {
+          return budgets[budget.name] = budget.spent;
+      })
+
+      console.log(budgets)
+
+      //var budgetLabels = budgets.map(model => model.name); 
+      //var budgetSpent = budgets.map(model => model.spent); 
+
+      //console.log(budgetLabels)
+      var data = Object.keys(budgets).map(key => budgets[key]);
+      
+      var chart = new Chart(this.budgetChart.nativeElement, {
+        type: 'doughnut',
+        options: {
+          tooltips: {
+            enabled: true
+          },
+          legend: { 
+            display: true,
+            position: "right",
+
+          }
+        },
+        data: {
+          labels: Object.keys(budgets).slice(0,6), 
+          datasets: [{
+            data: data.slice(0,6),
+            backgroundColor: [
+              "red",
+              "orange",
+              "yellow",
+              "green",
+              "blue",
+              "purple"
+            ]
+          }],
+        }
+      });
     });
   }
 
