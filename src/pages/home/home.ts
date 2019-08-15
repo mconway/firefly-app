@@ -108,8 +108,6 @@ export class HomePage {
   private getBudgets(refresh: boolean = false){
     this.budgetsRepo.getAll(this.month, true, refresh).then(b => {
 
-      console.log(b);
-
       var filteredBudgets = b.filter( budget => budget.spent !== undefined).sort((first, second) => { return first.spent - second.spent });
 
       var budgets = [];
@@ -118,12 +116,9 @@ export class HomePage {
           return budgets[budget.name] = budget.spent;
       })
 
-      console.log(budgets)
-
       //var budgetLabels = budgets.map(model => model.name); 
       //var budgetSpent = budgets.map(model => model.spent); 
 
-      //console.log(budgetLabels)
       var data = Object.keys(budgets).map(key => budgets[key]);
       
       var chart = new Chart(this.budgetChart.nativeElement, {

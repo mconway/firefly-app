@@ -9,9 +9,6 @@ export class AccountRepository extends BaseRepository<AccountModel>{
     public groupAccounts(group: string, accounts: any): AccountModel[]{
         return accounts.reduce(function (r, a) {
             //if(a[group] !== undefined && a[group] !== null){
-                //console.log(r);
-                //console.log(a)
-                //console.log(a[group])
                 r[a[group]] = r[a[group]] || [];
                 r[a[group]].push(a);
                 return r;
