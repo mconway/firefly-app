@@ -81,9 +81,9 @@ export class AddTransactionPage {
 
     // get expense and revenue accounts
     this.accountRepo.getAll(this.month, true).then( d => { 
-      this.expenseAccounts = d.filter(function(a){ return a.type === "Expense account" });
-      this.revenueAccounts = d.filter(function(a){ return a.type === "Revenue account" });
-      this.assetAccounts = d.filter(function(a){ return a.type === "Asset account" });
+      this.expenseAccounts = d.filter(function(a){ return a.type === "Expense account" || a.type == 'expense'});
+      this.revenueAccounts = d.filter(function(a){ return a.type === "Revenue account" || a.type == 'revenue'});
+      this.assetAccounts = d.filter(function(a){ return a.type === "Asset account" || a.type == 'asset' });
     });
 
     this.piggyRepo.getAll(this.month, true).then( pb => {
