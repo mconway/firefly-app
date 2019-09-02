@@ -2,7 +2,7 @@ import { BaseRepository } from './base.repository';
 import { BudgetLimitModel } from '../models/budgetlimit.model';
 
 export class BudgetLimitRepository extends BaseRepository<BudgetLimitModel>{
-    protected endpoint: string = '/budget_limits';
+    protected endpoint: string = '/budgets/limits';
     protected model = BudgetLimitModel;
 
     // This needs to be more dynamic
