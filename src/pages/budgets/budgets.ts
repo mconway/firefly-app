@@ -49,8 +49,7 @@ export class BudgetsPage {
       this.budgetRepo.getLimits(budget.id).then(l => {
         // var limit = new BudgetLimitModel(l)
         budget.limits = l;
-      });
-      
+      }); 
     });
 
     return budgets;

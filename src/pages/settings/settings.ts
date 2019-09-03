@@ -65,7 +65,6 @@ export class SettingsPage {
   save() { 
     // Save settings before we attempt to authenticate just in case something happens.
     this.storage.set('settings', JSON.stringify(this.form.value)).then(r => {
-      console.log(r)
       if(this.form.value.authType === "oauth"){
         // Authenticate to oauth to get an auth code
         this.getOauthToken().then( data => {

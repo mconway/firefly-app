@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, LoadingController, Events } from 'ionic-angular';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage, TransactionDetailPage, AddTransactionPage } from '../transactions/transactions';
@@ -12,7 +12,9 @@ import { PiggybankRepository } from '../../repositories/piggybank.repository';
 import { SettingsPage } from '../settings/settings';
 import { BudgetRepository } from '../../repositories/budget.repository';
 import { BudgetLimitRepository } from '../../repositories/budgetlimit.repository';
+import { ChartRepository } from '../../repositories/chart.repository';
 import { IfObservable } from 'rxjs/observable/IfObservable';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'page-home',
@@ -29,6 +31,9 @@ export class HomePage {
   piggyBanks: any;
   month: number = null; 
 
+  @ViewChild('categorySpendChart') categoryChart;
+  @ViewChild('budgetSpendChart') budgetChart;
+
   constructor(
     public navCtrl: NavController, 
     private navParams: NavParams,
@@ -40,10 +45,13 @@ export class HomePage {
     private budgetsRepo: BudgetRepository,
     private budgetLimitsRepo: BudgetLimitRepository,
     private piggybankRepo: PiggybankRepository,
+    private chartsRepo: ChartRepository,
     private firefly: FireflyRemoteProvider)
   {
       if(this.navParams.get("month") !== undefined){
         this.month = parseInt(this.navParams.get("month"));
+      }else{
+        this.events.publish("month:request");
       }
 
       this.events.subscribe("month:changed", (month) =>{
@@ -80,11 +88,11 @@ export class HomePage {
       this.getRecentTransactions(refresh),
       this.getUpcomingBills(refresh),
       this.getPiggyBanks(refresh),
-      this.budgetsRepo.getAll(this.month, true, refresh),
-      this.budgetLimitsRepo.getAll(this.month, true, refresh)
+      this.getCharts(refresh),
+      this.getBudgets(refresh)
     ]
 
-    return Promise.all(dataMethods).then(() => { console.log("refresh complete"); });
+    return Promise.all(dataMethods).then(() => { console.log("refresh complete"); console.log()});
   }
 
   private getAccounts(refresh: boolean = false) {
@@ -97,6 +105,52 @@ export class HomePage {
     });
   }
 
+  private getBudgets(refresh: boolean = false){
+    this.budgetsRepo.getAll(this.month, true, refresh).then(b => {
+
+      var filteredBudgets = b.filter( budget => budget.spent !== undefined).sort((first, second) => { return first.spent - second.spent });
+
+      var budgets = [];
+
+      filteredBudgets.forEach( (budget) => {
+          return budgets[budget.name] = budget.spent;
+      })
+
+      //var budgetLabels = budgets.map(model => model.name); 
+      //var budgetSpent = budgets.map(model => model.spent); 
+
+      var data = Object.keys(budgets).map(key => budgets[key]);
+      
+      var chart = new Chart(this.budgetChart.nativeElement, {
+        type: 'doughnut',
+        options: {
+          tooltips: {
+            enabled: true
+          },
+          legend: { 
+            display: true,
+            position: "right",
+
+          }
+        },
+        data: {
+          labels: Object.keys(budgets).slice(0,6), 
+          datasets: [{
+            data: data.slice(0,6),
+            backgroundColor: [
+              "red",
+              "orange",
+              "yellow",
+              "green",
+              "blue",
+              "purple"
+            ]
+          }],
+        }
+      });
+    });
+  }
+
   private getRecentTransactions(refresh: boolean = false){
     return this.transactionList.getTransactions(refresh).then((t) => {
       this.recentTransactions = this.transactionList.transactions.slice(0,5);
@@ -106,7 +160,7 @@ export class HomePage {
   private getUpcomingBills(refresh: boolean = false){
     return this.billRepo.getAll(this.month, false, refresh).then((bills) => {
       bills.sort(function(a, b){
-        return a.nextExpectedMatch.getTime() - b.nextExpectedMatch.getTime();
+        return new Date(a.nextExpectedMatch).getTime() - new Date(b.nextExpectedMatch).getTime();
       });
 
       this.upcomingBills = bills.filter(function(a){return a.active}).slice(0,5);
@@ -116,6 +170,48 @@ export class HomePage {
   private getPiggyBanks(refresh: boolean = false){
     return this.piggybankRepo.getAll(this.month, true, refresh).then((piggyBanks) => {
       this.piggyBanks = piggyBanks;
+    });
+  }
+
+  private getCharts(refresh: boolean = false){
+    return this.chartsRepo.getAll(this.month, false, refresh).then((charts) => {
+      var spentChart = charts.filter(c => { return c.label === "firefly.box_spent_in_currency" });
+
+      if(spentChart.length !== 1){
+        return false;
+      }
+
+      var entries = spentChart[0].entries;
+
+      var data = Object.keys(entries).map(key => entries[key]);
+
+      var chart = new Chart(this.categoryChart.nativeElement, {
+        type: 'doughnut',
+        options: {
+          tooltips: {
+            enabled: true
+          },
+          legend: { 
+            display: true,
+            position: "right",
+
+          }
+        },
+        data: {
+          labels: Object.keys(entries).slice(0,6), 
+          datasets: [{
+            data: data.slice(0,6),
+            backgroundColor: [
+              "red",
+              "orange",
+              "yellow",
+              "green",
+              "blue",
+              "purple"
+            ]
+          }],
+        }
+      });
     });
   }
 

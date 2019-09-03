@@ -24,17 +24,19 @@ import { TransactionModel } from '../models/transaction.model';
 
 import { BaseRepository } from '../repositories/base.repository';
 import { AccountRepository } from '../repositories/account.repository';
+import { BillRepository } from '../repositories/bill.repository';
+import { BudgetRepository } from '../repositories/budget.repository';
+import { BudgetLimitRepository } from '../repositories/budgetlimit.repository';
 import { CategoryRepository } from '../repositories/category.repository';
+import { ChartRepository } from '../repositories/chart.repository';
 import { PiggybankRepository } from '../repositories/piggybank.repository';
 
 import { Network } from '@ionic-native/network';
 import { AppVersion } from '@ionic-native/app-version'
-import { BillRepository } from '../repositories/bill.repository';
 import { MenuPage } from '../pages/menu/menu';
 import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggybanks';
-import { BudgetLimitRepository } from '../repositories/budgetlimit.repository';
 import { BudgetsPage } from '../pages/budgets/budgets';
-import { BudgetRepository } from '../repositories/budget.repository';
+
 
 @NgModule({
   declarations: [
@@ -95,6 +97,7 @@ import { BudgetRepository } from '../repositories/budget.repository';
     BudgetRepository,
     BudgetLimitRepository,
     CategoryRepository,
+    ChartRepository,
     PiggybankRepository,
     Network,
     AppVersion

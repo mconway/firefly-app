@@ -78,6 +78,29 @@
   </ion-card>
 
   <ion-card>
+  <ion-slides charts>
+    <ion-slide>
+              <ion-row>
+                  <ion-col col-8>Spending by Category</ion-col>
+              </ion-row>
+          <ion-row>
+              <canvas #categorySpendChart id="categorySpendChart"></canvas>
+          </ion-row>
+    </ion-slide>
+ 
+    <ion-slide>
+              <ion-row>
+                  <ion-col col-8>Spending by Budget</ion-col>
+              </ion-row>
+          <ion-row>
+              <canvas #budgetSpendChart id="budgetSpendChart"></canvas>
+          </ion-row>
+    </ion-slide>
+  </ion-slides>
+</ion-card>
+  
+
+  <ion-card>
     <ion-card-header>
       <ion-row>
         <ion-col col-6>Upcoming Bills</ion-col>

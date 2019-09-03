@@ -29,15 +29,15 @@ export class AccountsPage {
 
   getAccounts(){
     return this.accountRepo.getAll(this.month, true, false).then( (accounts) => {
-      var accountTypes = ["Asset account", "Loan", "Mortgage", "Debt"];
+      var accountTypes = ["Asset account", "Loan", "Mortgage", "Debt", "asset", "liabilities"];
       var accountRoles = ["ccAsset", "defaultAsset", "sharedAsset", "savingAsset"];
 
       accounts = accounts.filter(function(a) { 
         var result = a.type !== null && ( (a.type === accountTypes[0] && a.role !== null && accountRoles.indexOf(a.role) !== -1) || accountTypes.indexOf(a.type) !== -1);
         return result;
       });
-
-      this.accounts = this.accountRepo.groupAccounts("type", accounts);
+      
+      this.accounts = this.accountRepo.groupAccounts("role", accounts);
       this.accountTypes = Object.keys(this.accounts);
       this.loader.dismiss();
     });
