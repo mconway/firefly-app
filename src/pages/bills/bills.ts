@@ -41,10 +41,10 @@ export class BillsPage {
   }
 
   initiateBills(data){
-    data.sort(function(a, b){
-      return a.nextExpectedMatch - b.nextExpectedMatch;
+    var filteredBills = data.filter(b => { return b.active } ).sort(function(a, b){
+      return new Date(a.nextExpectedMatch).getTime() - new Date(b.nextExpectedMatch).getTime();
     });
-    this.groupedBills = this.groupBills("nextExpectedMatch", data);
+    this.groupedBills = this.groupBills("nextExpectedMatch", filteredBills);
     this.dueDates = Object.keys(this.groupedBills);
   }
 
