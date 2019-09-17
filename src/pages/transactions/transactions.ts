@@ -74,7 +74,7 @@ export class AddTransactionPage {
       public params: NavParams, 
       public viewCtrl: ViewController, 
       private formBuilder: FormBuilder, 
-      private model: TransactionModel,
+      //private model: TransactionModel,
       private toastCtrl: ToastController,
       private loadingCtrl: LoadingController,
       private categoryRepo: CategoryRepository,
@@ -113,8 +113,10 @@ export class AddTransactionPage {
     if(this.form.valid){
       this.loader.present();
       var formData = this.form.value;
-      /*this.model.loadFromForm(formData);
-      this.model.save().then((message) => {
+      var transaction = new TransactionModel(formData);
+      console.log(transaction)
+      //this.model.loadFromForm(formData);
+      /*this.model.save().then((message) => {
         this.presentToast("Transaction Created Successfully");
         this.loader.dismiss();
         this.dismiss();
@@ -132,8 +134,8 @@ export class AddTransactionPage {
     this.form = this.formBuilder.group({
       type: ['withdrawal', Validators.required],
       description: ['', Validators.required],
-      source: [''],
-      destination: [''],
+      source_id: [''],
+      destination_id: [''],
       category_id: ['', Validators.required],
       amount: ['', Validators.required],
       currency_code: ['', Validators.required],
