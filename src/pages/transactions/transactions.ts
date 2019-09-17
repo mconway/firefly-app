@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 import { Platform, NavParams, ViewController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TransactionListModel } from '../../models/transactionlist.model';
+import { TransactionGroupModel } from '../../models/transactiongroup.model';
 import { TransactionModel } from '../../models/transaction.model';
 import { CategoryRepository } from '../../repositories/category.repository';
 import { AccountRepository } from '../../repositories/account.repository';
 import { PiggybankRepository } from '../../repositories/piggybank.repository';
+import { TransactionGroupRepository } from '../../repositories/transactiongroup.repository';
 
 @Component({
   selector: 'page-home',
@@ -15,10 +16,13 @@ import { PiggybankRepository } from '../../repositories/piggybank.repository';
 
 export class TransactionsPage {
   private loader: any;
+  private month: number; 
+  private transactionList: TransactionGroupModel[];
 
   constructor(
     public navCtrl: NavController, 
-    private transactionList : TransactionListModel,
+    private transactionGroupRepo: TransactionGroupRepository,
+    private navParams: NavParams,
     private loadingCtrl: LoadingController)
   {
 
@@ -28,13 +32,17 @@ export class TransactionsPage {
 
     this.loader.present();
 
-    this.transactionList.getTransactions().then( () => {
+    this.month = parseInt(this.navParams.get("month"));
+
+    this.transactionGroupRepo.getAll(this.month, true, false).then( (results) => {
       this.loader.dismiss();
+      this.transactionList = results;
     });
   }
 
   doRefresh(refresher){
-    this.transactionList.getTransactions().then( () => {
+    this.transactionGroupRepo.getAll(this.month, true, true).then( (results) => {
+      this.transactionList = results;
       refresher.complete();
     });
   }
@@ -105,7 +113,7 @@ export class AddTransactionPage {
     if(this.form.valid){
       this.loader.present();
       var formData = this.form.value;
-      this.model.loadFromForm(formData);
+      /*this.model.loadFromForm(formData);
       this.model.save().then((message) => {
         this.presentToast("Transaction Created Successfully");
         this.loader.dismiss();
@@ -113,7 +121,7 @@ export class AddTransactionPage {
       }).catch( err => {
         this.loader.dismiss();
         this.presentToast(err.statusText);
-      });
+      });*/
     }else{
       this.presentToast("Please fill out all required fields and try again.");
     }

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, LoadingController, Events } from 'ionic-angular';
 import { AccountsPage } from '../accounts/accounts';
 import { TransactionsPage, TransactionDetailPage, AddTransactionPage } from '../transactions/transactions';
-import { TransactionListModel } from '../../models/transactionlist.model';
+import { TransactionGroupModel } from '../../models/transactiongroup.model';
 
 import { BillDetailPage } from '../bills/bills';
 import { FireflyRemoteProvider } from '../../providers/firefly-remote/firefly-remote';
@@ -15,6 +15,7 @@ import { BudgetLimitRepository } from '../../repositories/budgetlimit.repository
 import { ChartRepository } from '../../repositories/chart.repository';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Chart } from 'chart.js';
+import { TransactionGroupRepository } from '../../repositories/transactiongroup.repository';
 
 @Component({
   selector: 'page-home',
@@ -30,6 +31,7 @@ export class HomePage {
   loader: any;
   piggyBanks: any;
   month: number = null; 
+  transactionList: TransactionGroupModel[];
 
   @ViewChild('categorySpendChart') categoryChart;
   @ViewChild('budgetSpendChart') budgetChart;
@@ -38,7 +40,6 @@ export class HomePage {
     public navCtrl: NavController, 
     private navParams: NavParams,
     private events: Events,
-    private transactionList: TransactionListModel,
     private loadingCtrl: LoadingController, 
     private accountRepo: AccountRepository,
     private billRepo: BillRepository,
@@ -46,6 +47,7 @@ export class HomePage {
     private budgetLimitsRepo: BudgetLimitRepository,
     private piggybankRepo: PiggybankRepository,
     private chartsRepo: ChartRepository,
+    private transactionGroupRepo: TransactionGroupRepository,
     private firefly: FireflyRemoteProvider)
   {
       if(this.navParams.get("month") !== undefined){
@@ -88,7 +90,7 @@ export class HomePage {
       this.getRecentTransactions(refresh),
       this.getUpcomingBills(refresh),
       this.getPiggyBanks(refresh),
-      this.getCharts(refresh),
+      //this.getCharts(refresh),
       this.getBudgets(refresh)
     ]
 
@@ -152,8 +154,12 @@ export class HomePage {
   }
 
   private getRecentTransactions(refresh: boolean = false){
-    return this.transactionList.getTransactions(refresh).then((t) => {
+    /*return this.transactionList.getTransactions(refresh).then((t) => {
       this.recentTransactions = this.transactionList.transactions.slice(0,5);
+    });*/
+    return this.transactionGroupRepo.getAll(this.month, true, refresh).then((transactions) => {
+      this.transactionList = transactions;
+      this.recentTransactions = this.transactionList.slice(0,5);
     });
   }
 

@@ -1,7 +1,3 @@
-import { FireflyRemoteProvider } from "../providers/firefly-remote/firefly-remote";
-import { Inject, Injectable } from "@angular/core";
-import { Storage } from '@ionic/storage';
-
 export class BillModel {
     id: number;
     name: string;

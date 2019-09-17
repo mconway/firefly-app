@@ -50,22 +50,22 @@
               <ion-row align-items-center>
                 <ion-col col-2>
                   <ion-row>
-                      {{ transaction.attributes.date | date:'MMM' }}
+                      {{ transaction.transactions[0].date | date:'MMM' }}
                   </ion-row>
                   <ion-row>
-                      {{ transaction.attributes.date | date:'dd' }}
+                      {{ transaction.transactions[0].date | date:'dd' }}
                   </ion-row>
                 </ion-col>
-                <ion-col col-1><ion-icon [name]="transactionList.transactionTypeIcons[transaction.attributes.type]"></ion-icon></ion-col>
+                <ion-col col-1><ion-icon [name]="transaction.transactionTypeIcons[transaction.transactions[0].type]"></ion-icon></ion-col>
                 <ion-col col-6>
                   <ion-row class="truncate">
-                    {{ transaction.attributes.description }}
+                    {{ transaction.transactions[0].description }}
                   </ion-row>
                   <ion-row>
-                      <ion-note>{{ transaction.attributes.category_name}}</ion-note>
+                      <ion-note>{{ transaction.transactions[0].category_name}}</ion-note>
                   </ion-row>
                 </ion-col>
-                <ion-col col-3 class="right-align-number">{{ transaction.attributes.amount | currency : transaction.attributes.currency_symbol }}</ion-col>
+                <ion-col col-3 class="right-align-number">{{ transaction.amount | currency : transaction.transactions[0].currency_symbol }}</ion-col>
               </ion-row>
             </ion-grid>
           </ion-row>

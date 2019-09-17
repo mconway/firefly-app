@@ -19,8 +19,6 @@ import { HttpModule, BaseResponseOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { TransactionListModel } from '../models/transactionlist.model';
-import { TransactionModel } from '../models/transaction.model';
 
 import { BaseRepository } from '../repositories/base.repository';
 import { AccountRepository } from '../repositories/account.repository';
@@ -36,6 +34,7 @@ import { AppVersion } from '@ionic-native/app-version'
 import { MenuPage } from '../pages/menu/menu';
 import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggybanks';
 import { BudgetsPage } from '../pages/budgets/budgets';
+import { TransactionGroupRepository } from '../repositories/transactiongroup.repository';
 
 
 @NgModule({
@@ -89,8 +88,6 @@ import { BudgetsPage } from '../pages/budgets/budgets';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FireflyRemoteProvider,
     InAppBrowser,
-    TransactionListModel,
-    TransactionModel,
     BaseRepository,
     AccountRepository,
     BillRepository,
@@ -99,6 +96,7 @@ import { BudgetsPage } from '../pages/budgets/budgets';
     CategoryRepository,
     ChartRepository,
     PiggybankRepository,
+    TransactionGroupRepository,
     Network,
     AppVersion
   ]
