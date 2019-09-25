@@ -100,25 +100,12 @@ export class FireflyRemoteProvider {
     });
   }
 
-  getTransactions() {
-    return new Promise(resolve => {
-      this.getHttpHeaders()
-        .then(h => {
-          this.http.get(this.settings.apiUrl + '/transactions', {headers: h})
-            .subscribe(transactions => {
-              resolve(transactions);
-            }, err => {
-              console.log(err)
-            });
-        });
-      });
-  }
-
-  postTransaction(data: any){
+  public post(data: any, endpoint: string){
+    console.log(endpoint)
     return new Promise((resolve, reject) => {
       this.getHttpHeaders()
         .then(h => {
-          this.http.post(this.settings.apiUrl + '/transactions', JSON.stringify(data), { headers: h})
+          this.http.post(this.settings.apiUrl + endpoint, JSON.stringify(data), { headers: h})
           .subscribe(success => { return resolve(success); }, err => { return reject(err) })
         });
       });

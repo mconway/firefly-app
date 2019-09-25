@@ -30,28 +30,28 @@
 
     <ion-item *ngIf="form.value.type === 'withdrawal' || form.value.type === 'transfer'">
       <ion-label stacked color="primary">Source Account</ion-label>
-      <ion-select formControlName="source" interface="action-sheet" (ionChange)="changeCurrencyCode('source')"  [disabled]="form.value.type === 'deposit'">
+      <ion-select formControlName="source_id" interface="action-sheet" (ionChange)="changeCurrencyCode('source_id')"  [disabled]="form.value.type === 'deposit'">
           <ion-option *ngFor="let account of assetAccounts" [value]="account.id">{{ account.name }} | {{ account.currentBalance }} | ({{account.currencyCode}})</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item *ngIf="form.value.type === 'deposit' || form.value.type === 'transfer'">
       <ion-label stacked color="primary">Destination Account</ion-label>
-      <ion-select formControlName="destination" interface="action-sheet" (ionChange)="changeCurrencyCode('destination')" [disabled]="form.value.type === 'withdrawal'">
+      <ion-select formControlName="destination_id" interface="action-sheet" (ionChange)="changeCurrencyCode('destination_id')" [disabled]="form.value.type === 'withdrawal'">
           <ion-option *ngFor="let account of assetAccounts" [value]="account.id">{{ account.name }} | {{ account.currentBalance }} | ({{account.currencyCode}})</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item *ngIf="form.value.type === 'withdrawal'">
       <ion-label stacked color="primary">Expense Account</ion-label>
-      <ion-select formControlName="destination" interface="action-sheet"  [disabled]="form.value.type === 'deposit'">
+      <ion-select formControlName="destination_id" interface="action-sheet"  [disabled]="form.value.type === 'deposit'">
           <ion-option *ngFor="let account of expenseAccounts" [value]="account.id">{{ account.name }}</ion-option>
       </ion-select>
     </ion-item>
 
     <ion-item *ngIf="form.value.type === 'deposit'">
       <ion-label stacked color="primary">Revenue Account</ion-label>
-      <ion-select formControlName="source" interface="action-sheet" [disabled]="form.value.type === 'withdrawal'">
+      <ion-select formControlName="source_id" interface="action-sheet" [disabled]="form.value.type === 'withdrawal'">
           <ion-option *ngFor="let account of revenueAccounts" [value]="account.id">{{ account.name }}</ion-option>
       </ion-select>
     </ion-item>

@@ -1,6 +1,5 @@
 import { BaseRepository } from './base.repository';
 import { TransactionGroupModel } from '../models/transactiongroup.model';
-import { TransactionModel } from '../models/transaction.model';
 
 export class TransactionGroupRepository extends BaseRepository<TransactionGroupModel>{
     protected endpoint: string = '/transactions';
@@ -19,5 +18,4 @@ export class TransactionGroupRepository extends BaseRepository<TransactionGroupM
     public getEndpoint(){
         return this.endpoint + "?start=" + this.getStartDate() + "&end=" + this.getEndDate();
     }
-
 }

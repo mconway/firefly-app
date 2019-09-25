@@ -1,51 +1,48 @@
-import { FireflyRemoteProvider } from "../providers/firefly-remote/firefly-remote";
-import { Inject, Injectable } from "@angular/core";
-import { Storage } from '@ionic/storage';
-import { TransactionItemModel } from "./transactionItem.model";
+import { Injectable } from "@angular/core";
 
 @Injectable()
 export class TransactionModel{
 
     public user: number
-    public transactionJournalId: number
+    public transaction_journal_id: number
     public type: string 
     public date: Date
     public order: number
-    public currencyId: number
-    public currencyCode: string
-    public currencyName: string
-    public currencySymbol: string
-    public currencyDecimalPlaces: number
-    public foreignCurrencyId :  number
-    public foreignCurrencyCode :  string
-    public foreignCurrencySymbol :  string
-    public foreignCurrencyDecimalPlaces :  number
+    public currency_id: number
+    public currency_code: string
+    public currency_name: string
+    public currency_symbol: string
+    public currency_decimal_places: number
+    public foreign_currency_id :  number
+    public foreign_currency_code :  string
+    public foreign_currency_symbol :  string
+    public foreign_currency_decimal_places :  number
     public amount: number
-    public foreignAmount:  number
+    public foreign_amount:  number
     public description: string
-    public sourceId: number
-    public sourceName: string
-    public sourceIban: string
-    public sourceType: string
-    public destinationId: number
-    public destinationName: string
-    public destinationIban :  string
-    public destinationType: string
-    public budgetId: number
-    public budgetName: string
-    public categoryId: number
-    public categoryName: string
-    public billId :  number
-    public billName :  string
+    public source_id: number
+    public source_name: string
+    public source_iban: string
+    public source_type: string
+    public destination_id: number
+    public destination_name: string
+    public destination_iban :  string
+    public destination_type: string
+    public budget_id: number
+    public budget_name: string
+    public category_id: number
+    public category_name: string
+    public bill_id :  number
+    public bill_name :  string
     public reconciled: boolean
     public notes :  string
     public tags: any[]
-    public interestDate : Date
-    public bookDate : Date
-    public processDate : Date
-    public dueDate : Date
-    public paymentDate : Date
-    public invoiceDate: Date
+    public interest_date : Date
+    public book_date : Date
+    public process_date : Date
+    public due_date : Date
+    public payment_date : Date
+    public invoice_date: Date
 
     constructor(transactionGroupResult: any){
         if(transactionGroupResult !== undefined && transactionGroupResult !== null)
@@ -53,109 +50,46 @@ export class TransactionModel{
     }
 
     public hydrate(transactionGroupResult: any){
-        this.transactionJournalId = transactionGroupResult.transaction_journal_id;
+        this.transaction_journal_id = transactionGroupResult.transaction_journal_id;
         this.date = new Date(transactionGroupResult.date);
         this.description = transactionGroupResult.description;
 
         this.user = transactionGroupResult.user
         this.type = transactionGroupResult.type
         this.order = transactionGroupResult.order
-        this.currencyId = transactionGroupResult.currency_id
-        this.currencyCode = transactionGroupResult.currency_code
-        this.currencyName = transactionGroupResult.currency_name
-        this.currencySymbol = transactionGroupResult.currency_symbol
-        this.currencyDecimalPlaces = transactionGroupResult.currency_decimal_places
-        this.foreignCurrencyId = transactionGroupResult.foreign_currency_id
-        this.foreignCurrencyCode = transactionGroupResult.foreign_currency_code
-        this.foreignCurrencySymbol = transactionGroupResult.foreign_currency_symbol
-        this.foreignCurrencyDecimalPlaces = transactionGroupResult.foreign_currency_decimal_places
+        this.currency_id = transactionGroupResult.currency_id
+        this.currency_code = transactionGroupResult.currency_code
+        this.currency_name = transactionGroupResult.currency_name
+        this.currency_symbol = transactionGroupResult.currency_symbol
+        this.currency_decimal_places = transactionGroupResult.currency_decimal_places
+        this.foreign_currency_id = transactionGroupResult.foreign_currency_id
+        this.foreign_currency_code = transactionGroupResult.foreign_currency_code
+        this.foreign_currency_symbol = transactionGroupResult.foreign_currency_symbol
+        this.foreign_currency_decimal_places = transactionGroupResult.foreign_currency_decimal_places
         this.amount = parseFloat(transactionGroupResult.amount)
-        this.foreignAmount = transactionGroupResult.foreign_amount
-        this.sourceId = transactionGroupResult.source_id
-        this.sourceName = transactionGroupResult.source_name
-        this.sourceIban = transactionGroupResult.source_iban
-        this.sourceType = transactionGroupResult.source_type
-        this.destinationId = transactionGroupResult.destination_id
-        this.destinationName = transactionGroupResult.destination_name
-        this.destinationIban = transactionGroupResult.destination_iban
-        this.destinationType = transactionGroupResult.destination_type
-        this.budgetId = transactionGroupResult.budget_id
-        this.budgetName = transactionGroupResult.budget_name
-        this.categoryId = transactionGroupResult.category_id
-        this.categoryName = transactionGroupResult.category_name
-        this.billId = transactionGroupResult.bill_id
-        this.billName = transactionGroupResult.bill_name
+        this.foreign_amount = transactionGroupResult.foreign_amount
+        this.source_id = transactionGroupResult.source_id
+        this.source_name = transactionGroupResult.source_name
+        this.source_iban = transactionGroupResult.source_iban
+        this.source_type = transactionGroupResult.source_type
+        this.destination_id = transactionGroupResult.destination_id
+        this.destination_name = transactionGroupResult.destination_name
+        this.destination_iban = transactionGroupResult.destination_iban
+        this.destination_type = transactionGroupResult.destination_type
+        this.budget_id = transactionGroupResult.budget_id
+        this.budget_name = transactionGroupResult.budget_name
+        this.category_id = transactionGroupResult.category_id
+        this.category_name = transactionGroupResult.category_name
+        this.bill_id = transactionGroupResult.bill_id
+        this.bill_name = transactionGroupResult.bill_name
         this.reconciled = transactionGroupResult.reconciled
         this.notes = transactionGroupResult.notes
         this.tags = transactionGroupResult.tags
-        this.interestDate = transactionGroupResult.interest_date
-        this.bookDate = transactionGroupResult.book_date
-        this.processDate = transactionGroupResult.process_date
-        this.dueDate = transactionGroupResult.due_date
-        this.paymentDate = transactionGroupResult.payment_date
-        this.invoiceDate = transactionGroupResult.invoice_date
+        this.interest_date = transactionGroupResult.interest_date
+        this.book_date = transactionGroupResult.book_date
+        this.process_date = transactionGroupResult.process_date
+        this.due_date = transactionGroupResult.due_date
+        this.payment_date = transactionGroupResult.payment_date
+        this.invoice_date = transactionGroupResult.invoice_date
     }
-/*
-    public save() {
-        return new Promise((resolve,reject)> {    
-
-            public data {
-                type: this.type,
-                description: this.description,
-                date: this.date,
-                piggy_bank_id: this.piggyBankId,
-                transactions: this.transactions
-            }
-
-            if(this.fireflyService.isConnected){
-                this.fireflyService.postTransaction(data).then( ()> {
-                    this.synced true;
-                    return resolve("Transaction Created Successfully");
-                }).catch( err> {
-                    return resolve("An error was encountered while saving your transaction");
-                });
-            }
-            else{
-                this.storage.get("pendingTransactions").then( pendingTransactions> {
-                    public pending pendingTransactions;
-
-                    if(pending= null || pending= undefined){
-                        pending [];
-                    }
-
-                    pending.push(data);
-                    this.storage.set("pendingTransactions", pending);
-                    return resolve("Transaction Queued");
-                });
-            }
-
-        });
-    }
-
-    public loadFromQueue(queueData: any){
-        this.type queueData.type;
-        this.description= queueData.description;
-        this.date queueData.date;
-        this.piggyBankId queueData.piggyBankId != '' ? queueData.piggyBankId : null;
-
-        // Only 1 sub item can be added for now
-        this.transactions queueData.transactions;
-
-        return this;
-    }
-
-    public loadFromForm(formData: any){
-        this.type formData.type;
-        this.description= formData.description;
-        this.date formData.date;
-        this.piggyBankId formData.piggy_bank_id !== '' ? formData.piggy_bank_id : null;
-
-        // Only 1 sub item can be added for now
-        // Bug #230 - need to rethink how transaction model is instantiated. Use repo pattern.
-        this.transactions [ new TransactionItemModel(formData)];
-        //this.transactions.push(new TransactionItemModel(formData));
-
-        return this;
-    }
-    */
 }

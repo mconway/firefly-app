@@ -1,6 +1,4 @@
 import { TransactionModel } from "./transaction.model";
-import { hasLifecycleHook } from "@angular/compiler/src/lifecycle_reflector";
-import { now } from "moment";
 
 export class TransactionGroupModel {
     public id: number;
@@ -14,6 +12,7 @@ export class TransactionGroupModel {
     public categoryName: string;
     public currencySymbol: string;
     public amount: number = 0;
+    public isPending: boolean = false;
     public transactionTypeIcons: any = {
         'Withdrawal': 'md-arrow-back',
         'Deposit': 'md-arrow-forward',
@@ -44,8 +43,8 @@ export class TransactionGroupModel {
                 this.transactionType = transaction.type;
                 this.date = transaction.date;
                 this.description = transaction.description;
-                this.categoryName = transaction.categoryName;
-                this.currencySymbol = transaction.currencySymbol;
+                this.categoryName = transaction.category_name;
+                this.currencySymbol = transaction.currency_symbol;
             }
             this.amount += transaction.amount;
 

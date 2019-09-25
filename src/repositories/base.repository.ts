@@ -65,6 +65,27 @@ export class BaseRepository<T> implements IRead<T>, IWrite<T>
         return this.fireflyService.getEntities(endpoint, false);
     }
 
+    public save(model): Promise<string> {
+        return new Promise((resolve, reject) => {    
+
+            if(this.fireflyService.isConnected){
+                this.fireflyService.post(model, this.getEndpoint()).then( (message) => {
+                    model.isPending = false;
+                    return resolve(message);
+                }).catch( err => {
+                    return resolve(err);
+                });
+            }
+            else{
+                model.isPending = true;
+                this._rawData += model;
+                this.saveEntitiesToStorage();
+
+                return resolve("Transaction Queued");
+            }
+        });
+    }
+
     protected saveEntitiesToStorage(): Promise<T>{
         return this.storage.set(this.getEndpoint(), this._rawData);
     }

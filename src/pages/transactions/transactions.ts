@@ -18,6 +18,7 @@ export class TransactionsPage {
   private loader: any;
   private month: number; 
   private transactionList: TransactionGroupModel[];
+  private pendingTransactionsCount: number = 0;
 
   constructor(
     public navCtrl: NavController, 
@@ -37,12 +38,14 @@ export class TransactionsPage {
     this.transactionGroupRepo.getAll(this.month, true, false).then( (results) => {
       this.loader.dismiss();
       this.transactionList = results;
+      this.pendingTransactionsCount = this.transactionList.filter( t => { return t.isPending }).length;
     });
   }
 
   doRefresh(refresher){
     this.transactionGroupRepo.getAll(this.month, true, true).then( (results) => {
       this.transactionList = results;
+      this.pendingTransactionsCount = this.transactionList.filter( t => { return t.isPending }).length;
       refresher.complete();
     });
   }
@@ -79,13 +82,14 @@ export class AddTransactionPage {
       private loadingCtrl: LoadingController,
       private categoryRepo: CategoryRepository,
       private accountRepo: AccountRepository,
-      private piggyRepo: PiggybankRepository
+      private piggyRepo: PiggybankRepository,
+      private transactionGroupRepo: TransactionGroupRepository
     )
   {
     this.buildForm();
 
     // get away from hardcoding the refresh request into this repo...
-    this.categoryRepo.getAll(this.month, true, true).then( d => { this.categories = d; });
+    this.categoryRepo.getAll(this.month, true, false).then( d => { this.categories = d; });
 
     // get expense and revenue accounts
     this.accountRepo.getAll(this.month, true).then( d => { 
@@ -108,26 +112,40 @@ export class AddTransactionPage {
     this.navCtrl.pop();
   }
 
-  save() {
-
+  private save() {
     if(this.form.valid){
       this.loader.present();
       var formData = this.form.value;
       var transaction = new TransactionModel(formData);
-      console.log(transaction)
-      //this.model.loadFromForm(formData);
-      /*this.model.save().then((message) => {
-        this.presentToast("Transaction Created Successfully");
+      var group = new TransactionGroupModel(null);
+      group.transactions = [transaction];
+
+      this.transactionGroupRepo.save(group).then((message) => {
+        this.presentToast("Transaction Saved Successfully");
+
         this.loader.dismiss();
         this.dismiss();
       }).catch( err => {
+        console.log(err)
         this.loader.dismiss();
         this.presentToast(err.statusText);
-      });*/
+      });
     }else{
       this.presentToast("Please fill out all required fields and try again.");
     }
+  }
 
+  private processPendingTransactions(){
+    this.transactionGroupRepo.getAll(this.month, false, false).then((transactions) => {
+      var pending = transactions.filter( t => { return t.isPending })
+      console.log(pending)
+      pending.forEach((transaction) => {
+        console.log(transaction);
+        this.transactionGroupRepo.save(transaction).then( (result) => {
+          console.log(result)
+        });
+      });
+    })
   }
 
   buildForm(){
