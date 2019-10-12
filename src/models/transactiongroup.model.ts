@@ -1,6 +1,6 @@
 import { TransactionModel } from "./transaction.model";
 
-export class TransactionGroupModel {
+export class TransactionGroupModel implements BaseModel {
     public id: number;
     public createdAt: Date;
     public updatedAt: Date;

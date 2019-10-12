@@ -1,7 +1,8 @@
 import { Inject, Injectable } from "@angular/core";
 
 @Injectable()
-export class CategoryModel {
+export class CategoryModel implements BaseModel {
+    public isPending;
     public id: number;
     public name: string;
 

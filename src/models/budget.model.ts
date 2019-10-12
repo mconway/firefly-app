@@ -1,6 +1,7 @@
 import { BudgetLimitModel } from "./budgetlimit.model";
 
-export class BudgetModel {
+export class BudgetModel implements BaseModel {
+    public isPending;
     id: Number;
     name: string;
     active: boolean;

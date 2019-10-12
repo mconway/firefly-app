@@ -3,7 +3,8 @@ import { asPureExpressionData } from "@angular/core/src/view";
 import { PiggyBankEventModel } from "./piggybankevent.model";
 
 @Injectable()
-export class PiggybankModel {
+export class PiggybankModel implements BaseModel {
+    public isPending;
     public id: number;
     public name: string;
     public currencyCode: string;

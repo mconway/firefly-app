@@ -135,19 +135,6 @@ export class AddTransactionPage {
     }
   }
 
-  private processPendingTransactions(){
-    this.transactionGroupRepo.getAll(this.month, false, false).then((transactions) => {
-      var pending = transactions.filter( t => { return t.isPending })
-      console.log(pending)
-      pending.forEach((transaction) => {
-        console.log(transaction);
-        this.transactionGroupRepo.save(transaction).then( (result) => {
-          console.log(result)
-        });
-      });
-    })
-  }
-
   buildForm(){
     this.form = this.formBuilder.group({
       type: ['withdrawal', Validators.required],

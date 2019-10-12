@@ -5,7 +5,7 @@ import { FireflyRemoteProvider } from '../providers/firefly-remote/firefly-remot
 import { Storage } from '@ionic/storage';
 import { Inject } from "@angular/core";
 
-export class BaseRepository<T> implements IRead<T>, IWrite<T>
+export class BaseRepository<T extends BaseModel> implements IRead<T>, IWrite<T>
 {
     protected endpoint: string = '';
     protected model: any;
@@ -43,6 +43,7 @@ export class BaseRepository<T> implements IRead<T>, IWrite<T>
                     resolve(collection);
                 });
             }else{
+                this.processPendingTransactions();
                 this.fireflyService.getEntities(this.getEndpoint(), recursive).then(d => {
                     collection = this.processData(d);
                     this.saveEntitiesToStorage();
@@ -78,12 +79,26 @@ export class BaseRepository<T> implements IRead<T>, IWrite<T>
             }
             else{
                 model.isPending = true;
-                this._rawData += model;
-                this.saveEntitiesToStorage();
+                
+                this.getEntitiesFromStorage().then( (result) => {
+                    this._rawData = result;
+                    this._rawData.push(model);
+                    this.saveEntitiesToStorage();
+                });
 
                 return resolve("Transaction Queued");
             }
         });
+    }
+
+    protected processPendingTransactions(){
+        this.getEntitiesFromStorage().then((entities) => {
+          var pending = entities.filter( t => { return t.isPending })
+          pending.forEach((entity) => {
+            this.save(entity).then( (result) => {
+            });
+          });
+        })
     }
 
     protected saveEntitiesToStorage(): Promise<T>{

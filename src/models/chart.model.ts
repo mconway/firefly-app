@@ -1,4 +1,5 @@
-export class ChartModel {
+export class ChartModel implements BaseModel {
+    public isPending;
     label: string;
     currencyId: number;
     currencyCode: string;

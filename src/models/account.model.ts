@@ -1,4 +1,5 @@
-export class AccountModel {
+export class AccountModel implements BaseModel {
+    public isPending;
     public id: number;
     public name: string;
     public currencyCode: string;

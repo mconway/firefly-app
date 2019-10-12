@@ -1,7 +1,8 @@
 import { Inject, Injectable } from "@angular/core";
 
 @Injectable()
-export class PiggyBankEventModel {
+export class PiggyBankEventModel implements BaseModel {
+    public isPending;
     public id: number;
     public createdDate: Date;
     public updatedDate: Date;

@@ -1,4 +1,5 @@
-export class BudgetLimitModel {
+export class BudgetLimitModel implements BaseModel {
+    public isPending;
     id: number;
     startDate: Date;
     endDate: Date;

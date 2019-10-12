@@ -16,6 +16,7 @@ import { ChartRepository } from '../../repositories/chart.repository';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Chart } from 'chart.js';
 import { TransactionGroupRepository } from '../../repositories/transactiongroup.repository';
+import { CategoryRepository } from '../../repositories/category.repository';
 
 @Component({
   selector: 'page-home',
@@ -46,6 +47,7 @@ export class HomePage {
     private budgetsRepo: BudgetRepository,
     private budgetLimitsRepo: BudgetLimitRepository,
     private piggybankRepo: PiggybankRepository,
+    private categoriesRepo: CategoryRepository,
     private chartsRepo: ChartRepository,
     private transactionGroupRepo: TransactionGroupRepository,
     private firefly: FireflyRemoteProvider)
@@ -91,10 +93,15 @@ export class HomePage {
       this.getUpcomingBills(refresh),
       this.getPiggyBanks(refresh),
       //this.getCharts(refresh),
-      this.getBudgets(refresh)
+      this.getBudgets(refresh),
+      this.getCategories(refresh)
     ]
 
     return Promise.all(dataMethods).then(() => { console.log("refresh complete"); console.log()});
+  }
+
+  private getCategories(refresh: boolean = false){
+    this.categoriesRepo.getAll(this.month, true, refresh)
   }
 
   private getAccounts(refresh: boolean = false) {

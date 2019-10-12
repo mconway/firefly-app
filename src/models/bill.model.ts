@@ -1,4 +1,5 @@
-export class BillModel {
+export class BillModel implements BaseModel {
+    public isPending;
     id: number;
     name: string;
     currencyId: number;
