@@ -20,6 +20,6 @@ export class BudgetModel implements BaseModel {
 
         // added in 0.9
         if(result.attributes.spent !== undefined && result.attributes.spent[0] !== undefined)
-            this.spent = result.attributes.spent[0].amount;
+            this.spent = result.attributes.spent[0].sum;
     }
 }

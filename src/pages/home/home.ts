@@ -92,7 +92,7 @@ export class HomePage {
       this.getRecentTransactions(refresh),
       this.getUpcomingBills(refresh),
       this.getPiggyBanks(refresh),
-      //this.getCharts(refresh),
+      this.getCharts(refresh),
       this.getBudgets(refresh),
       this.getCategories(refresh)
     ]
@@ -129,6 +129,9 @@ export class HomePage {
       //var budgetSpent = budgets.map(model => model.spent); 
 
       var data = Object.keys(budgets).map(key => budgets[key]);
+      console.log(b)
+      console.log(data)
+      console.log(budgets)
       
       var chart = new Chart(this.budgetChart.nativeElement, {
         type: 'doughnut',
@@ -188,10 +191,10 @@ export class HomePage {
 
   private getCharts(refresh: boolean = false){
     return this.chartsRepo.getAll(this.month, false, refresh).then((charts) => {
-      var spentChart = charts.filter(c => { return c.label === "firefly.box_spent_in_currency" });
+      var spentChart = charts.filter(c => { return c.label === "Spent (US Dollar)" });
 
       if(spentChart.length !== 1){
-        return false;
+        return;
       }
 
       var entries = spentChart[0].entries;
