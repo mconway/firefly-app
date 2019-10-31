@@ -129,9 +129,6 @@ export class HomePage {
       //var budgetSpent = budgets.map(model => model.spent); 
 
       var data = Object.keys(budgets).map(key => budgets[key]);
-      console.log(b)
-      console.log(data)
-      console.log(budgets)
       
       var chart = new Chart(this.budgetChart.nativeElement, {
         type: 'doughnut',
