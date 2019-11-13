@@ -141,7 +141,7 @@ export class AddTransactionPage {
       description: ['', Validators.required],
       source_id: [''],
       destination_id: [''],
-      category_id: ['', Validators.required],
+      category_id: [],
       amount: ['', Validators.required],
       currency_code: ['', Validators.required],
       piggy_bank_id: [''],

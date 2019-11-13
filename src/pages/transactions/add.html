@@ -57,7 +57,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label stacked color="primary">Category*</ion-label>
+      <ion-label stacked color="primary">Category</ion-label>
       <ion-select formControlName="category_id" interface="action-sheet">
           <ion-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-option>
       </ion-select>
