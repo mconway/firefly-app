@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler, Menu } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { BillsPage, BillDetailPage } from '../pages/bills/bills';
@@ -41,7 +40,6 @@ import { AboutPage } from '../pages/about/about';
 @NgModule({
   declarations: [
     MyApp,
-    ContactPage,
     AboutPage,
     HomePage,
     TabsPage,
@@ -69,7 +67,6 @@ import { AboutPage } from '../pages/about/about';
   entryComponents: [
     MyApp,
     AboutPage,
-    ContactPage,
     HomePage,
     TabsPage,
     MenuPage,
