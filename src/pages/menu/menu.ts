@@ -7,6 +7,7 @@ import { TransactionsPage, AddTransactionPage } from '../transactions/transactio
 import { SettingsPage } from '../settings/settings';
 import { AccountsPage } from '../accounts/accounts';
 import { PiggyBanksPage } from '../piggybanks/piggybanks';
+import { AboutPage } from '../about/about';
 
 @Component({
     selector: 'page-home',
@@ -27,6 +28,7 @@ export class MenuPage{
         { title: 'Piggy Banks', component: PiggyBanksPage, icon: "list", index: 2 },
         { title: 'Transactions', component: TransactionsPage, icon: "refresh", index: 0 },
         { title: 'Settings', component: SettingsPage, icon: "settings", index: 3 },
+        { title: 'About', component: AboutPage, icon: "help", index: 3 },
     ];
 
     private months = [];

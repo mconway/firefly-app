@@ -35,12 +35,14 @@ import { MenuPage } from '../pages/menu/menu';
 import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggybanks';
 import { BudgetsPage } from '../pages/budgets/budgets';
 import { TransactionGroupRepository } from '../repositories/transactiongroup.repository';
+import { AboutPage } from '../pages/about/about';
 
 
 @NgModule({
   declarations: [
     MyApp,
     ContactPage,
+    AboutPage,
     HomePage,
     TabsPage,
     MenuPage,
@@ -66,6 +68,7 @@ import { TransactionGroupRepository } from '../repositories/transactiongroup.rep
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    AboutPage,
     ContactPage,
     HomePage,
     TabsPage,

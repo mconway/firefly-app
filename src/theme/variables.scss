@@ -99,6 +99,10 @@ $card-md-background-color: color($colors, light);
   font-size: 2.2rem;
 }
 
+.note-md {
+  color: #a1a1a1 !important;
+}
+
 // App Theme
 // --------------------------------------------------
 // Ionic apps can have different themes applied, which can
@@ -122,4 +126,3 @@ $card-md-background-color: color($colors, light);
 
 @import "roboto";
 @import "noto-sans";
-
