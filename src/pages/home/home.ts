@@ -97,7 +97,7 @@ export class HomePage {
       this.getCategories(refresh)
     ]
 
-    return Promise.all(dataMethods).then(() => { console.log("refresh complete"); console.log()});
+    return Promise.all(dataMethods).then(() => { console.log("refresh complete : " + refresh);});
   }
 
   private getCategories(refresh: boolean = false){

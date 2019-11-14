@@ -15,7 +15,7 @@ import { AboutPage } from '../about/about';
   })
   
 export class MenuPage{
-    rootPage = HomePage;
+    rootPage = AboutPage;
     private selectedMonth: Number;
 
     @ViewChild('content') content: NavController;
@@ -48,6 +48,9 @@ export class MenuPage{
         });
         this.events.subscribe("month:request", () => {
             this.onChange();
+        });
+        this.events.subscribe("platform:ready",() => {
+            this.openPage(this.pages[0]);
         });
     }
 
