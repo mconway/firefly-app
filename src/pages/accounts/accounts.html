@@ -23,7 +23,7 @@
       <button *ngFor="let account of accounts[type]" color="light" ion-item (click)="showAccountDetails(account)">
         <ion-row>
           <ion-col col-7>{{account.name}}</ion-col>
-          <ion-col col-5 class="right-align-number">{{account.currentBalance | currency: account.currencyCode}}</ion-col>
+          <ion-col col-5 class="right-align-number">{{-(account.virtualBalance - account.currentBalance) | currency: account.currencyCode}}</ion-col>
         </ion-row>
       </button>
 
