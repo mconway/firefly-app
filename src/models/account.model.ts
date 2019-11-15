@@ -15,7 +15,17 @@ export class AccountModel implements BaseModel {
         this.currencyCode = apiData.attributes.currency_code;
         this.currencySymbol = apiData.attributes.currency_symbol;
         this.currentBalance = apiData.attributes.current_balance;
-        this.role = apiData.attributes.role === undefined ? apiData.attributes.account_role : apiData.attributes.role; //fix for API vsersion  > 0.9
+
+        if(apiData.attributes.role !== undefined){
+            this.role = apiData.attributes.role;
+        }
+        else if (apiData.attributes.account_role !== null){
+            this.role = apiData.attributes.account_role;
+        }
+        else{
+            this.role = apiData.attributes.type;
+        }
+
         this.type = apiData.attributes.type;
         this.virtualBalance = apiData.attributes.virtual_balance;
     }

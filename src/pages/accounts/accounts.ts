@@ -30,7 +30,7 @@ export class AccountsPage {
   getAccounts(){
     return this.accountRepo.getAll(this.month, true, false).then( (accounts) => {
       var accountTypes = ["Asset account", "Loan", "Mortgage", "Debt", "asset", "liabilities"];
-      var accountRoles = ["ccAsset", "defaultAsset", "sharedAsset", "savingAsset"];
+      var accountRoles = ["ccAsset", "defaultAsset", "sharedAsset", "savingAsset", "liabilities"];
 
       accounts = accounts.filter(function(a) { 
         var result = a.type !== null && ( (a.type === accountTypes[0] && a.role !== null && accountRoles.indexOf(a.role) !== -1) || accountTypes.indexOf(a.type) !== -1);
