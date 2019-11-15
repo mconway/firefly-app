@@ -78,14 +78,16 @@
   </ion-card>
 
   <ion-card>
-  <ion-slides charts>
+  <ion-slides charts pager>
     <ion-slide>
-              <ion-row>
-                  <ion-col col-8>Spending by Category</ion-col>
-              </ion-row>
+      <ion-grid>
+          <ion-row>
+              <ion-col col-8>Spending by Category</ion-col>
+          </ion-row>
           <ion-row>
               <canvas #categorySpendChart id="categorySpendChart"></canvas>
           </ion-row>
+        </ion-grid>
     </ion-slide>
  
     <ion-slide>
