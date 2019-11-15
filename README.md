@@ -1,3 +1,6 @@
+![Build status](https://dev.azure.com/zerobytesolutions/firefly-app/_apis/build/status/firefly-app-CI-github-development)
+![Release status](https://vsrm.dev.azure.com/zerobytesolutions/_apis/public/Release/badge/953e3634-413c-41ae-9f69-dff16b1058a7/1/1)
+
 Firefly Personal Finance
 ======
 **Firefly Personal Finance** is a mobile app for the Firefly-iii personal finance web application. It's currently under heavy development, striving for feature parity with the current FireFly-iii API.
