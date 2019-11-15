@@ -28,7 +28,7 @@ export class MenuPage{
         { title: 'Piggy Banks', component: PiggyBanksPage, icon: "list", index: 2 },
         { title: 'Transactions', component: TransactionsPage, icon: "refresh", index: 0 },
         { title: 'Settings', component: SettingsPage, icon: "settings", index: 3 },
-        { title: 'About', component: AboutPage, icon: "help", index: 3 },
+        { title: 'About', component: AboutPage, icon: "help-circle-outline", index: 3 },
     ];
 
     private months = [];
