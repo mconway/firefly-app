@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="201810682" id="com.zerobyte.firefly" version="0.10.5.682" windows-packageVersion="0.10.682" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<widget android-versionCode="201810682" id="com.zerobyte.firefly" version="0.10.5.682" windows-packageVersion="0.10.682" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>firefly-app</name>
     <description>An unofficial app for Firefly-iii Personal Finance</description>
     <author email="support@zerobytesolutions.com" href="http://zerobytesolutions.com/">Zerobyte Solutions</author>
