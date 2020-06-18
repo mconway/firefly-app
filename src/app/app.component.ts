@@ -1,47 +1,70 @@
-import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import { Component, OnInit } from '@angular/core';
 
-import { Events } from 'ionic-angular';
-
-import { TabsPage } from '../pages/tabs/tabs';
-import { MenuPage } from '../pages/menu/menu';
-import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
-  templateUrl: 'app.html'
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss']
 })
-
-export class MyApp {
-  rootPage:any = MenuPage;
+export class AppComponent implements OnInit {
+  public selectedIndex = 0;
+  public appPages = [
+    {
+      title: 'Home',
+      url: '/home/',
+      icon: 'home'
+    },
+    {
+      title: 'Outbox',
+      url: '/folder/Outbox',
+      icon: 'paper-plane'
+    },
+    {
+      title: 'Favorites',
+      url: '/folder/Favorites',
+      icon: 'heart'
+    },
+    {
+      title: 'Archived',
+      url: '/folder/Archived',
+      icon: 'archive'
+    },
+    {
+      title: 'Trash',
+      url: '/folder/Trash',
+      icon: 'trash'
+    },
+    {
+      title: 'Settings',
+      url: '/settings/',
+      icon: 'settings'
+    }
+  ];
+  dark = true;
+  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
   constructor(
-    events: Events,
-    platform: Platform, 
-    statusBar: StatusBar, 
-    private localNotifications: LocalNotifications,
-    splashScreen: SplashScreen) 
-  {
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
-      splashScreen.hide();
+    private platform: Platform,
+    private splashScreen: SplashScreen,
+    private statusBar: StatusBar
+  ) {
+    this.initializeApp();
+  }
 
-      // Fix the race condition trying to pass the selected month before the device is ready but publishing an event.
-      events.publish("platform:ready");
-
-      this.localNotifications.schedule([{
-        title: 'My first notification',
-        text: 'Thats pretty easy...'
-      },
-      {
-        title: 'Scheduled reminder',
-        text: 'Thats pretty easy...',
-        trigger: { at: new Date(2019, 10, 16, 0, 45) }
-      }]);
-
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
+  }
+
+  ngOnInit() {
+    //const path = window.location.pathname.split('home/')[1];
+    //if (path !== undefined) {
+    //  this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
+   // }
   }
 }

@@ -1,3 +1,0 @@
-interface BaseModel {
-    isPending: boolean;
-}

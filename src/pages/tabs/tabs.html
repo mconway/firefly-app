@@ -1,8 +1,0 @@
-<ion-fab right>
-  <button ion-fab mini color="secondary" (tap)="tapEvent($event)"><ion-icon name="add"></ion-icon></button>
-</ion-fab>
-<ion-tabs color="primary" [selectedIndex]="selectedIndex" #tabNav>
-  <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
-  <ion-tab [root]="tabBillRoot" tabTitle="Bills" tabIcon="calendar"></ion-tab>
-  <ion-tab [root]="tabSettingsRoot" tabTitle="Settings" tabIcon="settings" (click)="diag()"></ion-tab>
-</ion-tabs>

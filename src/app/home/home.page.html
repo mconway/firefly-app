@@ -1,0 +1,124 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Overview</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button color="success" (tap)="tapEvent($event)"><ion-icon name="add"></ion-icon></ion-fab-button>
+  </ion-fab>
+
+  <ion-card (tap)="navToAccounts()">
+    <ion-card-header text-color="ff_text">
+      <ion-card-title>Accounts</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+              <ion-label>Cash:</ion-label>
+              <ion-note class="big" slot="end" color="success" *ngFor="let a of cashTotal">{{a.val.total | currency: a.val.currencySymbol}} </ion-note>
+        </ion-item>
+        <ion-item >
+          <ion-label>Credit:</ion-label>
+          <ion-note slot="end" class="big" color="danger" *ngFor="let a of creditTotal">{{a.val.total | currency: a.val.currencySymbol}} </ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Recent Transactions</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <!--<ion-item *ngFor="let transaction of recentTransactions" (click)="showTransactionDetails(transaction)" >
+          <ion-label>{{ transaction.date | date:'MMM' }} {{ transaction.date | date:'dd' }} <h3>{{ transaction.description }}</h3><p>{{ transaction.transactions[0].category_name}}{{ transaction.amount | currency : transaction.transactions[0].currency_symbol }}</p></ion-label>
+          <ion-note slot="end" color="dark"></ion-note>
+        </ion-item>-->
+              <ion-item *ngFor="let transaction of recentTransactions" (click)="showTransactionDetails(transaction)" href="#">
+                <ion-col size="2">
+                  <ion-row>
+                      {{ transaction.date | date:'MMM' }}
+                  </ion-row>
+                  <ion-row>
+                      {{ transaction.date | date:'dd' }}
+                  </ion-row>
+                </ion-col>
+                <ion-col size="7">
+                  <ion-row class="truncate">
+                    <h3>{{ transaction.description }}</h3>
+                  </ion-row>
+                  <ion-row>
+                      <ion-note>{{ transaction.transactions[0].category_name}}</ion-note>
+                  </ion-row>
+                </ion-col>
+                <ion-col size="3" class="right-align-number">{{ transaction.amount | currency : transaction.transactions[0].currency_symbol }}</ion-col>
+              </ion-item>
+        
+          <ion-item (tap)="navToTransactions()" class="primary-text">
+            Show All
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Upcoming Bills</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let bill of upcomingBills">
+              <ion-col size="2">
+                <ion-row>
+                  {{ bill.nextExpectedMatch | date:'MMM' }}
+                </ion-row>
+                <ion-row>
+                    {{ bill.nextExpectedMatch | date:'dd' }}
+                </ion-row>
+              </ion-col>
+              <ion-col size="7">
+                <ion-row class="truncate">
+                  <h3>{{ bill.name }}</h3>
+                </ion-row>
+                <ion-row>
+                    <ion-note>Last Paid: {{ bill.paidDates[bill.paidDates.length -1] }}</ion-note>
+                </ion-row>
+              </ion-col>
+              <ion-col size="3" class="right-align-number">{{ bill.amountMax | currency: bill.currencyCode }}</ion-col>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Goal Progress</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid class="piggy-bank">
+          <ion-row *ngFor="let piggy of piggyBanks" align-items-center color="light">
+            <ion-col col-4>
+                {{ piggy.name }} ({{ piggy.percentage }}%)
+            </ion-col>
+            <ion-col col-8>
+                <ion-range min="0" [max]="piggy.targetAmount" [(ngModel)]="piggy.currentAmount" disabled="true" color="primary"></ion-range>
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  
+</ion-content>
+
