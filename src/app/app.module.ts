@@ -35,6 +35,7 @@ import { PiggyBanksPage, PiggyBankDetailPage } from '../pages/piggybanks/piggyba
 import { BudgetsPage } from '../pages/budgets/budgets';
 import { TransactionGroupRepository } from '../repositories/transactiongroup.repository';
 import { AboutPage } from '../pages/about/about';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 @NgModule({
@@ -98,7 +99,8 @@ import { AboutPage } from '../pages/about/about';
     PiggybankRepository,
     TransactionGroupRepository,
     Network,
-    AppVersion
+    AppVersion,
+    LocalNotifications
   ]
 })
 export class AppModule {}

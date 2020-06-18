@@ -7,6 +7,7 @@ import { Events } from 'ionic-angular';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { MenuPage } from '../pages/menu/menu';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,6 +20,7 @@ export class MyApp {
     events: Events,
     platform: Platform, 
     statusBar: StatusBar, 
+    private localNotifications: LocalNotifications,
     splashScreen: SplashScreen) 
   {
     platform.ready().then(() => {
@@ -29,6 +31,17 @@ export class MyApp {
 
       // Fix the race condition trying to pass the selected month before the device is ready but publishing an event.
       events.publish("platform:ready");
+
+      this.localNotifications.schedule([{
+        title: 'My first notification',
+        text: 'Thats pretty easy...'
+      },
+      {
+        title: 'Scheduled reminder',
+        text: 'Thats pretty easy...',
+        trigger: { at: new Date(2019, 10, 16, 0, 45) }
+      }]);
+
     });
   }
 }
