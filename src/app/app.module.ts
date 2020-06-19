@@ -8,7 +8,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { TransactionsService } from './providers/transactions.service';
+import { FireflyService } from './providers/firefly.service';
+import { IonicStorageModule } from '@ionic/storage'
+import { HttpClientModule, HttpHandler } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,13 +20,21 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
-    FormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    //TransactionsService,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FireflyService,
+   
+    HttpHandler,
+    Storage
   ],
   bootstrap: [AppComponent]
 })
