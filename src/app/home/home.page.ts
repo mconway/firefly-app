@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular'
 import { SettingsPage } from '../settings/settings.page';
+import { FireflyService } from '../providers/firefly.service';
+import { TransactionsService } from '../providers/transactions.service';
 
 @Component({
   selector: 'app-home',
@@ -20,34 +22,20 @@ export class HomePage implements OnInit {
 
   constructor(
     public navCtrl: NavController,
+    private fireflyService: FireflyService,
+    private transactionsService: TransactionsService
   ) {
    }
 
   ngOnInit() {
-    this.recentTransactions = [
-      {
-        date: "2020-06-01",
-        description: "Lorem ipsum",
-        amount: 5,
-        transactions: [
-          {
-            category_name: "test category",
-            currency_symbol: "$",
-          }
-        ]
-      },
-      {
-        date: "2020-05-31",
-        description: "Lorem ipsum",
-        amount: 50,
-        transactions: [
-          {
-            category_name: "bacon",
-            currency_symbol: "$",
-          }
-        ]
-      }
-    ]
+
+    if(this.month === null){
+      this.month = new Date().getMonth();
+    }
+
+    this.fireflyService.getServerInfo().then(r => {
+      this.getRecentTransactions();
+    })
 
     this.cashTotal = [
       { val: { total: 5000, currency_symbol: "$"} },
@@ -79,7 +67,18 @@ export class HomePage implements OnInit {
     ]
   }
 
-  // navigation methods
+  /*
+  Data Population for the various items we need on the home screen
+  */
+  private getRecentTransactions(refresh: boolean = false){
+    return this.transactionsService.getAll(this.month, true, refresh).then((transactions) => {
+            this.recentTransactions = transactions.slice(0,5);
+    });
+  }
+
+  /*
+  Navigation Methods
+  */
 
   navToAccounts(){
     //this.navCtrl.navigateForward(SettingsPage);
@@ -88,6 +87,7 @@ export class HomePage implements OnInit {
 
   navToTransactions(){
     //this.navCtrl.navigateForward(TransactionsPage);
+    console.log("Navigate to Transactions")
   }  
 
   addTransaction(){

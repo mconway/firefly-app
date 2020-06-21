@@ -2,9 +2,10 @@ import { IRead } from '../interfaces/iread';
 import { IWrite } from '../interfaces/iwrite';
 import { ModelFactory } from '../models/model.factory';
 import { FireflyService } from '../providers/firefly.service';
-//import { Storage } from '@ionic/';
-import { Inject } from "@angular/core";
+import { Storage } from '@ionic/storage';
+import { Inject, Injectable } from '@angular/core';
 
+@Injectable()
 export class BaseService<T extends BaseModel> implements IRead<T>, IWrite<T>
 {
     protected endpoint: string = '';
@@ -12,7 +13,7 @@ export class BaseService<T extends BaseModel> implements IRead<T>, IWrite<T>
     protected _rawData: any = null;
     protected month: number;
 
-    constructor(@Inject(FireflyService) protected fireflyService, @Inject(Storage) private storage){
+    constructor(@Inject(FireflyService) protected fireflyService, @Inject(Storage) protected storage){
         
     }
 
@@ -72,7 +73,7 @@ export class BaseService<T extends BaseModel> implements IRead<T>, IWrite<T>
             if(this.fireflyService.isConnected){
                 this.fireflyService.post(model, this.getEndpoint()).then( (message) => {
                     model.isPending = false;
-                    return resolve(message);
+                    //return resolve(message);
                 }).catch( err => {
                     return resolve(err);
                 });
@@ -93,7 +94,7 @@ export class BaseService<T extends BaseModel> implements IRead<T>, IWrite<T>
 
     protected processPendingTransactions(){
         this.getEntitiesFromStorage().then((entities) => {
-          var pending = entities.filter( t => { return t.isPending })
+          var pending = entities.filter( t => { console.log(t); if(t !== null && t !== undefined) return t.isPending })
           pending.forEach((entity) => {
             this.save(entity).then( (result) => {
             });

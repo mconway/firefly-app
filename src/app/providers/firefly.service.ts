@@ -85,11 +85,11 @@ export class FireflyService implements BaseInterface{
     });
   }
 
-  public updateEntity(endpoint: string, entity: any){
-    return new Promise((resolve, reject) => {
+  public updateEntity<T>(endpoint: string, entity: any): Promise<T>{
+    return new Promise<T>((resolve, reject) => {
       this.getHttpHeaders()
       .then(h => {
-        this.http.put(this.settings.apiUrl + endpoint, entity, { headers: h }).subscribe(response => resolve(response));
+        //this.http.put(this.settings.apiUrl + endpoint, entity, { headers: h }).subscribe(response => resolve(response));
       }, err => {
         console.log(err.message);
         reject(err);
@@ -112,8 +112,6 @@ export class FireflyService implements BaseInterface{
     return new Promise((resolve, reject) => {
       this.getHttpHeaders()
         .then( h => {
-          console.log(this.settings.apiUrl + '/about');
-          console.log(h)
           this.http.get(this.settings.apiUrl + '/about', { headers: h })
           .subscribe(success => {
             this.isConnected = true;
