@@ -32,7 +32,6 @@ import { HttpClientModule, HttpHandler } from '@angular/common/http';
     //TransactionsService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FireflyService,
-   
     //HttpHandler,
     Storage
   ],

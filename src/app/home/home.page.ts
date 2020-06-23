@@ -3,6 +3,8 @@ import { NavController } from '@ionic/angular'
 import { SettingsPage } from '../settings/settings.page';
 import { FireflyService } from '../providers/firefly.service';
 import { TransactionsService } from '../providers/transactions.service';
+import { AccountsService } from '../providers/accounts.service';
+import { BillsService } from '../providers/bills.service';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +25,9 @@ export class HomePage implements OnInit {
   constructor(
     public navCtrl: NavController,
     private fireflyService: FireflyService,
-    private transactionsService: TransactionsService
+    private transactionsService: TransactionsService,
+    private accountsService: AccountsService,
+    private billsService: BillsService
   ) {
    }
 
@@ -35,44 +39,39 @@ export class HomePage implements OnInit {
 
     this.fireflyService.getServerInfo().then(r => {
       this.getRecentTransactions();
+      this.getAccounts(true);
+      this.getUpcomingBills(true);
     })
 
-    this.cashTotal = [
-      { val: { total: 5000, currency_symbol: "$"} },
-    ]
-
-    this.creditTotal = [
-      { val: { total: 5000, currency_symbol: "$"} },
-    ]
-
-    this.upcomingBills = [
-      {
-        nextExpectedMatch: '2020-07-01',
-        name: 'Bill 1',
-        paidDates: [
-          "2020-06-01"
-        ],
-        amountMax: 200,
-        currencyCode: "$"
-      },
-      {
-        nextExpectedMatch: '2020-07-02',
-        name: 'Bill 2',
-        paidDates: [
-          "2020-06-02"
-        ],
-        amountMax: 20,
-        currencyCode: "$"
-      }
-    ]
   }
 
   /*
   Data Population for the various items we need on the home screen
   */
+
+ private getAccounts(refresh: boolean = false) {
+    this.accountsService.getAll(this.month, true, refresh);
+
+    return this.accountsService.getAll(this.month, true, refresh).then((data) => {
+      var accounts = this.accountsService.groupAccounts("role", data);
+      this.creditTotal = this.accountsService.getSubgroupTotal(["ccAsset"], accounts);
+      this.cashTotal = this.accountsService.getSubgroupTotal(["defaultAsset","savingAsset"],accounts);
+    });
+  }
+
   private getRecentTransactions(refresh: boolean = false){
     return this.transactionsService.getAll(this.month, true, refresh).then((transactions) => {
             this.recentTransactions = transactions.slice(0,5);
+    });
+  }
+
+  private getUpcomingBills(refresh: boolean = false){
+    return this.billsService.getAll(this.month, false, refresh).then((bills) => {
+      bills.sort(function(a, b){
+        return new Date(a.nextExpectedMatch).getTime() - new Date(b.nextExpectedMatch).getTime();
+      });
+
+      this.upcomingBills = bills.filter(function(a){return a.active}).slice(0,5);
     });
   }
 
