@@ -46,12 +46,25 @@ export class AppComponent implements OnInit {
   dark = true;
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
+  private months = [];
+  private selectedMonth: Number;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar
   ) {
     this.initializeApp();
+
+    var date = new Date();
+
+    // build out the months for the dropdown
+    for( var i = date.getMonth(); i >= 0; i--){
+        var d = new Date(date.getFullYear(), i);
+        this.months[i] = d.toLocaleString(navigator.language, { month: "long"});
+    }
+    
+    this.selectedMonth = date.getMonth();
   }
 
   initializeApp() {

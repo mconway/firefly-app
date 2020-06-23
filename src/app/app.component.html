@@ -3,8 +3,14 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
+          <ion-list-header>Firefly-III</ion-list-header>
+          <ion-note></ion-note>
+
+          <ion-item>
+            <ion-select [(ngModel)]="selectedMonth" (ngModelChange)="onChange()" id="monthFilter">
+                <ion-select-option *ngFor="let month of months; let i = index" [value]="i">{{ month }}</ion-select-option>
+            </ion-select>
+        </ion-item>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" [class.selected]="selectedIndex == i">
