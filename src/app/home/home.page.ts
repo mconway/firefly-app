@@ -38,7 +38,7 @@ export class HomePage implements OnInit {
     }
 
     this.fireflyService.getServerInfo().then(r => {
-      this.getRecentTransactions();
+      this.getRecentTransactions(true);
       this.getAccounts(true);
       this.getUpcomingBills(true);
     })
@@ -61,7 +61,7 @@ export class HomePage implements OnInit {
 
   private getRecentTransactions(refresh: boolean = false){
     return this.transactionsService.getAll(this.month, true, refresh).then((transactions) => {
-            this.recentTransactions = transactions.slice(0,5);
+      this.recentTransactions = transactions.slice(0,5);
     });
   }
 

@@ -94,7 +94,7 @@ export class BaseService<T extends BaseModel> implements IRead<T>, IWrite<T>
 
     protected processPendingTransactions(){
         this.getEntitiesFromStorage().then((entities) => {
-          var pending = entities.filter( t => { console.log(t); if(t !== null && t !== undefined) return t.isPending })
+          var pending = entities.filter( t => { if(t !== null && t !== undefined) return t.isPending })
           pending.forEach((entity) => {
             this.save(entity).then( (result) => {
             });

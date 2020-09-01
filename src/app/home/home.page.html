@@ -9,7 +9,7 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-refresher (ionRefresh)="doRefresh($event)">
+  <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 

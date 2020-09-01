@@ -18,30 +18,40 @@ export class AppComponent implements OnInit {
       icon: 'home'
     },
     {
-      title: 'Outbox',
+      title: 'Accounts',
       url: '/folder/Outbox',
-      icon: 'paper-plane'
+      icon: 'bar-chart'
     },
     {
-      title: 'Favorites',
+      title: 'Budgets',
       url: '/folder/Favorites',
-      icon: 'heart'
+      icon: 'analytics'
     },
     {
-      title: 'Archived',
+      title: 'Bills',
       url: '/folder/Archived',
-      icon: 'archive'
+      icon: 'reader'
     },
     {
-      title: 'Trash',
+      title: 'Piggy Banks',
       url: '/folder/Trash',
-      icon: 'trash'
+      icon: 'stats-chart'
+    },
+    {
+      title: 'Transactions',
+      url: '/folder/Trash',
+      icon: 'cash'
     },
     {
       title: 'Settings',
       url: '/settings/',
       icon: 'settings'
-    }
+    },
+    {
+      title: 'About',
+      url: '/folder/Trash',
+      icon: 'help'
+    },
   ];
   dark = true;
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
