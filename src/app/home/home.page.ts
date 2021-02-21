@@ -38,9 +38,7 @@ export class HomePage implements OnInit {
     }
 
     this.fireflyService.getServerInfo().then(r => {
-      this.getRecentTransactions(true);
-      this.getAccounts(true);
-      this.getUpcomingBills(true);
+      this.getAllData(false);
     })
 
   }
@@ -49,7 +47,7 @@ export class HomePage implements OnInit {
   Data Population for the various items we need on the home screen
   */
 
- private getAccounts(refresh: boolean = false) {
+  private getAccounts(refresh: boolean = false) {
     this.accountsService.getAll(this.month, true, refresh);
 
     return this.accountsService.getAll(this.month, true, refresh).then((data) => {
@@ -73,6 +71,31 @@ export class HomePage implements OnInit {
 
       this.upcomingBills = bills.filter(function(a){return a.active}).slice(0,5);
     });
+  }
+
+  private doRefresh(event){
+    if(this.month === null || this.month === undefined){
+      //this.events.publish("month:request");
+      event.target.complete();
+    }else{
+      this.getAllData(true).then( () => {
+        event.target.complete();
+      }).catch(err => { event.target.complete(); console.log(err) });
+    }
+  }
+
+  private getAllData(refresh: boolean = false){
+      var dataMethods = [
+        this.getAccounts(refresh),
+        this.getRecentTransactions(refresh),
+        this.getUpcomingBills(refresh),
+        //this.getPiggyBanks(refresh),
+        //this.getCharts(refresh),
+        //this.getBudgets(refresh),
+        //this.getCategories(refresh)
+      ]
+
+      return Promise.all(dataMethods).then(() => { console.log("refresh complete : " + refresh);});
   }
 
   /*
